@@ -25,5 +25,7 @@
   
   {# Assumes you setup the password_reset view in your URLconf #}
   <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
-  
+  <div class=" my-3 text-center">
+    <a class="btn btn-success p-2" href="{% url 'accounts:signup' %}">Create an account</a>
+  </div>
 {% endblock %}
