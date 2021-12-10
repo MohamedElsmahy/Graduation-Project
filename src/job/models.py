@@ -15,6 +15,9 @@ def image_upload(instance,filename):
     return "jobs/%s/%s.%s"%(instance.title,instance.id,extension)
 
 
+class Category(models.Model):
+    name = models.CharField(max_length=25)
+
 
 class Job(models.Model):      #table
     #user
@@ -34,7 +37,7 @@ class Job(models.Model):      #table
     #experince
     experince = models.IntegerField(default=1)
     #category
-    category = models.ForeignKey('Category',on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL)
     #upload_image
     image = models.ImageField(upload_to=image_upload)
     #slug
@@ -49,13 +52,10 @@ class Job(models.Model):      #table
         return self.title
 
 
-class Category(models.Model):
-    name = models.CharField(max_length=25)
-
     def __str__(self):
         return self.name
 
-class Apply(models.Model):
+class Apply(models.Model): #add an optional foreignkey to the user??
     job = models.ForeignKey(Job, related_name='apply_job' , on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     email = models.EmailField(max_length=100)
