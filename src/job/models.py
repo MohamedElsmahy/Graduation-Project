@@ -37,7 +37,7 @@ class Job(models.Model):      #table
     #experince
     experince = models.IntegerField(default=1)
     #category
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, blank=True, null=True)
     #upload_image
     image = models.ImageField(upload_to=image_upload)
     #slug
