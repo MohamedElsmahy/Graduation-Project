@@ -1,10 +1,10 @@
 from django import forms 
-from .models import Apply , Job
+from .models import Application , Job
 
 
-class ApplyForm(forms.ModelForm):
+class ApplicationForm(forms.ModelForm):
     class Meta:
-        model = Apply
+        model = Application
         fields = ['name' , 'email' , 'website' , 'cv' , 'cover_letter']
 
 

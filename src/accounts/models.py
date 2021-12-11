@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+from job.models import Job
+
 # Create your models here.
 
 
@@ -15,6 +17,7 @@ class Profile(models.Model):
     city = models.ForeignKey(City, related_name='user_city', on_delete=models.SET_NULL , blank=True, null=True)
     phone_number = models.CharField(max_length = 15)
     image = models.ImageField(upload_to = 'profile/')
+    saved_jobs = models.ManyToManyField(Job, blank=True)
 
     def __str__(self):
         return str(self.user)
