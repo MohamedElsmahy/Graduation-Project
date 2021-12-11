@@ -8,6 +8,7 @@ urlpatterns = [
     path('', views.job_list , name = 'job_list'),
     path('add', views.add_job , name = 'add_job'),
     path('<str:slug>', views.job_detail , name = 'job_detail'),
+    path('<int:id>/save', views.save_job , name = 'save_job'),
 
     ##API
     path('api/jobs', api.job_list_api , name = 'job_list_api'),

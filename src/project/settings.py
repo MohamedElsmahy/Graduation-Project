@@ -31,7 +31,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'accounts',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     #MyApps
+    'accounts',
     'job',
+    'blog',
     'bootstrap4',
     'django_filters',
     'contact',
@@ -84,9 +85,9 @@ WSGI_APPLICATION = 'project.wsgi.application'
 DATABASES={
    'default':{
       'ENGINE':'django.db.backends.postgresql_psycopg2',
-      'NAME':'postgres',
+      'NAME':'grad_project',
       'USER':'postgres',
-      'PASSWORD':'3562211',
+      'PASSWORD':'12457896532',
       'HOST':'localhost',
       'PORT':'5432',
    }
@@ -156,3 +157,6 @@ EMAIL_HOST_USER = 'mohamedtelsmahy@gmail.com'
 EMAIL_HOST_PASSWORD = 'nprlhwyykaspjjie'
 EMAIL_USE_TLS = True
 EMAIL_PORT = '587'
+
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

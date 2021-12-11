@@ -41,7 +41,13 @@
                             </div>
                             <div class="jobs_right">
                                 <div class="apply_now">
-                                    <a class="heart_mark" href="#"> <i class="ti-heart"></i> </a>
+                                    <a class="heart_mark" href="{% url 'job:save_job' job.id %}">
+                                        {% if request.user.profile in job.profile_set.all %}
+                                            <i class="fa fa-heart"></i>
+                                        {% else %}
+                                            <i class="ti-heart"></i>
+                                        {% endif %}
+                                    </a>
                                 </div>
                             </div>
                         </div>
