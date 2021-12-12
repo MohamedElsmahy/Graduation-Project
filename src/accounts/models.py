@@ -10,7 +10,7 @@ from django.dispatch import receiver
 
 
 class MyUser(AbstractUser):
-    is_employer = models.BooleanField(default=False)
+    is_employer = models.BooleanField()
 
 
 class City(models.Model):
