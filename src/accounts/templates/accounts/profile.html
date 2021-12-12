@@ -30,12 +30,11 @@
                                 <li>Name: <span>{{profile}}</span></li>
                                 <li>Email: <span>{{profile.user.email}}</span></li>
                                 <li>Phone: <span>{{profile.phone_number}}</span></li>
-                                <li>Address: <span>{{profile.city}}</span></li>
                             </ul>
                         </div>
-                        <div>
+                        {% comment %} <div>
                             <a href="{% url 'accounts:profile_edit'  %}" class="boxed-btn3 w-100"> Edit Profile </a>
-                        </div>
+                        </div> {% endcomment %}
                     </div>
                 </div>
             </div>
