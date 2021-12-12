@@ -93,7 +93,7 @@ DATABASES={
       'ENGINE':'django.db.backends.postgresql_psycopg2',
       'NAME':'grad_project',
       'USER':'postgres',
-      'PASSWORD':'12457896532',
+      'PASSWORD':'mesho3010',
       'HOST':'localhost',
       'PORT':'5432',
    }
@@ -165,5 +165,7 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = '587'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'accounts.MyUser'
 
 CORS_ALLOW_ALL_ORIGINS = True
