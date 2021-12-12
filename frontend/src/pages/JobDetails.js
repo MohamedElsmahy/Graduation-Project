@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const JobDetails = () => {
   let [job, setJob] = useState([]);
@@ -19,7 +19,6 @@ const JobDetails = () => {
 
   return (
     <div>
-      <Link to="/jobs">Browse Jobs</Link>
       <ul>
         <li>
           <h3>title: {job.title}</h3>

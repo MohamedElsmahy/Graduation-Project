@@ -20,7 +20,7 @@ class PostListApi(generics.ListCreateAPIView):
 class PostDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-    Lookup_field = "id"
+    lookup_field = "id"
 
 
 '''            Comment             '''
@@ -35,7 +35,7 @@ class CommentListApi(generics.ListCreateAPIView):
 class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-    Lookup_field = "id"
+    lookup_field = "id"
 
 
 
@@ -51,4 +51,4 @@ class LikeListApi(generics.ListCreateAPIView):
 class LikeDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
-    Lookup_field = "id"
+    lookup_field = "id"
