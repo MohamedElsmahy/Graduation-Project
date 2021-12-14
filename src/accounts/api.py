@@ -2,10 +2,12 @@ from django.contrib import auth
 from rest_framework import generics, permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.parsers import FormParser, MultiPartParser, JSONParser
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
 from accounts.models import MyUser , EmployerProfile ,EmployeeProfile
 from .serializers import EmployerProfileSerializer, MyUserSerializer,EmployeeProfileSerializer
 from django.utils.decorators import method_decorator
+
 class MyUserAPi(generics.CreateAPIView):
     model = MyUser
     queryset = MyUser.objects.all()
@@ -71,7 +73,7 @@ class LoginView(APIView):
             user = auth.authenticate(username=username,password=password)
 
             if user is not None:
-                auth.login(request,user)
+                auth.login(request, user)
                 return Response({'success': 'User authenticated', 'username' :username})
             else:
                 return Response({'error':'Error Authenticating'})
@@ -92,3 +94,51 @@ class GetCSRFToken(APIView):
 
     def get(self, request,format=None):
         return Response ({'success': 'CSRF cookie set'})
+
+
+class DeleteUserView(APIView):
+    def delete(self, request, format=None):
+        try:
+            user = self.request.user
+
+            MyUser.objects.filter(id=user.id).delete()
+            return Response({'success': "user deleted successfully"})
+        except:
+            return Response({'error': 'something went wrong while deleteing' })
+
+
+class GetProfile(APIView):
+    def get(self, request, format=None):
+        user = MyUser.objects.get(id=self.request.user.id)
+
+        if user.is_employer:
+            profile = EmployerProfile.objects.get(user=user)
+            profile = EmployerProfileSerializer(profile)
+        else:
+            profile = EmployeeProfile.objects.get(user=user)
+            profile = EmployeeProfileSerializer(profile)
+
+        return Response({'success': {"profile": profile.data}})
+
+
+class UpdateProfileView(APIView):
+    parser_classes = (JSONParser, FormParser, MultiPartParser)
+
+    def put(self, request, format=None):
+        user = MyUser.objects.get(id=self.request.user.id)
+        
+        if user.is_employer:
+            profile = EmployerProfile.objects.get(user=user)
+            serializer = EmployerProfileSerializer(profile, data=self.request.data)
+        else:
+            profile = EmployeeProfile.objects.get(user=user)
+            serializer = EmployeeProfileSerializer(profile, data=self.request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=200)
+        else:
+            return Response(serializer.errors, status=400)
+
+
+
