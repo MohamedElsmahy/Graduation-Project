@@ -10,8 +10,16 @@ urlpatterns = [
     path('profile/', views.profile , name = 'profile'),
     # path('profile/edit', views.profile_edit , name = 'profile_edit'),
 
+
+
     #APIS
-    path('api/singup/',api.MyUserAPi.as_view(),name="signup-api"),
+    path('api/singup/',api.UserSignipView.as_view(),name="signup"),
+    path('api/authenticated/',api.CkeckAuthenticatedView.as_view(),name="authenticated"),
+    path('api/login/',api.LoginView.as_view(),name="login"),
+    path('api/logout/',api.LogoutView.as_view(),name="logout"),
+    
     path('api/employer/<int:id>/',api.EmployerProfileAPI.as_view(),name="employer-api"),
-    path('api/employee/<int:id>/',api.EmployeeProfileAPI.as_view(),name="employee-api")
+    path('api/employee/<int:id>/',api.EmployeeProfileAPI.as_view(),name="employee-api"),
+    
+    path('api/token/',api.GetCSRFToken.as_view(),name="token"),
 ]
