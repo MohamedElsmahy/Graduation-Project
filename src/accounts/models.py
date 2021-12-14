@@ -5,10 +5,6 @@ from django.dispatch import receiver
 
 
 
-
-# Create your models here.
-
-
 class MyUser(AbstractUser):
     is_employer = models.BooleanField(default=False)
 
@@ -25,6 +21,8 @@ class EmployerProfile(models.Model):
     location = models.ForeignKey(City, related_name='company_city', on_delete=models.SET_NULL , blank=True, null=True)
     company_number = models.CharField(max_length = 15)
     image = models.ImageField(upload_to = 'company_profile/images/')
+    website = models.URLField(blank=True, null=True)
+    bio = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return str(self.user)
@@ -35,12 +33,14 @@ from job.models import Job
 
 class EmployeeProfile(models.Model):
     user = models.OneToOneField(MyUser, on_delete=models.CASCADE)
+    saved_jobs = models.ManyToManyField(Job, blank=True)
+    title = models.CharField(max_length=200, blank=True, null=True)
     city = models.ForeignKey(City, related_name='user_city', on_delete=models.SET_NULL , blank=True, null=True)
     phone_number = models.CharField(max_length = 15)
     image = models.ImageField(upload_to = 'employee_profile/images/')
     cv = models.FileField(upload_to = 'employee_profile/cv/')
     website = models.URLField(blank=True, null=True)
-    saved_jobs = models.ManyToManyField(Job, blank=True)
+    bio = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return str(self.user)
