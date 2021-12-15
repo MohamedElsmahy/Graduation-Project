@@ -48,7 +48,7 @@ const JobsList = () => {
   }
   const button={
     background:'#4caf50',
-    color:"white",
+    color:"red",
     fontSize:"15px",
     padding:"8px",
     marginLeft:"10px",
