@@ -9,22 +9,28 @@ const HomePage = () => {
 
   let getPosts = async () => {
     let response = await fetch("http://127.0.0.1:8000/blog-api/posts/");
-    let data = await response.json();
-    setPosts(data);
+    if (response.status === 200) {
+      let data = await response.json();
+      setPosts(data.data);
+    } else {
+      setPosts(null);
+    }
   };
 
   return (
     <div>
       <h1>Home Page</h1>
-      <ul>
-        {posts.map((post) => {
-          return (
-            <li key={post.id}>
-              <h5>{post.body}</h5>
-            </li>
-          );
-        })}
-      </ul>
+      {posts && (
+        <ul>
+          {posts.map((post) => {
+            return (
+              <li key={post.id}>
+                <h5>{post.body}</h5>
+              </li>
+            );
+          })}
+        </ul>
+      )}
     </div>
   );
 };

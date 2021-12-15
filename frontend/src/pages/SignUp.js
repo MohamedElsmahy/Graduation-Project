@@ -1,5 +1,10 @@
-// import React, { useState, useEffect } from 'react';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import { connect } from 'react-redux';
+import { register } from '../actions/auth';
+import CSRFToken from '../components/CSRFToken';
+
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -13,20 +18,6 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-
-// const SignUp = () => {
-//     let [user, setUser] = useState([]);
-  
-//     useEffect(() => {
-//       getUser();
-//     }, []);
-  
-//     let getUser = async () => {
-//       let response = await fetch("http://127.0.0.1:8000/accounts/api/signup");
-//       let data = await response.json();
-//       setUser(data.data);
-//     };
-
 
 function Copyright() {
   return (
@@ -61,11 +52,60 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const SignUp = ({ register }) => {
+  const navigate = useNavigate();
 
-export default function SignUp() {
+  const [formData, setFormData] = useState({
+    first_name: '',
+    last_name: '',
+    username: '',
+    email: '',
+    password: '',
+    re_password: '',
+    is_employer: false,
+  });
+
+  const [accountCreated, setAccountCreated] = useState(false);
+
+  const {
+    first_name,
+    last_name,
+    username,
+    email,
+    password,
+    re_password,
+    is_employer,
+  } = formData;
+
+  const onChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    if (password === re_password) {
+      register(
+        first_name,
+        last_name,
+        username,
+        email,
+        password,
+        re_password,
+        is_employer
+      );
+      setAccountCreated(true);
+      navigate('/signin');
+    }
+
+    // if (accountCreated) {
+    //   navigate('/signin');
+    // }
+  };
+
   const classes = useStyles();
 
-  return (    
+  return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
@@ -75,12 +115,15 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate>
+        <form onSubmit={(e) => onSubmit(e)} className={classes.form} noValidate>
+          <CSRFToken />
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
                 autoComplete="fname"
-                name="firstName"
+                name="first_name"
+                value={first_name}
+                onChange={(e) => onChange(e)}
                 variant="outlined"
                 required
                 fullWidth
@@ -96,7 +139,9 @@ export default function SignUp() {
                 fullWidth
                 id="lastName"
                 label="Last Name"
-                name="lastName"
+                name="last_name"
+                value={last_name}
+                onChange={(e) => onChange(e)}
                 autoComplete="lname"
               />
             </Grid>
@@ -107,7 +152,9 @@ export default function SignUp() {
                 fullWidth
                 id="userName"
                 label="User Name"
-                name="userName"
+                name="username"
+                value={username}
+                onChange={(e) => onChange(e)}
                 autoComplete="uname"
               />
             </Grid>
@@ -119,6 +166,8 @@ export default function SignUp() {
                 id="email"
                 label="Email Address"
                 name="email"
+                value={email}
+                onChange={(e) => onChange(e)}
                 autoComplete="email"
               />
             </Grid>
@@ -127,7 +176,10 @@ export default function SignUp() {
                 variant="outlined"
                 required
                 fullWidth
+                minLength="8"
                 name="password"
+                value={password}
+                onChange={(e) => onChange(e)}
                 label="Password"
                 type="password"
                 id="password"
@@ -135,9 +187,28 @@ export default function SignUp() {
               />
             </Grid>
             <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                minLength="8"
+                name="re_password"
+                value={re_password}
+                onChange={(e) => onChange(e)}
+                label="Confirm Password"
+                type="password"
+                id="re_password"
+                autoComplete="current-password"
+              />
+            </Grid>
+            <Grid item xs={12}>
               <FormControlLabel
-                control={<Checkbox value="is_employer" color="primary" />}
-                label="Sign Up As An Employer"
+                name="is_employer"
+                onChange={(e) => {
+                  setFormData({ ...formData, is_employer: !is_employer });
+                }}
+                control={<Checkbox value={is_employer} color="primary" />}
+                label="Sign Up As A Recruiter"
               />
             </Grid>
           </Grid>
@@ -164,5 +235,6 @@ export default function SignUp() {
       </Box>
     </Container>
   );
-};  
+};
 
+export default connect(null, { register })(SignUp);
