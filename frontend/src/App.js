@@ -5,6 +5,7 @@ import HomePage from "./pages/HomePage";
 import JobsList from "./pages/JobsList";
 import JobDetails from "./pages/JobDetails";
 import Header from "./components/Header";
+import AddJob from "./pages/AddJob";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="jobs/" element={<JobsList />} />
           <Route path="jobs/:id" element={<JobDetails />} />
+          <Route path="addjob" element={<AddJob/>}/>
         </Routes>
       </Router>
     </div>
