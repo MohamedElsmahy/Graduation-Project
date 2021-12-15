@@ -27,8 +27,9 @@ class EmployeeProfileAPI(generics.RetrieveUpdateDestroyAPIView):
 @method_decorator(csrf_protect, name='dispatch')
 class CkeckAuthenticatedView(APIView):
     def get(self, request,format=None):
+        user = self.request.user
         try:
-            isAuthenticated = MyUser.is_authenticated
+            isAuthenticated = user.is_authenticated
 
             if isAuthenticated:
                 return Response({'isAuthenticated' : 'success'})
@@ -55,7 +56,7 @@ class UserSignupView(APIView):
                         email=data['email'],
                         password=data['password'],
                         is_employer=data['is_employer'])
-                    user.save()
+                        
                     return Response ({"success": 'User created successfully'})
             else:
                 return Response({'error' : 'Passwords do not match'})
@@ -74,7 +75,7 @@ class LoginView(APIView):
 
             if user is not None:
                 auth.login(request, user)
-                return Response({'success': 'User authenticated'})
+                return Response({'success': 'User authenticated', 'email': data['email']})
             else:
                 return Response({'error':'Error Authenticating'})
         except:
@@ -110,7 +111,7 @@ class DeleteUserView(APIView):
 
 class GetProfile(APIView):
     def get(self, request, format=None):
-        user = MyUser.objects.get(id=self.request.user.id)
+        user = self.request.user
 
         if user.is_employer:
             profile = EmployerProfile.objects.get(user=user)
@@ -126,7 +127,7 @@ class UpdateProfileView(APIView):
     parser_classes = (JSONParser, FormParser, MultiPartParser)
 
     def put(self, request, format=None):
-        user = MyUser.objects.get(id=self.request.user.id)
+        user = self.request.user
         
         if user.is_employer:
             profile = EmployerProfile.objects.get(user=user)

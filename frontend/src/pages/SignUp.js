@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Navigate } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 import { register } from '../actions/auth';
@@ -52,8 +52,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SignUp = ({ register }) => {
-  const navigate = useNavigate();
+const SignUp = ({ isAuthenticated, register }) => {
+  const classes = useStyles();
 
   const [formData, setFormData] = useState({
     first_name: '',
@@ -95,15 +95,14 @@ const SignUp = ({ register }) => {
         is_employer
       );
       setAccountCreated(true);
-      navigate('/signin');
     }
-
-    // if (accountCreated) {
-    //   navigate('/signin');
-    // }
   };
 
-  const classes = useStyles();
+  if (isAuthenticated) {
+    return <Navigate replace to="/" />;
+  } else if (accountCreated) {
+    return <Navigate replace to="/signin" />;
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -237,4 +236,8 @@ const SignUp = ({ register }) => {
   );
 };
 
-export default connect(null, { register })(SignUp);
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, { register })(SignUp);
