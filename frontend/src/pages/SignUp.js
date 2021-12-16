@@ -67,6 +67,8 @@ const SignUp = ({ isAuthenticated, register }) => {
 
   const [accountCreated, setAccountCreated] = useState(false);
 
+  if (isAuthenticated) return <Navigate replace to="/" />;
+
   const {
     first_name,
     last_name,
@@ -98,11 +100,7 @@ const SignUp = ({ isAuthenticated, register }) => {
     }
   };
 
-  if (isAuthenticated) {
-    return <Navigate replace to="/" />;
-  } else if (accountCreated) {
-    return <Navigate replace to="/signin" />;
-  }
+  if (accountCreated) return <Navigate replace to="/signin" />;
 
   return (
     <Container component="main" maxWidth="xs">
@@ -236,8 +234,8 @@ const SignUp = ({ isAuthenticated, register }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated,
-});
+const mapStateToProps = (state) => {
+  return { isAuthenticated: state.auth.isAuthenticated };
+};
 
 export default connect(mapStateToProps, { register })(SignUp);

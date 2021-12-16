@@ -26,10 +26,26 @@ const Header = ({ isAuthenticated, logout }) => {
   const authLinks = (
     <>
       <Typography variant="h6" color="primary" className={classes.title}>
-        <Link to="/jobs">Brwose Jobs</Link>
+        <Link to="/jobs">
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.margin}
+          >
+            Brwose Jobs
+          </Button>
+        </Link>
       </Typography>
       <Typography variant="h6" color="primary" className={classes.title}>
-        <Link to="/contactus">Contact Us</Link>
+        <Link to="/contactus">
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.margin}
+          >
+            Contact Us
+          </Button>
+        </Link>
       </Typography>
       <Link to="">
         <Button
@@ -71,7 +87,15 @@ const Header = ({ isAuthenticated, logout }) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            <Link to="/">Home</Link>
+            <Link to="/">
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.margin}
+              >
+                Home
+              </Button>
+            </Link>
           </Typography>
           {isAuthenticated ? authLinks : guestLinks}
         </Toolbar>
@@ -80,8 +104,8 @@ const Header = ({ isAuthenticated, logout }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated,
-});
+const mapStateToProps = (state) => {
+  return { isAuthenticated: state.auth.isAuthenticated };
+};
 
 export default connect(mapStateToProps, { logout })(Header);

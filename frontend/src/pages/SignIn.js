@@ -59,6 +59,9 @@ const SignIn = ({ isAuthenticated, login }) => {
     email: '',
     password: '',
   });
+
+  if (isAuthenticated) return <Navigate replace to="/" />;
+
   const { email, password } = formData;
 
   const onChange = (e) => {
@@ -69,9 +72,6 @@ const SignIn = ({ isAuthenticated, login }) => {
     e.preventDefault();
     login(email, password);
   };
-  if (isAuthenticated) {
-    return <Navigate replace to="/" />;
-  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -145,8 +145,8 @@ const SignIn = ({ isAuthenticated, login }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated,
-});
+const mapStateToProps = (state) => {
+  return { isAuthenticated: state.auth.isAuthenticated };
+};
 
 export default connect(mapStateToProps, { login })(SignIn);

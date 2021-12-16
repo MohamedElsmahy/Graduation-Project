@@ -8,7 +8,7 @@ import {
 } from '../actions/types';
 
 const initialState = {
-  isAthenticated: null,
+  isAuthenticated: null,
   first_name: '',
   last_name: '',
   username: '',
@@ -16,25 +16,25 @@ const initialState = {
   is_employer: false,
 };
 
-export default function (state = initialState, action) {
+const auth = (state = initialState, action) => {
   const { type, payload } = action;
 
   switch (type) {
     case REGISTER_SUCCESS:
       return {
         ...state,
-        isAthenticated: false,
+        isAuthenticated: false,
       };
     case LOGIN_SUCCESS:
       return {
         ...state,
-        isAthenticated: true,
+        isAuthenticated: true,
         email: payload,
       };
     case LOGOUT_SUCCESS:
       return {
         ...state,
-        isAthenticated: false,
+        isAuthenticated: false,
         email: '',
       };
     case REGISTER_FAIL:
@@ -44,4 +44,6 @@ export default function (state = initialState, action) {
     default:
       return state;
   }
-}
+};
+
+export default auth;
