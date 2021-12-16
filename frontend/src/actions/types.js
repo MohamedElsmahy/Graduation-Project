@@ -11,3 +11,7 @@ export const AUTHENTICATED_FAIL = 'AUTHENTICATED_FAIL';
 //profile dispatch states
 export const LOAD_PROFILE_SUCCESS = 'LOAD_PROFILE_SUCCESS';
 export const LOAD_PROFILE_FAIL = 'LOAD_PROFILE_FAIL';
+
+//posts dispatch states
+export const LOAD_POSTS_SUCCESS = 'LOAD_POSTS_SUCCESS';
+export const LOAD_POSTS_FAIL = 'LOAD_POSTS_FAIL';

@@ -13,7 +13,7 @@ import SignUp from './pages/SignUp';
 import SignIn from './pages/SignIn';
 import ContactUs from './pages/ContactUs';
 import Layout from './hocs/Layout';
-
+import PrivateRoute from './components/PrivateRoute';
 // import { Provider } from 'react-redux';
 // import store from './store';
 
@@ -23,9 +23,30 @@ function App() {
       <Router>
         <Layout>
           <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="jobs/" element={<JobsList />} />
-            <Route path="jobs/:id" element={<JobDetails />} />
+            <Route
+              path="/"
+              element={
+                <PrivateRoute>
+                  <HomePage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="jobs/"
+              element={
+                <PrivateRoute>
+                  <JobsList />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="jobs/:id"
+              element={
+                <PrivateRoute>
+                  <JobDetails />
+                </PrivateRoute>
+              }
+            />
             <Route path="signup/" element={<SignUp />} />
             <Route path="signin/" element={<SignIn />} />
             <Route path="contactus/" element={<ContactUs />} />
