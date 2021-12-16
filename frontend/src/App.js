@@ -47,6 +47,14 @@ function App() {
                 </PrivateRoute>
               }
             />
+            <Route
+              path="addjob/"
+              element={
+                <PrivateRoute>
+                  <AddJob />
+                </PrivateRoute>
+              }
+            />
             <Route path="signup/" element={<SignUp />} />
             <Route path="signin/" element={<SignIn />} />
             <Route path="contactus/" element={<ContactUs />} />

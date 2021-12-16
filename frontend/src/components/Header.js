@@ -37,6 +37,17 @@ const Header = ({ isAuthenticated, logout }) => {
         </Link>
       </Typography>
       <Typography variant="h6" color="primary" className={classes.title}>
+        <Link to="/addjob">
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.margin}
+          >
+            Add Job
+          </Button>
+        </Link>
+      </Typography>
+      <Typography variant="h6" color="primary" className={classes.title}>
         <Link to="/contactus">
           <Button
             variant="contained"
