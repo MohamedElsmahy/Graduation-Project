@@ -15,7 +15,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import color from 'material-ui/colors/amber';
+// import color from 'material-ui/colors/amber';
 
 const JobsList = () => {
   const formstyle = {
@@ -66,11 +66,11 @@ const JobsList = () => {
     getJobs();
   }, []);
 
-  let getJobs = async () => {
-    let response = await fetch('http://127.0.0.1:8000/jobs/api/jobs');
-    let data = await response.json();
-    setJobs(data.data);
-  };
+  // let getJobs = async () => {
+  //   let response = await fetch('http://127.0.0.1:8000/jobs/api/jobs');
+  //   let data = await response.json();
+  //   setJobs(data.data);
+  // };
 
   return (
     <div>

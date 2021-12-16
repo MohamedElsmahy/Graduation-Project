@@ -1,21 +1,15 @@
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 
 import HomePage from './pages/HomePage';
 import JobsList from './pages/JobsList';
+import AddJob from './pages/AddJob';
 import JobDetails from './pages/JobDetails';
 import SignUp from './pages/SignUp';
 import SignIn from './pages/SignIn';
 import ContactUs from './pages/ContactUs';
 import Layout from './hocs/Layout';
 import PrivateRoute from './components/PrivateRoute';
-// import { Provider } from 'react-redux';
-// import store from './store';
 
 function App() {
   return (
