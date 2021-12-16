@@ -24,11 +24,12 @@ class EmployeeProfileAPI(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = EmployeeProfileSerializer
     lookup_field = "id"
 
-@method_decorator(csrf_protect, name='dispatch')
+
 class CkeckAuthenticatedView(APIView):
     def get(self, request,format=None):
+        user = self.request.user
         try:
-            isAuthenticated = MyUser.is_authenticated
+            isAuthenticated = user.is_authenticated
 
             if isAuthenticated:
                 return Response({'isAuthenticated' : 'success'})
@@ -38,22 +39,24 @@ class CkeckAuthenticatedView(APIView):
             return Response({'error': 'Something went wrong checking authentication status'})
 
 @method_decorator(csrf_protect, name='dispatch')
-class UserSignipView(APIView):
+class UserSignupView(APIView):
     permission_classes = (permissions.AllowAny,)
 
     def post(self, request,format=None):
         data = self.request.data
-        username = data['username']
-        password = data['password']
-        re_password = data['re_password']
-        is_employer = data['is_employer']
         try:
-            if password == re_password:
-                if MyUser.objects.filter(username=username).exists():
-                    return Response ({'erroe': 'Username already exists'})
+            if data['password'] == data['re_password']:
+                if MyUser.objects.filter(username=data['username']).exists():
+                    return Response ({'error': 'Username already exists'})
                 else:
-                    user = MyUser.objects.create_user(username=username,password=password,is_employer=is_employer)
-                    user.save()
+                    user = MyUser.objects.create_user(
+                        first_name=data['first_name'],
+                        last_name=data['last_name'],
+                        username=data['username'],
+                        email=data['email'],
+                        password=data['password'],
+                        is_employer=data['is_employer'])
+                        
                     return Response ({"success": 'User created successfully'})
             else:
                 return Response({'error' : 'Passwords do not match'})
@@ -66,15 +69,13 @@ class LoginView(APIView):
     
     def post(self,request,format=None):
         data = self.request.data
-        username = data['username']
-        password = data['password']
 
         try:
-            user = auth.authenticate(username=username,password=password)
+            user = auth.authenticate(username=data['email'], password=data['password'])
 
             if user is not None:
                 auth.login(request, user)
-                return Response({'success': 'User authenticated', 'username' :username})
+                return Response({'success': 'User authenticated', 'email': data['email'], 'is_employer': user.is_employer})
             else:
                 return Response({'error':'Error Authenticating'})
         except:
@@ -84,7 +85,7 @@ class LogoutView(APIView):
     def post(self,request,format=None):
         try:
             auth.logout(request)
-            return Response({'success': 'Logout'})
+            return Response({'success': 'Logged out'})
         except:
             return Response({'error':'Somthing went wrong'}) 
 
@@ -93,6 +94,7 @@ class GetCSRFToken(APIView):
     permission_classes = {permissions.AllowAny,}
 
     def get(self, request,format=None):
+        print()
         return Response ({'success': 'CSRF cookie set'})
 
 
@@ -109,23 +111,29 @@ class DeleteUserView(APIView):
 
 class GetProfile(APIView):
     def get(self, request, format=None):
-        user = MyUser.objects.get(id=self.request.user.id)
+        user = self.request.user
 
-        if user.is_employer:
-            profile = EmployerProfile.objects.get(user=user)
-            profile = EmployerProfileSerializer(profile)
-        else:
-            profile = EmployeeProfile.objects.get(user=user)
-            profile = EmployeeProfileSerializer(profile)
+        try:
+            if user.is_employer:
+                profile = EmployerProfile.objects.get(user=user)
+                profile = EmployerProfileSerializer(profile)
+            else:
+                profile = EmployeeProfile.objects.get(user=user)
+                profile = EmployeeProfileSerializer(profile)
 
-        return Response({'success': {"profile": profile.data}})
+            user = MyUserSerializer(user)
+
+            return Response({"user": user.data, "profile": profile.data})
+        except:
+            return Response({'error': "something went wrong while retrieveing profile data"})
+
 
 
 class UpdateProfileView(APIView):
     parser_classes = (JSONParser, FormParser, MultiPartParser)
 
     def put(self, request, format=None):
-        user = MyUser.objects.get(id=self.request.user.id)
+        user = self.request.user
         
         if user.is_employer:
             profile = EmployerProfile.objects.get(user=user)

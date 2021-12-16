@@ -1,4 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Navigate } from 'react-router-dom';
+
+import { connect } from 'react-redux';
+import { login } from '../actions/auth';
+import CSRFToken from '../components/CSRFToken';
+
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -46,8 +52,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn() {
+const SignIn = ({ isAuthenticated, login }) => {
   const classes = useStyles();
+
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
+
+  if (isAuthenticated) return <Navigate replace to="/" />;
+
+  const { email, password } = formData;
+
+  const onChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    login(email, password);
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -59,7 +83,8 @@ export default function SignIn() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate>
+        <form onSubmit={(e) => onSubmit(e)} className={classes.form} noValidate>
+          <CSRFToken />
           <TextField
             variant="outlined"
             margin="normal"
@@ -70,6 +95,8 @@ export default function SignIn() {
             name="email"
             autoComplete="email"
             autoFocus
+            value={email}
+            onChange={(e) => onChange(e)}
           />
           <TextField
             variant="outlined"
@@ -81,11 +108,13 @@ export default function SignIn() {
             type="password"
             id="password"
             autoComplete="current-password"
+            value={password}
+            onChange={(e) => onChange(e)}
           />
-          <FormControlLabel
+          {/* <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
-          />
+          /> */}
           <Button
             type="submit"
             fullWidth
@@ -114,4 +143,10 @@ export default function SignIn() {
       </Box>
     </Container>
   );
-}
+};
+
+const mapStateToProps = (state) => {
+  return { isAuthenticated: state.auth.isAuthenticated };
+};
+
+export default connect(mapStateToProps, { login })(SignIn);

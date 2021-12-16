@@ -13,7 +13,7 @@ urlpatterns = [
 
 
     #APIS
-    path('signup/',api.UserSignipView.as_view(),name="signup"),
+    path('signup/',api.UserSignupView.as_view(),name="signup"),
     path('authenticated/',api.CkeckAuthenticatedView.as_view(),name="authenticated"),
     path('login/',api.LoginView.as_view(),name="login"),
     path('logout/',api.LogoutView.as_view(),name="logout"),
@@ -22,7 +22,7 @@ urlpatterns = [
     path('profile/update/',api.UpdateProfileView.as_view(),name="profile_update"),
     
     
-    path('api/token/',api.GetCSRFToken.as_view(),name="token"),
+    path('api/token',api.GetCSRFToken.as_view(),name="token"),
 
     path('api/employer/<int:id>/',api.EmployerProfileAPI.as_view(),name="employer-api"),
     path('api/employee/<int:id>/',api.EmployeeProfileAPI.as_view(),name="employee-api"),
