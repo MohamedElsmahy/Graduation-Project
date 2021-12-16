@@ -1,5 +1,5 @@
 from django.contrib.auth.backends import ModelBackend
-from .models import User
+from .models import MyUser
 from django.db.models import Q
 from django.core.exceptions import MultipleObjectsReturned
 
@@ -7,14 +7,14 @@ class EmailBackend(ModelBackend):
     def authenticate(self, request, username=None, password=None, **kwargs):
         ''' check username or email & password is a valid user  '''
         try : 
-            user = User.objects.get(
+            user = MyUser.objects.get(
                 Q(username__iexact=username) |
                 Q(email__iexact=username)
             )
-        except User.DoesNotExist : 
+        except MyUser.DoesNotExist : 
             return None
         except MultipleObjectsReturned : 
-            return User.objects.filter(email = username).order_by('id').first()
+            return MyUser.objects.filter(email = username).order_by('id').first()
 
         else : 
             if user.check_password(password) and self.user_can_authenticate(user):
@@ -22,9 +22,9 @@ class EmailBackend(ModelBackend):
                     
     def get_user(self, user_id):
         try : 
-            user = User.objects.get(pk = user_id)
+            user = MyUser.objects.get(pk = user_id)
     
-        except User.DoesNotExist : 
+        except MyUser.DoesNotExist : 
             return None
 
         return user if self.user_can_authenticate(user) else None

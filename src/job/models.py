@@ -22,28 +22,16 @@ class Category(models.Model):
         return self.name
 
 
-class Job(models.Model):      #table
-    #user
+class Job(models.Model):
     owner = models.ForeignKey(EmployerProfile, related_name='job_owner', on_delete=models.CASCADE)
-    #culomns
     title = models.CharField(max_length=100)
-    #location
     job_type = models.CharField(max_length=15 , choices=JOB_TYPE)
-    #description
     description = models.TextField(max_length=1000)
-    #Published_at
     published_at = models.DateTimeField(auto_now=True)
-    #vacancy
     vacancy = models.IntegerField(default=1)
-    #salary
     salary = models.IntegerField(default=0)
-    #experince
     experince = models.IntegerField(default=1)
-    #category
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, blank=True, null=True)
-    #upload_image
-    image = models.ImageField(upload_to=image_upload)
-    #slug
     slug = models.SlugField(blank=True, null=True)
     
     ## overriding save() method ##
