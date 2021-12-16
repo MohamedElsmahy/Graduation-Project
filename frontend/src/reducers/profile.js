@@ -10,6 +10,10 @@ const initialState = {
   phone_number: '',
   website: '',
   bio: '',
+  image: '',
+  cv: '',
+  location: '',
+  saved_jobs: [],
 };
 
 const profile = (state = initialState, action) => {
@@ -28,6 +32,10 @@ const profile = (state = initialState, action) => {
         phone_number: payload.profile.phone_number,
         website: payload.profile.website,
         bio: payload.profile.bio,
+        image: payload.profile.image,
+        cv: payload.profile.cv,
+        location: payload.profile.location,
+        saved_jobs: payload.profile.saved_jobs,
       };
     case LOAD_PROFILE_FAIL:
       return {
@@ -41,6 +49,10 @@ const profile = (state = initialState, action) => {
         phone_number: '',
         website: '',
         bio: '',
+        image: '',
+        cv: '',
+        location: '',
+        saved_jobs: '',
       };
     default:
       return state;

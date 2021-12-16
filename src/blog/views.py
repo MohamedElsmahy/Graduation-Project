@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from rest_framework.views import APIView
+from rest_framework.response import Response
 from .models import Post , Comment , Like
 from .serializers import PostSerializer , CommentSerializer, LikeSerializer
 from rest_framework import generics
@@ -15,6 +17,19 @@ class PostListApi(generics.ListCreateAPIView):
     model = Post
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+
+
+class GetPosts(APIView):
+    def get(self, request, format=None):
+        try:
+            posts = Post.objects.all()
+            data = PostSerializer(posts , many = True).data 
+            return Response({'posts':data})
+        except:
+            return Response({'error': "something went wrong when retrieveing posts"})
+
+ 
+
 
 #API view for Retrieve , Delete & Update Post
 class PostDetail(generics.RetrieveUpdateDestroyAPIView):
