@@ -75,7 +75,7 @@ class LoginView(APIView):
 
             if user is not None:
                 auth.login(request, user)
-                return Response({'success': 'User authenticated', 'email': data['email']})
+                return Response({'success': 'User authenticated', 'email': data['email'], 'is_employer': user.is_employer})
             else:
                 return Response({'error':'Error Authenticating'})
         except:
@@ -113,14 +113,20 @@ class GetProfile(APIView):
     def get(self, request, format=None):
         user = self.request.user
 
-        if user.is_employer:
-            profile = EmployerProfile.objects.get(user=user)
-            profile = EmployerProfileSerializer(profile)
-        else:
-            profile = EmployeeProfile.objects.get(user=user)
-            profile = EmployeeProfileSerializer(profile)
+        try:
+            if user.is_employer:
+                profile = EmployerProfile.objects.get(user=user)
+                profile = EmployerProfileSerializer(profile)
+            else:
+                profile = EmployeeProfile.objects.get(user=user)
+                profile = EmployeeProfileSerializer(profile)
 
-        return Response({'success': {"profile": profile.data}})
+            user = MyUserSerializer(user)
+
+            return Response({"user": user.data, "profile": profile.data})
+        except:
+            return Response({'error': "something went wrong while retrieveing profile data"})
+
 
 
 class UpdateProfileView(APIView):

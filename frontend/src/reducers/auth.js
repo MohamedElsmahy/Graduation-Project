@@ -11,11 +11,6 @@ import {
 
 const initialState = {
   isAuthenticated: null,
-  first_name: '',
-  last_name: '',
-  username: '',
-  email: '',
-  is_employer: false,
 };
 
 const auth = (state = initialState, action) => {
@@ -37,13 +32,11 @@ const auth = (state = initialState, action) => {
       return {
         ...state,
         isAuthenticated: true,
-        email: payload,
       };
     case LOGOUT_SUCCESS:
       return {
         ...state,
         isAuthenticated: false,
-        email: '',
       };
     case REGISTER_FAIL:
     case LOGIN_FAIL:

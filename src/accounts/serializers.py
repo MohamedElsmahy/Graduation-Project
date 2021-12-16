@@ -4,7 +4,7 @@ from .models import MyUser ,EmployerProfile, EmployeeProfile
 class MyUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = MyUser
-        fields = ['id','username','email', 'password','is_employer']
+        fields = ['id', 'username', 'email', 'is_employer']
         
 
 
