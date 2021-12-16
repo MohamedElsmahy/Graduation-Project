@@ -24,7 +24,7 @@ class EmployeeProfileAPI(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = EmployeeProfileSerializer
     lookup_field = "id"
 
-@method_decorator(csrf_protect, name='dispatch')
+
 class CkeckAuthenticatedView(APIView):
     def get(self, request,format=None):
         user = self.request.user

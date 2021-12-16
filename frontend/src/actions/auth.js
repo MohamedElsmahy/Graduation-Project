@@ -7,7 +7,41 @@ import {
   LOGIN_FAIL,
   LOGOUT_SUCCESS,
   LOGOUT_FAIL,
+  AUTHENTICATED_SUCCESS,
+  AUTHENTICATED_FAIL,
 } from './types';
+
+export const checkAuth = () => async (dispatch) => {
+  const config = {
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+  };
+
+  try {
+    const res = await axios.get(
+      'http://localhost:8000/accounts/authenticated/',
+      config
+    );
+    if (res.data.error || res.data.isAuthenticated === 'error') {
+      dispatch({
+        type: AUTHENTICATED_FAIL,
+        payload: false,
+      });
+    } else if (res.data.isAuthenticated === 'success') {
+      dispatch({
+        type: AUTHENTICATED_SUCCESS,
+        payload: true,
+      });
+    } else {
+      dispatch({
+        type: AUTHENTICATED_FAIL,
+        payload: false,
+      });
+    }
+  } catch (err) {}
+};
 
 export const login = (email, password) => async (dispatch) => {
   const config = {
