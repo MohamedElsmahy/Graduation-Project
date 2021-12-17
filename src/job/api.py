@@ -32,10 +32,12 @@ class GetJobs(APIView):
     def get(self, request,format=None):
         try:
             jobs = Job.objects.all()
-            jobs = JobSerializer(jobs)
+            print(jobs)
+            jobs = JobSerializer(jobs,many = True)
+            print(jobs)
             return Response({"jobs":jobs.data})
-        except :
-            return Response({'error':'somthing went wrong while get jobs'})
+        except Exception as e:
+            return Response({'error':"error while get jobs"})
 
 class JobDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Job.objects.all()

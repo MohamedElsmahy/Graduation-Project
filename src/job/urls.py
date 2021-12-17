@@ -16,10 +16,11 @@ urlpatterns = [
     
     ##Application API
     path('api/applications', api.ApplicationApi.as_view() , name = 'ApplicationsList'),
+    path('api/', api.JobListApi.as_view() , name = 'job'),
     path('api/application/<int:id>', api.ApplicationDetail.as_view() , name = 'ApplicationDetail'),
     
     ##Job API
-    path('api/jobs', api.GetJobs.as_view() , name = 'JobsList'),
+    path('api/jobs/', api.GetJobs.as_view() , name = 'JobsList'),
     path('api/<int:id>', api.JobDetail.as_view() , name = 'JobDetail'),
 
 ]
