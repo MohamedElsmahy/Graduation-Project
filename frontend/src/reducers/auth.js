@@ -32,11 +32,13 @@ const auth = (state = initialState, action) => {
       return {
         ...state,
         isAuthenticated: true,
+        username: payload,
       };
     case LOGOUT_SUCCESS:
       return {
         ...state,
         isAuthenticated: false,
+        username: ''
       };
     case REGISTER_FAIL:
     case LOGIN_FAIL:

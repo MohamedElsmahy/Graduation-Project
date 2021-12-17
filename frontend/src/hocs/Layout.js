@@ -6,10 +6,12 @@ import { connect } from 'react-redux';
 import { checkAuth } from './../actions/auth';
 import { loadProfile } from '../actions/profile';
 
+
 const Layout = ({ children, checkAuth, loadProfile }) => {
   useEffect(() => {
     checkAuth();
     loadProfile();
+    
   }, []);
   return (
     <>
