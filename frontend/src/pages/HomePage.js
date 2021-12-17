@@ -1,21 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { connect } from 'react-redux';
+import { loadPosts } from '../actions/posts';
 
-const HomePage = () => {
-  let [posts, setPosts] = useState([]);
+const HomePage = ({ loadPosts, posts }) => {
+  // let [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    getPosts();
+    loadPosts();
   }, []);
 
-  let getPosts = async () => {
-    let response = await fetch("http://127.0.0.1:8000/blog-api/posts/");
-    if (response.status === 200) {
-      let data = await response.json();
-      setPosts(data.data);
-    } else {
-      setPosts(null);
-    }
-  };
+  // let getPosts = async () => {
+  //   let res = await axios.get('http://127.0.0.1:8000/blog-api/posts/');
+  //   // let res = await fetch('http://127.0.0.1:8000/blog-api/posts/');
+  //   if (res.status === 200) {
+  //     let data = await res.json();
+  //     setPosts(data.data);
+  //   } else {
+  //     setPosts(null);
+  //   }
+  // };
 
   return (
     <div>
@@ -35,4 +39,8 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+const mapStateToProps = (state) => {
+  return { posts: state.posts.posts };
+};
+
+export default connect(mapStateToProps, { loadPosts })(HomePage);

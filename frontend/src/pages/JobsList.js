@@ -1,22 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { loadJobs } from '../actions/jobs';
+import { connect } from 'react-redux';
 
-const JobsList = () => {
-  let [jobs, setJobs] = useState([]);
+const JobsList = ({ loadJobs , jobs }) => {
+  //let [jobs, setJobs] = useState([]);
 
   useEffect(() => {
-    getJobs();
+    loadJobs();
   }, []);
 
-  let getJobs = async () => {
-    let response = await fetch("http://127.0.0.1:8000/jobs/api/jobs");
-    if (response.status === 200) {
-      let data = await response.json();
-      setJobs(data.data);
-    } else {
-      setJobs(null);
-    }
-  };
+  // let getJobs = async () => {
+  //   let response = await fetch("localhost:8000/jobs/api/jobs");
+  //   if (response.status === 200) {
+  //     let data = await response.json();
+  //     setJobs(data.data);
+  //   } else {
+  //     setJobs(null);
+  //   }
+  // };
 
   return (
     <div>
@@ -52,5 +54,8 @@ const JobsList = () => {
     </div>
   );
 };
+const mapStateToProps = (state) => {
+  return { jobs: state.jobs.jobs };
+};
 
-export default JobsList;
+export default connect(mapStateToProps, { loadJobs })(JobsList);
