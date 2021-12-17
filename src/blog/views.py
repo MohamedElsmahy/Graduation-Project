@@ -16,6 +16,7 @@ from rest_framework import generics
 class PostListApi(generics.ListCreateAPIView):
     model = Post
     queryset = Post.objects.all()
+    queryset = queryset.order_by("-created")
     serializer_class = PostSerializer
 
 
