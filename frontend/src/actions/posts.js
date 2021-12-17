@@ -40,13 +40,25 @@ export const loadPost = (id) => async (dispatch) => {
   };
 
   try {
-    const res = await axios.get(
+    const postRes = await axios.get(
       `http://localhost:8000/blog-api/posts/${id}/`,
+      config
+    );
+    const commentsRes = await axios.get(
+      `http://localhost:8000/blog-api/posts/${id}/comments/`,
+      config
+    );
+    const likesRes = await axios.get(
+      `http://localhost:8000/blog-api/posts/${id}/likes/`,
       config
     );
     dispatch({
       type: LOAD_POST_SUCCESS,
-      payload: res.data,
+      payload: {
+        post: postRes.data,
+        comments: commentsRes.data,
+        likes: likesRes.data,
+      },
     });
   } catch (err) {
     dispatch({

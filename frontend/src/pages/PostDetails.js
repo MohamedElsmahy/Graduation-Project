@@ -7,7 +7,7 @@ import Cookies from 'js-cookie';
 
 import Button from '@material-ui/core/Button';
 
-const PostDetails = ({ loadPost, post, userId }) => {
+const PostDetails = ({ loadPost, post, comments, likes, userId }) => {
   const [postDeleted, setPostDeleted] = useState(false);
 
   const { id } = useParams();
@@ -23,9 +23,6 @@ const PostDetails = ({ loadPost, post, userId }) => {
         'X-CSRFToken': Cookies.get('csrftoken'),
       },
     };
-    // const body = JSON.stringify({
-    //   withCredentials: true,
-    // });
 
     try {
       const res = await axios.delete(
@@ -46,9 +43,20 @@ const PostDetails = ({ loadPost, post, userId }) => {
   };
 
   return (
-    <div>
-      <h1>Home Page</h1>
-      {post ? <h5>{post.body}</h5> : <h5>Post Not Found</h5>}
+    <>
+      {post ? (
+        <>
+          <h3>{post.body}</h3>
+          <h5>Likes: {likes.length}</h5>
+          <ul>
+            {comments.map((comment) => {
+              return <li key={comment.id}>{comment.body}</li>;
+            })}
+          </ul>
+        </>
+      ) : (
+        <h5>Post Not Found</h5>
+      )}
       {userId === post.user && (
         <form onSubmit={(e) => onSubmit(e)}>
           <Button type="submit">
@@ -56,12 +64,17 @@ const PostDetails = ({ loadPost, post, userId }) => {
           </Button>
         </form>
       )}
-    </div>
+    </>
   );
 };
 
 const mapStateToProps = (state) => {
-  return { post: state.post.post, userId: state.profile.id };
+  return {
+    post: state.post.post,
+    comments: state.post.comments,
+    likes: state.post.likes,
+    userId: state.profile.id,
+  };
 };
 
 export default connect(mapStateToProps, { loadPost })(PostDetails);
