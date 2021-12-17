@@ -16,19 +16,18 @@ from rest_framework import generics
 class PostListApi(generics.ListCreateAPIView):
     model = Post
     queryset = Post.objects.all()
+    queryset = queryset.order_by("-created")
     serializer_class = PostSerializer
 
 
-class GetPosts(APIView):
-    def get(self, request, format=None):
-        try:
-            posts = Post.objects.all()
-            data = PostSerializer(posts , many = True).data 
-            return Response({'posts':data})
-        except:
-            return Response({'error': "something went wrong when retrieveing posts"})
-
- 
+# class GetPosts(APIView):
+#     def get(self, request, format=None):
+#         try:
+#             posts = Post.objects.all()
+#             data = PostSerializer(posts , many = True).data 
+#             return Response({'posts':data})
+#         except:
+#             return Response({'error': "something went wrong when retrieveing posts"})
 
 
 #API view for Retrieve , Delete & Update Post
@@ -43,14 +42,23 @@ class PostDetail(generics.RetrieveUpdateDestroyAPIView):
 #API View for list and create Comment
 class CommentListApi(generics.ListCreateAPIView):
     model = Comment
-    queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+
+    def get_queryset(self):
+        post = Post.objects.get(id=self.kwargs['post_id'])
+        queryset = Comment.objects.filter(post=post)
+        return queryset
+
 
 #API view for Retrieve , Delete & Update Comment
 class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     lookup_field = "id"
+
+    def get_queryset(self):
+        post = Post.objects.get(id=self.kwargs['post_id'])
+        queryset = Comment.objects.filter(post=post)
+        return queryset
 
 
 
@@ -59,11 +67,19 @@ class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
 #API View for list and create Like
 class LikeListApi(generics.ListCreateAPIView):
     model = Like
-    queryset = Like.objects.all()
     serializer_class = LikeSerializer
+
+    def get_queryset(self):
+        post = Post.objects.get(id=self.kwargs['post_id'])
+        queryset = Like.objects.filter(post=post)
+        return queryset
 
 #API view for Retrieve , Delete & Update Like
 class LikeDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Like.objects.all()
     serializer_class = LikeSerializer
     lookup_field = "id"
+
+    def get_queryset(self):
+        post = Post.objects.get(id=self.kwargs['post_id'])
+        queryset = Like.objects.filter(post=post)
+        return queryset

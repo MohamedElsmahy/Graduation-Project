@@ -4,7 +4,9 @@ import './App.css';
 import HomePage from './pages/HomePage';
 import JobsList from './pages/JobsList';
 import AddJob from './pages/AddJob';
+import AddPost from './pages/AddPost';
 import JobDetails from './pages/JobDetails';
+import PostDetails from './pages/PostDetails';
 import SignUp from './pages/SignUp';
 import SignIn from './pages/SignIn';
 import ContactUs from './pages/ContactUs';
@@ -34,7 +36,7 @@ function App() {
               }
             />
             <Route
-              path="jobs/:id"
+              path="jobs/:id/"
               element={
                 <PrivateRoute>
                   <JobDetails />
@@ -46,6 +48,22 @@ function App() {
               element={
                 <PrivateRoute>
                   <AddJob />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="posts/:id/"
+              element={
+                <PrivateRoute>
+                  <PostDetails />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="posts/add/"
+              element={
+                <PrivateRoute>
+                  <AddPost />
                 </PrivateRoute>
               }
             />

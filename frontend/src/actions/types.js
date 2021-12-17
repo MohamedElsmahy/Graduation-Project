@@ -15,6 +15,8 @@ export const LOAD_PROFILE_FAIL = 'LOAD_PROFILE_FAIL';
 //posts dispatch states
 export const LOAD_POSTS_SUCCESS = 'LOAD_POSTS_SUCCESS';
 export const LOAD_POSTS_FAIL = 'LOAD_POSTS_FAIL';
+export const LOAD_POST_SUCCESS = 'LOAD_POST_SUCCESS';
+export const LOAD_POST_FAIL = 'LOAD_POST_FAIL';
 
 //job dispatch states
 export const LOAD_JOBS_SUCCESS = 'LOAD_JOBS_SUCCESS';
