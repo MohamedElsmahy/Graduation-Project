@@ -17,7 +17,10 @@ import CardContent from '@material-ui/core/CardContent';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 // import color from 'material-ui/colors/amber';
 
-const JobsList = () => {
+import { loadJobs } from '../actions/jobs';
+import { connect } from 'react-redux';
+
+const JobsList = ({ loadJobs, jobs }) => {
   const formstyle = {
     width: '270px',
     marginLeft: 'auto',
@@ -60,17 +63,9 @@ const JobsList = () => {
     padding: '1px',
   };
 
-  let [jobs, setJobs] = useState([]);
-
   useEffect(() => {
-    getJobs();
+    loadJobs();
   }, []);
-
-  // let getJobs = async () => {
-  //   let response = await fetch('http://127.0.0.1:8000/jobs/api/jobs');
-  //   let data = await response.json();
-  //   setJobs(data.data);
-  // };
 
   return (
     <div>
@@ -244,30 +239,38 @@ const JobsList = () => {
         </Grid>
       </Card>
       <ul>
-        {jobs.map((job) => {
-          return (
-            <li key={job.id}>
-              <ul>
-                <li>
-                  <Link to={`/jobs/${job.id}`}>title: {job.title}</Link>
-                </li>
-                <li>
-                  <h4>job_type: {job.job_type}</h4>
-                </li>
-                <li>
-                  <p>description: {job.description}</p>
-                </li>
-                <li>salary: {job.salary}</li>
-                <li>experince: {job.experince}</li>
-                <li>vacancy: {job.vacancy}</li>
-              </ul>
-              <hr />
-            </li>
-          );
-        })}
+        {jobs ? (
+          jobs.map((job) => {
+            return (
+              <li key={job.id}>
+                <ul>
+                  <li>
+                    <Link to={`/jobs/${job.id}`}>title: {job.title}</Link>
+                  </li>
+                  <li>
+                    <h4>job_type: {job.job_type}</h4>
+                  </li>
+                  <li>
+                    <p>description: {job.description}</p>
+                  </li>
+                  <li>salary: {job.salary}</li>
+                  <li>experince: {job.experince}</li>
+                  <li>vacancy: {job.vacancy}</li>
+                </ul>
+                <hr />
+              </li>
+            );
+          })
+        ) : (
+          <h3>No jobs yet</h3>
+        )}
       </ul>
     </div>
   );
 };
 
-export default JobsList;
+const mapStateToProps = (state) => {
+  return { jobs: state.jobs.jobs };
+};
+
+export default connect(mapStateToProps, { loadJobs })(JobsList);
