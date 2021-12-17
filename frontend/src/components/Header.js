@@ -20,7 +20,7 @@ const useStyles = makeStyles((themes) => ({
   },
 }));
 
-const Header = ({ isAuthenticated, logout }) => {
+const Header = ({ isAuthenticated, is_employer, logout }) => {
   const classes = useStyles();
 
   const authLinks = (
@@ -36,17 +36,19 @@ const Header = ({ isAuthenticated, logout }) => {
           </Button>
         </Link>
       </Typography>
-      <Typography variant="h6" color="primary" className={classes.title}>
-        <Link to="/addjob">
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.margin}
-          >
-            Add Job
-          </Button>
-        </Link>
-      </Typography>
+      {is_employer && (
+        <Typography variant="h6" color="primary" className={classes.title}>
+          <Link to="/addjob">
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.margin}
+            >
+              Add Job
+            </Button>
+          </Link>
+        </Typography>
+      )}
       <Typography variant="h6" color="primary" className={classes.title}>
         <Link to="/contactus">
           <Button
@@ -116,7 +118,10 @@ const Header = ({ isAuthenticated, logout }) => {
 };
 
 const mapStateToProps = (state) => {
-  return { isAuthenticated: state.auth.isAuthenticated };
+  return {
+    isAuthenticated: state.auth.isAuthenticated,
+    is_employer: state.profile.is_employer,
+  };
 };
 
 export default connect(mapStateToProps, { logout })(Header);

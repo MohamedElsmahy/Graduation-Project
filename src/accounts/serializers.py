@@ -11,11 +11,11 @@ class MyUserSerializer(serializers.ModelSerializer):
 class EmployerProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = EmployerProfile
-        fields = ['location','company_number','image', 'bio', 'website']
-        # fields = '__all__'
+        # fields = ['location','phone_number','image', 'bio', 'website']
+        fields = '__all__'
 
 class EmployeeProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = EmployeeProfile
-        fields = ['location','phone_number','image','cv','website', 'bio', 'title', 'saved_jobs']
-        # fields = '__all__'
+        # fields = ['location','phone_number','image','cv','website', 'bio', 'title', 'saved_jobs']
+        fields = '__all__'
