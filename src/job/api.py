@@ -1,10 +1,11 @@
 ### viwes
 
-from .models import Job
-from .serializers import JobSerializer
+from rest_framework.views import APIView
+from .models import Application, Job
+from .serializers import ApplicationSerializer, JobSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework import generics
+from rest_framework import generics, serializers
 
 ''' Funcation Viwes '''
 @api_view(['GET'])
@@ -27,7 +28,29 @@ class JobListApi(generics.ListCreateAPIView):
     queryset  = Job.objects.all()
     serializer_class = JobSerializer
 
+class GetJobs(APIView):
+    def get(self, request,format=None):
+        try:
+            jobs = Job.objects.all()
+            jobs = JobSerializer(jobs)
+            return Response({"jobs":jobs.data})
+        except :
+            return Response({'error':'somthing went wrong while get jobs'})
+
 class JobDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
+    lookup_field = 'id'
+
+
+
+class ApplicationApi(generics.ListAPIView):
+    model = Application
+    queryset = Application.objects.all()
+    serializer_class = ApplicationSerializer
+
+
+class ApplicationDetail(generics.RetrieveAPIView):
+    queryset = Application.objects.all()
+    serializer_class = ApplicationSerializer
     lookup_field = 'id'

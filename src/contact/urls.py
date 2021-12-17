@@ -1,11 +1,11 @@
 from django.urls import include, path
-from . import views
+from . import api
 import turtle
 
 app_name = 'contact'
 
 urlpatterns = [   
-    path('', views.send_message , name = 'contact'),
+    path('api/contact/',api.InfoCreateApi.as_view(), name= "contact"),
 ]
 
  
