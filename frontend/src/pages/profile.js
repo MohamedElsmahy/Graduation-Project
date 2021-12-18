@@ -25,14 +25,14 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     position: "absolute",
     width: "calc(100%)",
-    top: "-50px",
+    top: "-45px",
     alignItems: "flex-end",
     "& > *": {
       margin: `${theme.spacing(3)}px ${theme.spacing(1)}px`,
     },
   },
   spacer: {
-    flexGrow: "1",
+    flexGrow: "0.8",
   },
   avatar: {
     border: `3px solid white`,
@@ -42,40 +42,41 @@ const useStyles = makeStyles((theme) => ({
   },
   actionGroup: {
     display: "flex",
-    width: "330px",
+    width: "300px",
     justifyContent: "space-between",
     marginRight: 0,
   },
   summaryCards: {
+    // width: '100%',
+    // maxWidth: 500,
     display: "flex",
     flexWrap: "wrap",
   },
   summaryCard: {
+    maxWidth: 1340,
     margin: theme.spacing(1),
     flexGrow: 1,
     padding: theme.spacing(3),
-  },
-  tripCard: {
-    margin: theme.spacing(1),
-    padding: theme.spacing(2),
   },
 }));
 
 export function SummaryCard({ title, value, component }) {
   const classes = useStyles();
   return (
-    <Paper elevation={2} className={classes.summaryCard}>
-      <Typography color={"textSecondary"} variant="h5" gutterBottom>
-        Hamoksha
+    <Paper elevation={3} className={classes.summaryCard}>
+      <Typography color={"primary"} display="block" variant="h5" gutterBottom>
+        {title}
       </Typography>
       {component || (
-        <Typography color={"primary"} variant="h3">
-          ay haga
+        <Typography color={"textSecondary"} noWrap variant="subtitle1">
+          {value}
         </Typography>
       )}
     </Paper>
   );
 }
+
+
 
 export default function User() {
 //   const { driverId } = useParams();
@@ -96,9 +97,6 @@ export default function User() {
     );
   }
 
-//   const trips = 4;
-//   const distance = 0;
-//   const fare = 0;
   return (
     <Content>
       <div className={classes.headerContainer}>
@@ -125,12 +123,24 @@ export default function User() {
                 </Button>
               )}
             />
-            <Button variant="outlined" startIcon={<DeleteIcon />}>
+            <Button color="secondary" variant="contained" startIcon={<DeleteIcon />}>
               Delete
             </Button>
           </div>
         </div>
       </div>
-    </Content>
+
+      <div className={classes.summaryCards}>          
+        <SummaryCard title={"Bio"} value={"joipdjfihsjodkpdjfihbdjokpofjk4fddijospkjfihsjiopkdfjhskjpsdfojhigsfsijopdgihfsojdpkdjihfsojadpsgkjbfsosdbhffjsokpsodfjihbididjwokpjfsidhfidjokpdsjfihgdfjkfdsjsfjopdihgfisjofspdihffijdokposjdgihf"} />
+      </div>  
+      <div className={classes.summaryCards}>
+        <SummaryCard title={"Bio"} value={"$"} />
+        <SummaryCard title={"Addtional Information"} value={"trips"} />
+        <SummaryCard title={"CV"} value={"cv"} />
+        <SummaryCard title={"Rating"} value={"web"} />
+      </div>
+    </Content> 
   );
 }
+
+
