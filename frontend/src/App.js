@@ -10,6 +10,8 @@ import SignIn from './pages/SignIn';
 import ContactUs from './pages/ContactUs';
 import Layout from './hocs/Layout';
 import PrivateRoute from './components/PrivateRoute';
+import User from './pages/profile';
+import SummaryCard from './pages/profile';
 
 function App() {
   return (
@@ -46,6 +48,16 @@ function App() {
               element={
                 <PrivateRoute>
                   <AddJob />
+                </PrivateRoute>
+              }
+            />
+             <Route
+              path="profile/"
+              element={
+                <PrivateRoute>
+                  <User>
+                  <SummaryCard />
+                  </User>
                 </PrivateRoute>
               }
             />

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import { Map, GoogleApiWrapper, Polygon } from "google-maps-react";
 
 const style = {
@@ -14,7 +14,8 @@ const triangleCoords = [
   { lat: 25.774, lng: -80.19 },
 ];
 
-export function MapContainer(){
+export class MapContainer extends Component {
+  render() {
     return (
       <div style={{ height: "400px" }}>
         <Map
@@ -35,6 +36,7 @@ export function MapContainer(){
         </Map>
       </div>
     );
+  }
 }
 
 export default GoogleApiWrapper({
