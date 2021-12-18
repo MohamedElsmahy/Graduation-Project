@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
-from accounts.models import EmployerProfile
+from accounts.models import MyUser
 
 # Create your models here.
 
@@ -23,7 +23,7 @@ class Category(models.Model):
 
 
 class Job(models.Model):
-    owner = models.ForeignKey(EmployerProfile, related_name='job_owner', on_delete=models.CASCADE)
+    owner = models.ForeignKey(MyUser, related_name='job_owner', on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     job_type = models.CharField(max_length=15 , choices=JOB_TYPE)
     description = models.TextField(max_length=1000)

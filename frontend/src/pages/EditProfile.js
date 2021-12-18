@@ -5,10 +5,11 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import Select from '@material-ui/core/Select';
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import Select from "@material-ui/core/Select";
 // import NativeSelect from '@material-ui/core/NativeSelect';
+import { connect } from "react-redux";
 // import { add, update } from "../ReduxTable/peopleSlice";
 // import { useDispatch } from "react-redux";
 // import { nextID } from "../ReduxTable/peopleSlice";
@@ -50,9 +51,7 @@ export default function EditProfile({ data, render, onSave }) {
         // onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">
-          Edit User
-        </DialogTitle>
+        <DialogTitle id="form-dialog-title">Edit User</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
@@ -95,7 +94,7 @@ export default function EditProfile({ data, render, onSave }) {
             //   setImg(e.target.value);
             // }}
           />
-           <TextField
+          <TextField
             autoFocus
             margin="dense"
             label="Location"
@@ -105,8 +104,8 @@ export default function EditProfile({ data, render, onSave }) {
             //   setImg(e.target.value);
             // }}
           />
-          <br/>
-          <br/>
+          <br />
+          <br />
           <Button variant="contained" component="label">
             Upload Image
             <input type="file" hidden />
@@ -120,14 +119,11 @@ export default function EditProfile({ data, render, onSave }) {
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={handleClose}  color="primary">
+          <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button  color="primary">
-            Save
-          </Button>
+          <Button color="primary">Save</Button>
         </DialogActions>
-        
       </Dialog>
     </>
   );

@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 
-import HomePage from "./pages/HomePage";
+import Blog from "./pages/Blog";
 import JobsList from "./pages/JobsList";
 import AddJob from "./pages/AddJob";
 import ApplyJob from "./pages/ApplyJob";
@@ -26,15 +26,15 @@ function App() {
               path="/"
               element={
                 <PrivateRoute>
-                  <HomePage />
+                  <JobsList />
                 </PrivateRoute>
               }
             />
             <Route
-              path="jobs/"
+              path="blog/"
               element={
                 <PrivateRoute>
-                  <JobsList />
+                  <Blog />
                 </PrivateRoute>
               }
             />

@@ -1,9 +1,10 @@
-### get data from models --> generate Json 
-
 from rest_framework import serializers
-from .models import Post , Comment , Like
+from .models import Post , Comment
 
 class PostSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='user.username')
+    first_name = serializers.CharField(source='user.first_name')
+    last_name = serializers.CharField(source='user.last_name')
     class Meta:
         model = Post
         fields = '__all__'
@@ -11,13 +12,16 @@ class PostSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='user.username')
+    first_name = serializers.CharField(source='user.first_name')
+    last_name = serializers.CharField(source='user.last_name')
     class Meta:
         model = Comment
         fields = '__all__'
 
 
 
-class LikeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Like
-        fields = '__all__'
+# class LikeSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Like
+#         fields = '__all__'

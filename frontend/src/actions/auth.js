@@ -11,6 +11,8 @@ import {
   LOGOUT_FAIL,
   AUTHENTICATED_SUCCESS,
   AUTHENTICATED_FAIL,
+  DELETE_USER_SUCCESS,
+  DELETE_USER_FAIL,
 } from './types';
 
 export const checkAuth = () => async (dispatch) => {
@@ -162,3 +164,33 @@ export const register =
       });
     }
   };
+export const deleteAccount = () => async (dispatch) =>{
+  const config = {
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'X-CSRFToken': Cookies.get('csrftoken'),
+    },
+  };
+  try {
+    const res = await axios.post(
+      'http://localhost:8000/accounts/delete/',
+      body,
+      config
+    );
+    if (res.data.success) {
+      dispatch({
+        type: DELETE_USER_SUCCESS,
+      });
+    } else {
+      dispatch({
+        type: DELETE_USER_FAIL,
+      });
+    }
+  }catch(error){
+    dispatch({
+      type: DELETE_USER_FAIL,
+    });
+
+  }
+};

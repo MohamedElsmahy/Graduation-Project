@@ -6,7 +6,7 @@ from rest_framework import generics
 
 
 #create Like API
-class InfoCreateApi(generics.CreateAPIView):
+class InfoCreateApi(generics.ListCreateAPIView):
     model = Info
     queryset = Info.objects.all()
     serializer_class = InfoSerializer

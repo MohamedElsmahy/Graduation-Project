@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, Navigate } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { loadPost } from '../actions/posts';
-import axios from 'axios';
-import Cookies from 'js-cookie';
+import React, { useEffect, useState } from "react";
+import { useParams, Navigate } from "react-router-dom";
+import { connect } from "react-redux";
+import { loadPost } from "../actions/posts";
+import axios from "axios";
+import Cookies from "js-cookie";
 
-import Button from '@material-ui/core/Button';
+import Button from "@material-ui/core/Button";
 
-const PostDetails = ({ loadPost, post, comments, likes, userId }) => {
+const PostDetails = ({ loadPost, post, comments, userId }) => {
   const [postDeleted, setPostDeleted] = useState(false);
 
   const { id } = useParams();
@@ -18,9 +18,9 @@ const PostDetails = ({ loadPost, post, comments, likes, userId }) => {
   const DeletePost = async () => {
     const config = {
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'X-CSRFToken': Cookies.get('csrftoken'),
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "X-CSRFToken": Cookies.get("csrftoken"),
       },
     };
 
@@ -46,11 +46,20 @@ const PostDetails = ({ loadPost, post, comments, likes, userId }) => {
     <>
       {post ? (
         <>
-          <h3>{post.body}</h3>
-          <h5>Likes: {likes.length}</h5>
+          <h2>
+            {post.first_name} {post.last_name}
+          </h2>
+          <h2>title: {post.title}</h2>
+          <h5>body: {post.body}</h5>
           <ul>
             {comments.map((comment) => {
-              return <li key={comment.id}>{comment.body}</li>;
+              return (
+                <li key={comment.id}>
+                  <h3>{comment.user}</h3>
+                  <h4>{comment.created}</h4>
+                  <h5>{comment.body}</h5>
+                </li>
+              );
             })}
           </ul>
         </>
@@ -72,7 +81,6 @@ const mapStateToProps = (state) => {
   return {
     post: state.post.post,
     comments: state.post.comments,
-    likes: state.post.likes,
     userId: state.profile.id,
   };
 };

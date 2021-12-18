@@ -26,12 +26,12 @@ const Header = ({ isAuthenticated, is_employer, logout }) => {
         <Button
           variant="contained"
           noWrap
-          to={"/jobs"}
+          to={"/blog"}
           component={RouterLink}
           color="primary"
           className={classes.margin}
         >
-          Brwose Jobs
+          Discussion Blog
         </Button>
       </Typography>
       {is_employer && (

@@ -67,11 +67,12 @@ const ApplyJob = () => {
           </Button>
           <TextField
             className={classes.field}
-            label="cover_letter"
+            label="cover letter"
             variant="outlined"
             color="primary"
             fullWidth
-            rows={8}
+            multiline
+            rows={4}
             required
           />
           <TextField
