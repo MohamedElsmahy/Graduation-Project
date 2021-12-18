@@ -1,25 +1,27 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Navigate  } from "react-router-dom";
+import { loadJob, DeleteJob } from '../actions/jobs';
+import { connect } from 'react-redux';
+import Button from '@material-ui/core/Button';
 
-const JobDetails = () => {
-  let [job, setJob] = useState([]);
+const JobDetails = ({ loadJob , DeleteJob, job, userId }) => {
+  const [jobDeleted, setJobDeleted] = useState(false);
 
-  const params = useParams();
-  let { id } = params;
-
+  const { id } = useParams();
   useEffect(() => {
-    getJob();
+    loadJob(id);
   }, []);
 
-  let getJob = async () => {
-    let response = await fetch(`http://127.0.0.1:8000/jobs/api/jobs/${id}`);
-    if (response.status === 200) {
-      let data = await response.json();
-      setJob(data.data);
-    } else {
-      setJob(null);
+  if (jobDeleted) return <Navigate replace to="/" />;
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+     DeleteJob();
+     if (DeleteJob() === 204) {
+        setJobDeleted(true);
     }
   };
+
 
   return (
     <div>
@@ -44,9 +46,24 @@ const JobDetails = () => {
             <h3>job not found</h3>
           </li>
         )}
+        {userId === job.user && (
+        <form onSubmit={(e) => onSubmit(e)}>
+          <Button type="submit">
+            <h4>Delete Job</h4>
+          </Button>
+        </form>
+      )}
       </ul>
+      
     </div>
   );
 };
 
-export default JobDetails;
+const mapStateToProps = (state) => {
+  return {
+    job: state.job.job,
+    userId: state.profile.id,
+  };
+};
+
+export default connect(mapStateToProps, { loadJob , DeleteJob })(JobDetails);

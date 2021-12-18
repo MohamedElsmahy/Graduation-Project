@@ -21,3 +21,5 @@ export const LOAD_POST_FAIL = 'LOAD_POST_FAIL';
 //job dispatch states
 export const LOAD_JOBS_SUCCESS = 'LOAD_JOBS_SUCCESS';
 export const LOAD_JOBS_FAIL = 'LOAD_JOBS_FAIL';
+export const LOAD_JOB_SUCCESS = 'LOAD_JOB_SUCCESS';
+export const LOAD_JOB_FAIL = 'LOAD_JOB_FAIL';
