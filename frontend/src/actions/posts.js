@@ -1,23 +1,23 @@
-import axios from 'axios';
-import Cookies from 'js-cookie';
+import axios from "axios";
+import Cookies from "js-cookie";
 import {
   LOAD_POSTS_SUCCESS,
   LOAD_POSTS_FAIL,
   LOAD_POST_SUCCESS,
   LOAD_POST_FAIL,
-} from './types';
+} from "./types";
 
 export const loadPosts = () => async (dispatch) => {
   const config = {
     headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
+      Accept: "application/json",
+      "Content-Type": "application/json",
     },
   };
 
   try {
     const res = await axios.get(
-      'http://localhost:8000/blog-api/posts/',
+      "http://localhost:8000/blog-api/posts/",
       config
     );
     dispatch({
@@ -34,8 +34,8 @@ export const loadPosts = () => async (dispatch) => {
 export const loadPost = (id) => async (dispatch) => {
   const config = {
     headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
+      Accept: "application/json",
+      "Content-Type": "application/json",
     },
   };
 
@@ -48,16 +48,15 @@ export const loadPost = (id) => async (dispatch) => {
       `http://localhost:8000/blog-api/posts/${id}/comments/`,
       config
     );
-    const likesRes = await axios.get(
-      `http://localhost:8000/blog-api/posts/${id}/likes/`,
-      config
-    );
+    // const likesRes = await axios.get(
+    //   `http://localhost:8000/blog-api/posts/${id}/likes/`,
+    //   config
+    // );
     dispatch({
       type: LOAD_POST_SUCCESS,
       payload: {
         post: postRes.data,
         comments: commentsRes.data,
-        likes: likesRes.data,
       },
     });
   } catch (err) {
