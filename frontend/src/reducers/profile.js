@@ -1,6 +1,7 @@
 import { LOAD_PROFILE_SUCCESS, LOAD_PROFILE_FAIL } from '../actions/types';
 
 const initialState = {
+  id: '',
   is_employer: false,
   first_name: '',
   last_name: '',
@@ -23,6 +24,7 @@ const profile = (state = initialState, action) => {
     case LOAD_PROFILE_SUCCESS:
       return {
         ...state,
+        id: payload.user.id,
         is_employer: payload.user.is_employer,
         first_name: payload.user.first_name,
         last_name: payload.user.last_name,
@@ -40,6 +42,7 @@ const profile = (state = initialState, action) => {
     case LOAD_PROFILE_FAIL:
       return {
         ...state,
+        id: '',
         is_employer: false,
         first_name: '',
         last_name: '',

@@ -1,35 +1,50 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { loadPosts } from '../actions/posts';
 
-const HomePage = ({ loadPosts, posts }) => {
-  // let [posts, setPosts] = useState([]);
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import { makeStyles } from '@material-ui/core/styles';
 
+const useStyles = makeStyles((themes) => ({
+  title: {
+    flexGrow: 1,
+  },
+  margin: {
+    margin: themes.spacing(1),
+  },
+}));
+
+const HomePage = ({ loadPosts, posts }) => {
+  const classes = useStyles();
   useEffect(() => {
     loadPosts();
   }, []);
 
-  // let getPosts = async () => {
-  //   let res = await axios.get('http://127.0.0.1:8000/blog-api/posts/');
-  //   // let res = await fetch('http://127.0.0.1:8000/blog-api/posts/');
-  //   if (res.status === 200) {
-  //     let data = await res.json();
-  //     setPosts(data.data);
-  //   } else {
-  //     setPosts(null);
-  //   }
-  // };
-
   return (
     <div>
       <h1>Home Page</h1>
+      <Typography variant="h6" color="primary" className={classes.title}>
+        <Link to="/posts/add">
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.margin}
+          >
+            Add Post
+          </Button>
+        </Link>
+      </Typography>
       {posts && (
         <ul>
           {posts.map((post) => {
             return (
               <li key={post.id}>
                 <h5>{post.body}</h5>
+                <Link to={`/posts/${post.id}`}>
+                  <h6>Details</h6>
+                </Link>
               </li>
             );
           })}
