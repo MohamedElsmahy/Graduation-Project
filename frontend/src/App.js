@@ -36,13 +36,14 @@ function App() {
               }
             />
             <Route
-              path="jobs/:id/"
+              path="job/"
               element={
                 <PrivateRoute>
                   <JobDetails />
                 </PrivateRoute>
               }
             />
+            
             <Route
               path="addjob/"
               element={
