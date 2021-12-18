@@ -4,6 +4,7 @@ User = settings.AUTH_USER_MODEL
 # Create your models here.
 
 class Post(models.Model):
+    title=models.TextField(null=True)
     body = models.TextField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)

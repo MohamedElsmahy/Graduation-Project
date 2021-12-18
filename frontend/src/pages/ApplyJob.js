@@ -72,6 +72,8 @@ const ApplyJob = () => {
             color="primary"
             fullWidth
             rows={8}
+            multiline
+            
             required
           />
           <TextField

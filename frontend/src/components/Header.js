@@ -60,6 +60,7 @@ const Header = ({ isAuthenticated, is_employer, logout }) => {
           Contact Us
         </Button>
       </Typography>
+      
       <Button
         variant="contained"
         noWrap
