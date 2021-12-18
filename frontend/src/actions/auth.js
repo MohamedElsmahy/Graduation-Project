@@ -1,7 +1,7 @@
-import axios from 'axios';
-import Cookies from 'js-cookie';
+import axios from "axios";
+import Cookies from "js-cookie";
 
-import { loadProfile } from './profile';
+import { loadProfile } from "./profile";
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
@@ -13,27 +13,27 @@ import {
   AUTHENTICATED_FAIL,
   DELETE_USER_SUCCESS,
   DELETE_USER_FAIL,
-} from './types';
+} from "./types";
 
 export const checkAuth = () => async (dispatch) => {
   const config = {
     headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
+      Accept: "application/json",
+      "Content-Type": "application/json",
     },
   };
 
   try {
     const res = await axios.get(
-      'http://localhost:8000/accounts/authenticated/',
+      "http://localhost:8000/accounts/authenticated/",
       config
     );
-    if (res.data.error || res.data.isAuthenticated === 'error') {
+    if (res.data.error || res.data.isAuthenticated === "error") {
       dispatch({
         type: AUTHENTICATED_FAIL,
         payload: false,
       });
-    } else if (res.data.isAuthenticated === 'success') {
+    } else if (res.data.isAuthenticated === "success") {
       dispatch({
         type: AUTHENTICATED_SUCCESS,
         payload: true,
@@ -50,16 +50,16 @@ export const checkAuth = () => async (dispatch) => {
 export const login = (email, password) => async (dispatch) => {
   const config = {
     headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      'X-CSRFToken': Cookies.get('csrftoken'),
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      "X-CSRFToken": Cookies.get("csrftoken"),
     },
   };
   const body = JSON.stringify({ email, password });
 
   try {
     const res = await axios.post(
-      'http://localhost:8000/accounts/login/',
+      "http://localhost:8000/accounts/login/",
       body,
       config
     );
@@ -83,9 +83,9 @@ export const login = (email, password) => async (dispatch) => {
 export const logout = () => async (dispatch) => {
   const config = {
     headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      'X-CSRFToken': Cookies.get('csrftoken'),
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      "X-CSRFToken": Cookies.get("csrftoken"),
     },
   };
 
@@ -95,7 +95,7 @@ export const logout = () => async (dispatch) => {
 
   try {
     const res = await axios.post(
-      'http://localhost:8000/accounts/logout/',
+      "http://localhost:8000/accounts/logout/",
       body,
       config
     );
@@ -128,9 +128,9 @@ export const register =
   async (dispatch) => {
     const config = {
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'X-CSRFToken': Cookies.get('csrftoken'),
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "X-CSRFToken": Cookies.get("csrftoken"),
       },
     };
     const body = JSON.stringify({
@@ -145,7 +145,7 @@ export const register =
 
     try {
       const res = await axios.post(
-        'http://localhost:8000/accounts/signup/',
+        "http://localhost:8000/accounts/signup/",
         body,
         config
       );
@@ -164,17 +164,22 @@ export const register =
       });
     }
   };
-export const deleteAccount = () => async (dispatch) =>{
+export const deleteAccount = () => async (dispatch) => {
   const config = {
     headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      'X-CSRFToken': Cookies.get('csrftoken'),
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      "X-CSRFToken": Cookies.get("csrftoken"),
     },
   };
+
+  const body = JSON.stringify({
+    withCredentials: true,
+  });
+
   try {
     const res = await axios.post(
-      'http://localhost:8000/accounts/delete/',
+      "http://localhost:8000/accounts/delete/",
       body,
       config
     );
@@ -187,10 +192,9 @@ export const deleteAccount = () => async (dispatch) =>{
         type: DELETE_USER_FAIL,
       });
     }
-  }catch(error){
+  } catch (error) {
     dispatch({
       type: DELETE_USER_FAIL,
     });
-
   }
 };

@@ -80,23 +80,25 @@ const Blog = ({ loadPosts, posts }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <StyledTableRow key={row.title}>
+            {posts.map((post) => (
+              <StyledTableRow key={post.id}>
                 <StyledTableCell component="th" scope="row">
-                  <Button to={"posts/1/"} component={RouterLink}>
-                    {row.title}
+                  <Button to={`/posts/${post.id}`} component={RouterLink}>
+                    {post.title}
                   </Button>
                 </StyledTableCell>
 
-                <StyledTableCell align="center">{row.username}</StyledTableCell>
-                <StyledTableCell align="right">{row.create_at}</StyledTableCell>
+                <StyledTableCell align="center">
+                  {post.username}
+                </StyledTableCell>
+                <StyledTableCell align="right">{post.created}</StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
 
-      {posts && (
+      {/* {posts && (
         <ul>
           {posts.map((post) => {
             return (
@@ -111,7 +113,7 @@ const Blog = ({ loadPosts, posts }) => {
             );
           })}
         </ul>
-      )}
+      )} */}
     </div>
   );
 };

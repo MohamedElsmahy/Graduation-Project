@@ -57,9 +57,7 @@ function App() {
               path="profile/"
               element={
                 <PrivateRoute>
-                  <User>
-                    <SummaryCard />
-                  </User>
+                  <User />
                 </PrivateRoute>
               }
             />

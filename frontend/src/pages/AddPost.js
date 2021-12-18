@@ -96,17 +96,6 @@ const AddPost = ({ user }) => {
           autoComplete="off"
           style={{ width: 850, marginRight: "auto", marginLeft: "auto" }}
         >
-             
-             <TextField
-            className={classes.field}
-            label="title"
-            variant="outlined"
-            color="primary"
-            fullWidth
-            required
-            onChange={(e) => onChange(e)}
-          />
-
           <TextField
             className={classes.field}
             label="title"

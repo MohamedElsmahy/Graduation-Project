@@ -80,15 +80,13 @@ const PostDetails = ({ loadPost, post, comments, userId }) => {
               web dev
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
-              bodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybody
-              bodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybody
-              bodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybody
+              {post.body}
             </Typography>
             <Typography gutterBottom variant="h5" component="h2">
-              mohamed khalid
+              {post.first_name} {post.last_name}
             </Typography>
             <Typography gutterBottom variant="h5" component="h2">
-              18/12/2021
+              {post.created}
             </Typography>
           </CardContent>
         </CardActionArea>
@@ -130,16 +128,13 @@ const PostDetails = ({ loadPost, post, comments, userId }) => {
 
       {post ? (
         <>
-          <h2>
-            {post.first_name} {post.last_name}
-          </h2>
-          <h2>title: {post.title}</h2>
-          <h5>body: {post.body}</h5>
           <ul>
             {comments.map((comment) => {
               return (
                 <li key={comment.id}>
-                  <h3>{comment.user}</h3>
+                  <h3>
+                    {comment.first_name} {comment.last_name}
+                  </h3>
                   <h4>{comment.created}</h4>
                   <h5>{comment.body}</h5>
                 </li>
