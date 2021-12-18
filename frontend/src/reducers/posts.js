@@ -1,4 +1,7 @@
-import { LOAD_POSTS_SUCCESS, LOAD_POSTS_FAIL } from '../actions/types';
+import {
+  LOAD_POSTS_SUCCESS,
+  LOAD_POSTS_FAIL,
+} from '../actions/types';
 
 const initialState = {
   posts: [],

@@ -1,13 +1,12 @@
-import React from 'react';
-import { Link as RouterLink} from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import { connect } from 'react-redux';
-import { logout } from '../actions/auth';
-
+import React from "react";
+import { Link as RouterLink } from "react-router-dom";
+import { makeStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import { connect } from "react-redux";
+import { logout } from "../actions/auth";
 
 const useStyles = makeStyles((themes) => ({
   title: {
@@ -18,77 +17,92 @@ const useStyles = makeStyles((themes) => ({
   },
 }));
 
-const Header = ({ isAuthenticated, logout }) => {
+const Header = ({ isAuthenticated, is_employer, logout }) => {
   const classes = useStyles();
 
   const authLinks = (
     <>
       <Typography variant="h6" color="primary" className={classes.title}>
-          <Button
-            variant="contained"
-            noWrap
-            to={'/jobs'}
-            component={RouterLink}
-            color="primary"
-            className={classes.margin}
-          >
-            Brwose Jobs
-          </Button>
+        <Button
+          variant="contained"
+          noWrap
+          to={"/jobs"}
+          component={RouterLink}
+          color="primary"
+          className={classes.margin}
+        >
+          Brwose Jobs
+        </Button>
       </Typography>
-      <Typography variant="h6" color="primary" className={classes.title}>
+      {is_employer && (
+        <Typography variant="h6" color="primary" className={classes.title}>
           <Button
             variant="contained"
             noWrap
-            to={'/addjob'}
+            to={"/addjob"}
             component={RouterLink}
             color="primary"
             className={classes.margin}
           >
             Add Job
           </Button>
-      </Typography>
+        </Typography>
+      )}
       <Typography variant="h6" color="primary" className={classes.title}>
-          <Button
-            variant="contained"
-            noWrap
-            to={'/contactus'}
-            component={RouterLink}
-            color="primary"
-            className={classes.margin}
-          >
-            Contact Us
-          </Button>
-      </Typography>
         <Button
           variant="contained"
           noWrap
-          to={'/profile'}
+          to={"/contactus"}
           component={RouterLink}
           color="primary"
           className={classes.margin}
         >
-          Profile
+          Contact Us
         </Button>
-        <Button
-          onClick={logout}
-          variant="contained"
-          to={''}
-          color="primary"
-          className={classes.margin}
-        >
-          Logout
-        </Button>
+      </Typography>
+      <Button
+        variant="contained"
+        noWrap
+        to={"/profile"}
+        component={RouterLink}
+        color="primary"
+        className={classes.margin}
+      >
+        Profile
+      </Button>
+      <Button
+        onClick={logout}
+        variant="contained"
+        to={""}
+        color="primary"
+        className={classes.margin}
+      >
+        Logout
+      </Button>
     </>
   );
   const guestLinks = (
     <>
-        <Button variant="contained" noWrap to={'/signin'} component={RouterLink} color="primary" className={classes.margin}>
-          Login
-        </Button>
-        <Button variant="contained" noWrap to={'/signup'} component={RouterLink} color="primary" className={classes.margin}>
-          SignUp
-        </Button>
-      
+      <Button
+        variant="contained"
+        noWrap
+        to={"/signin"}
+        component={RouterLink}
+        color="primary"
+        className={classes.margin}
+      >
+        Login
+      </Button>
+      <Button
+        variant="contained"
+        noWrap
+        to={"/signup"}
+        component={RouterLink}
+        color="primary"
+        className={classes.margin}
+      >
+        SignUp
+      </Button>
     </>
   );
 
@@ -97,16 +111,16 @@ const Header = ({ isAuthenticated, logout }) => {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" noWrap className={classes.title}>
-              <Button
-                variant="contained"
-                noWrap
-                to={'/'}
-                component={RouterLink}
-                color="primary"
-                className={classes.margin}
-              >
-                Home
-              </Button>
+            <Button
+              variant="contained"
+              noWrap
+              to={"/"}
+              component={RouterLink}
+              color="primary"
+              className={classes.margin}
+            >
+              Home
+            </Button>
           </Typography>
           {isAuthenticated ? authLinks : guestLinks}
         </Toolbar>
@@ -116,7 +130,10 @@ const Header = ({ isAuthenticated, logout }) => {
 };
 
 const mapStateToProps = (state) => {
-  return { isAuthenticated: state.auth.isAuthenticated };
+  return {
+    isAuthenticated: state.auth.isAuthenticated,
+    is_employer: state.profile.is_employer,
+  };
 };
 
 export default connect(mapStateToProps, { logout })(Header);

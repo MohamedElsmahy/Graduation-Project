@@ -32,9 +32,7 @@ class GetJobs(APIView):
     def get(self, request,format=None):
         try:
             jobs = Job.objects.all()
-            print(jobs)
             jobs = JobSerializer(jobs,many = True)
-            print(jobs)
             return Response({"jobs":jobs.data})
         except Exception as e:
             return Response({'error':"error while get jobs"})
