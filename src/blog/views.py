@@ -21,10 +21,8 @@ class PostListApi(generics.ListCreateAPIView):
     queryset = queryset.order_by("-created")
     serializer_class = PostSerializer
 
-    # def get_queryset(self):
-    #     queryset = Post.objects.all()
-    #     print(queryset[0].user.first_name)
-    #     return queryset
+    
+
 
 
 class GetPosts(APIView):
