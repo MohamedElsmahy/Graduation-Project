@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { loadPosts } from '../actions/posts';
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { loadPosts } from "../actions/posts";
 
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import { makeStyles } from '@material-ui/core/styles';
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((themes) => ({
   title: {
@@ -16,7 +16,7 @@ const useStyles = makeStyles((themes) => ({
   },
 }));
 
-const HomePage = ({ loadPosts, posts }) => {
+const Blog = ({ loadPosts, posts }) => {
   const classes = useStyles();
   useEffect(() => {
     loadPosts();
@@ -24,7 +24,7 @@ const HomePage = ({ loadPosts, posts }) => {
 
   return (
     <div>
-      <h1>Home Page</h1>
+      <h1>Discussion Blog</h1>
       <Typography variant="h6" color="primary" className={classes.title}>
         <Link to="/posts/add">
           <Button
@@ -41,7 +41,9 @@ const HomePage = ({ loadPosts, posts }) => {
           {posts.map((post) => {
             return (
               <li key={post.id}>
-                <h5>{post.body}</h5>
+                <h1>user: {post.username}</h1>
+                <h2>title: {post.title}</h2>
+                <h5>body: {post.body}</h5>
                 <Link to={`/posts/${post.id}`}>
                   <h6>Details</h6>
                 </Link>
@@ -58,4 +60,4 @@ const mapStateToProps = (state) => {
   return { posts: state.posts.posts };
 };
 
-export default connect(mapStateToProps, { loadPosts })(HomePage);
+export default connect(mapStateToProps, { loadPosts })(Blog);
