@@ -15,7 +15,6 @@ import Layout from "./hocs/Layout";
 import PrivateRoute from "./components/PrivateRoute";
 import User from "./pages/profile";
 
-
 function App() {
   return (
     <div className="App">
@@ -25,9 +24,9 @@ function App() {
             <Route
               path="/"
               element={
-                <PrivateRoute>
-                  <JobsList />
-                </PrivateRoute>
+                //<PrivateRoute>
+                <JobsList />
+                //</PrivateRoute>
               }
             />
             <Route
@@ -46,7 +45,6 @@ function App() {
                 </PrivateRoute>
               }
             />
-
             <Route
               path="addjob/"
               element={
@@ -58,9 +56,11 @@ function App() {
             <Route
               path="profile/"
               element={
-                // <PrivateRoute>
-                  <User/>
-                // </PrivateRoute>
+                <PrivateRoute>
+                  <User>
+                    <SummaryCard />
+                  </User>
+                </PrivateRoute>
               }
             />
             <Route
