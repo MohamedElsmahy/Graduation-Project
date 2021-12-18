@@ -33,6 +33,7 @@ const JobsList = ({ loadJobs, jobs }) => {
   };
   const header = {
     marginLeft: '10px',
+    textAlign:"center"
   };
 
   const paperstyle = {
@@ -47,15 +48,16 @@ const JobsList = ({ loadJobs, jobs }) => {
   };
   const button = {
     background: '#4caf50',
-    color: 'red',
+    color: 'primary',
     fontSize: '15px',
     padding: '8px',
-    marginLeft: '10px',
+    marginLeft: '40px',
     fontWeight: 'bold',
-    width: '150px',
+    width: '160px',
+    
   };
   const icon = {
-    marginLeft: '70px',
+    marginLeft: '105px',
     color: '#4caf50',
     background: 'lightgray',
   };
@@ -87,6 +89,7 @@ const JobsList = ({ loadJobs, jobs }) => {
                   fontWeight: 'bold',
                   fontSize: 30,
                   marginBottom: 1,
+                  textAlign:"center"
                 }}
               >
                 filter
@@ -187,54 +190,23 @@ const JobsList = ({ loadJobs, jobs }) => {
                       >
                         <FavoriteIcon />
                       </IconButton>
-
-                      <Button
+                      
+                      <Button href="/applyjob"
                         type="submit"
                         variant="contained"
+                        color="primary"
                         disableElevation
                         style={button}
                       >
                         Apply Now
                       </Button>
+                    
                     </CardActions>
                   </Grid>
                 </Grid>
               </Grid>
             </Card>
-            <Card style={{ marginTop: 15 }} fullWidth>
-              <Grid container fullWidth>
-                <Grid container item xs={12} spacing={3}>
-                  <CardHeader
-                    avatar={<Avatar aria-label="recipe">R</Avatar>}
-                    title="web developer"
-                    subheader="calfornia"
-                  />
-                  <Grid item xs={12} md={3} spacing={3}>
-                    <CardHeader style={cardheader} subheader="full time" />
-                  </Grid>
-                  <Grid item xs={12} md={6} spacing={12}>
-                    <CardActions disableSpacing>
-                      <IconButton
-                        aria-label="add to favorites"
-                        color="secondary"
-                        style={icon}
-                      >
-                        <FavoriteIcon />
-                      </IconButton>
-
-                      <Button
-                        type="submit"
-                        variant="contained"
-                        disableElevation
-                        style={button}
-                      >
-                        Apply Now
-                      </Button>
-                    </CardActions>
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Card>
+            
           </Grid>
         </Grid>
       </Card>

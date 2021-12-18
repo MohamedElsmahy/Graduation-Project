@@ -83,6 +83,7 @@ function App() {
             <Route path="signup/" element={<SignUp />} />
             <Route path="signin/" element={<SignIn />} />
             <Route path="contactus/" element={<ContactUs />} />
+            <Route path="applyjob/" element={<ApplyJob />} />
           </Routes>
         </Layout>
       </Router>

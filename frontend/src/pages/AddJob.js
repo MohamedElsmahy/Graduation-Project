@@ -1,15 +1,15 @@
-import React from 'react';
-import { Navigate } from 'react-router-dom';
+import React from "react";
+import { Navigate } from "react-router-dom";
 
-import Card from '@material-ui/core/Card';
-import Grid from '@material-ui/core/Grid';
-import { makeStyles, Paper, TextField } from '@material-ui/core';
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import NativeSelect from '@material-ui/core/NativeSelect';
-import Button from '@material-ui/core/Button';
+import Card from "@material-ui/core/Card";
+import Grid from "@material-ui/core/Grid";
+import { makeStyles, Paper, TextField } from "@material-ui/core";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import NativeSelect from "@material-ui/core/NativeSelect";
+import Button from "@material-ui/core/Button";
 
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
 const useStyle = makeStyles({
   card: {
@@ -18,7 +18,7 @@ const useStyle = makeStyles({
   field: {
     marginTop: 30,
     marginBottom: 30,
-    display: 'block',
+    display: "block",
   },
 });
 
@@ -31,18 +31,18 @@ const AddJob = ({ is_employer }) => {
       <Card
         style={{
           width: 900,
-          marginRight: 'auto',
-          marginLeft: 'auto',
+          marginRight: "auto",
+          marginLeft: "auto",
           marginTop: 100,
           marginBottom: 30,
         }}
         className={classes.card}
       >
-        <h1 style={{ marginLeft: 30 }}>Add Job</h1>
+        <h1 style={{ marginLeft: 30, textAlign: "center" }}>Add Job</h1>
         <form
           noValidate
           autoComplete="off"
-          style={{ width: 850, marginRight: 'auto', marginLeft: 'auto' }}
+          style={{ width: 850, marginRight: "auto", marginLeft: "auto" }}
         >
           <TextField
             className={classes.field}
@@ -54,14 +54,14 @@ const AddJob = ({ is_employer }) => {
           />
           <FormControl className={classes.field}>
             <InputLabel variant="standard" htmlFor="uncontrolled-native">
-              {' '}
+              {" "}
               job_type
             </InputLabel>
             <NativeSelect
               defaultValue={30}
               inputProps={{
-                name: 'job_type',
-                id: 'uncontrolled-native',
+                name: "job_type",
+                id: "uncontrolled-native",
               }}
             >
               <option value={null}>__ _ _ _</option>
@@ -108,14 +108,14 @@ const AddJob = ({ is_employer }) => {
           <br />
           <FormControl className={classes.field}>
             <InputLabel variant="standard" htmlFor="uncontrolled-native">
-              {' '}
+              {" "}
               category
             </InputLabel>
             <NativeSelect
               defaultValue={30}
               inputProps={{
-                name: 'category',
-                id: 'uncontrolled-native',
+                name: "category",
+                id: "uncontrolled-native",
               }}
             >
               <option value={null}>__ _ _ _</option>
@@ -134,11 +134,11 @@ const AddJob = ({ is_employer }) => {
           type="submit"
           variant="contained"
           disableElevation
+          color="primary"
           style={{
-            background: '#4caf50',
-            color: 'white',
+            color: "primary",
             padding: 15,
-            fontWeight: 'bold',
+            fontWeight: "bold",
             fontSize: 15,
           }}
           fullWidth
