@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 
-import HomePage from "./pages/HomePage";
+import Blog from "./pages/Blog";
 import JobsList from "./pages/JobsList";
 import AddJob from "./pages/AddJob";
 import ApplyJob from "./pages/ApplyJob";
@@ -14,7 +14,6 @@ import ContactUs from "./pages/ContactUs";
 import Layout from "./hocs/Layout";
 import PrivateRoute from "./components/PrivateRoute";
 import User from "./pages/profile";
-import SummaryCard from "./pages/profile";
 
 function App() {
   return (
@@ -26,67 +25,64 @@ function App() {
               path="/"
               element={
                 //<PrivateRoute>
-                  <HomePage />
-               // </PrivateRoute>
+                <JobsList />
+                //</PrivateRoute>
               }
             />
             <Route
-              path="jobs/"
+              path="blog/"
               element={
-                //<PrivateRoute>
-                  <JobsList />
-                //</PrivateRoute>
+                <PrivateRoute>
+                  <Blog />
+                </PrivateRoute>
               }
             />
             <Route
               path="job/:id/"
               element={
-                //<PrivateRoute>
+                <PrivateRoute>
                   <JobDetails />
-                //</PrivateRoute>
+                </PrivateRoute>
               }
             />
-
             <Route
               path="addjob/"
               element={
-               // <PrivateRoute>
+                <PrivateRoute>
                   <AddJob />
-              //  </PrivateRoute>
+                </PrivateRoute>
               }
             />
             <Route
               path="profile/"
               element={
-          //      <PrivateRoute>
+                <PrivateRoute>
                   <User>
-                  <SummaryCard />
+                    <SummaryCard />
                   </User>
-            //    </PrivateRoute>
+                </PrivateRoute>
               }
             />
             <Route
               path="posts/:id/"
               element={
-                //<PrivateRoute>
+                <PrivateRoute>
                   <PostDetails />
-                //</PrivateRoute>
+                </PrivateRoute>
               }
             />
             <Route
               path="posts/add/"
               element={
-                //<PrivateRoute>
+                <PrivateRoute>
                   <AddPost />
-                //</PrivateRoute>
+                </PrivateRoute>
               }
             />
             <Route path="signup/" element={<SignUp />} />
             <Route path="signin/" element={<SignIn />} />
             <Route path="contactus/" element={<ContactUs />} />
             <Route path="applyjob/" element={<ApplyJob />} />
-          
-         
           </Routes>
         </Layout>
       </Router>

@@ -1,4 +1,4 @@
-import { LOAD_PROFILE_SUCCESS, LOAD_PROFILE_FAIL } from '../actions/types';
+import { LOAD_PROFILE_SUCCESS, LOAD_PROFILE_FAIL, UPDATE_PROFILE_SUCCESS, UPDATE_PROFILE_FAIL } from '../actions/types';
 
 const initialState = {
   id: '',
@@ -22,6 +22,7 @@ const profile = (state = initialState, action) => {
 
   switch (type) {
     case LOAD_PROFILE_SUCCESS:
+    case UPDATE_PROFILE_SUCCESS:
       return {
         ...state,
         id: payload.user.id,
@@ -57,6 +58,10 @@ const profile = (state = initialState, action) => {
         location: '',
         saved_jobs: '',
       };
+     case UPDATE_PROFILE_FAIL:
+       return{
+         ...state,
+       }
     default:
       return state;
   }

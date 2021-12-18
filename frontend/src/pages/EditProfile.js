@@ -5,6 +5,11 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import Select from "@material-ui/core/Select";
+// import NativeSelect from '@material-ui/core/NativeSelect';
+import { connect } from "react-redux";
 // import { add, update } from "../ReduxTable/peopleSlice";
 // import { useDispatch } from "react-redux";
 // import { nextID } from "../ReduxTable/peopleSlice";
@@ -27,9 +32,9 @@ export default function EditProfile({ data, render, onSave }) {
     setImg(defaultImg);
   };
 
-  // const handleClose = () => {
-  //   setOpen(false);
-  // };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   // const handleSave = () => {
   //   const action = data ? update : add;
@@ -46,9 +51,7 @@ export default function EditProfile({ data, render, onSave }) {
         // onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">
-          Edit User
-        </DialogTitle>
+        <DialogTitle id="form-dialog-title">Edit User</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
@@ -59,16 +62,6 @@ export default function EditProfile({ data, render, onSave }) {
             // value={name}
             // onChange={(e) => {
             //   setName(e.target.value);
-            // }}
-          />
-          <TextField
-            autoFocus
-            margin="dense"
-            label="Image URL"
-            fullWidth
-            // value={img}
-            // onChange={(e) => {
-            //   setImg(e.target.value);
             // }}
           />
           <TextField
@@ -101,14 +94,35 @@ export default function EditProfile({ data, render, onSave }) {
             //   setImg(e.target.value);
             // }}
           />
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Location"
+            fullWidth
+            // value={img}
+            // onChange={(e) => {
+            //   setImg(e.target.value);
+            // }}
+          />
+          <br />
+          <br />
+          <Button variant="contained" component="label">
+            Upload Image
+            <input type="file" hidden />
+          </Button>
+          <br></br>
+          <br></br>
+          <Button variant="contained" component="label">
+            Upload Cv
+            <input type="file" hidden />
+          </Button>
         </DialogContent>
+
         <DialogActions>
-          <Button  color="primary">
+          <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button  color="primary">
-            Save
-          </Button>
+          <Button color="primary">Save</Button>
         </DialogActions>
       </Dialog>
     </>

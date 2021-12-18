@@ -31,7 +31,7 @@ const ApplyJob = () => {
         }}
         className={classes.card}
       >
-        <h1 style={{ marginLeft: 30 ,textAlign:"center"}}>Apply Job</h1>
+        <h1 style={{ marginLeft: 30, textAlign: "center" }}>Apply Job</h1>
         <form
           noValidate
           autoComplete="off"
@@ -67,20 +67,18 @@ const ApplyJob = () => {
           </Button>
           <TextField
             className={classes.field}
-            label="cover_letter"
+            label="cover letter"
             variant="outlined"
             color="primary"
             fullWidth
-            rows={8}
             multiline
-            
+            rows={4}
             required
           />
           <TextField
-           style={{
-            
-            marginBottom: 5,
-          }}
+            style={{
+              marginBottom: 5,
+            }}
             id="datetime-local"
             label="create at"
             type="datetime-local"
@@ -90,10 +88,8 @@ const ApplyJob = () => {
               shrink: true,
             }}
           />
-          <br></br><br></br>
- 
-          
-          
+          <br></br>
+          <br></br>
         </form>
         <Button
           type="submit"
@@ -106,7 +102,7 @@ const ApplyJob = () => {
             padding: 15,
             fontWeight: "bold",
             fontSize: 15,
-            marginTop:5
+            marginTop: 5,
           }}
           fullWidth
         >

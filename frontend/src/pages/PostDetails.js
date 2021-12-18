@@ -1,44 +1,41 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, Navigate } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { loadPost } from '../actions/posts';
-import axios from 'axios';
-import Cookies from 'js-cookie';
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
+import React, { useEffect, useState } from "react";
+import { useParams, Navigate } from "react-router-dom";
+import { connect } from "react-redux";
+import { loadPost } from "../actions/posts";
+import axios from "axios";
+import Cookies from "js-cookie";
+import { makeStyles } from "@material-ui/core/styles";
+import Card from "@material-ui/core/Card";
+import CardActionArea from "@material-ui/core/CardActionArea";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
-import Typography from '@material-ui/core/Typography';
-import TextField  from '@material-ui/core/TextField';
+import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
 
 const useStyles = makeStyles({
   root: {
     maxWidth: 700,
-    marginLeft:"auto",
-    marginRight:"auto",
-    marginTop:"30px",
+    marginLeft: "auto",
+    marginRight: "auto",
+    marginTop: "30px",
   },
-  comment:{
-    maxWidth:350,
-    marginLeft:"auto",
-    marginRight:"auto",
-    marginTop:"30px",
-    textAlign:"center",
-   
+  comment: {
+    maxWidth: 350,
+    marginLeft: "auto",
+    marginRight: "auto",
+    marginTop: "30px",
+    textAlign: "center",
   },
-  btn:{
-    width:150,
-    marginLeft:"auto",
-    marginRight:"auto",
-  }
-  
+  btn: {
+    width: 150,
+    marginLeft: "auto",
+    marginRight: "auto",
+  },
 });
 
-
-const PostDetails = ({ loadPost, post, comments, likes, userId }) => {
+const PostDetails = ({ loadPost, post, comments, userId }) => {
   const classes = useStyles();
   const [postDeleted, setPostDeleted] = useState(false);
 
@@ -50,9 +47,9 @@ const PostDetails = ({ loadPost, post, comments, likes, userId }) => {
   const DeletePost = async () => {
     const config = {
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'X-CSRFToken': Cookies.get('csrftoken'),
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "X-CSRFToken": Cookies.get("csrftoken"),
       },
     };
 
@@ -73,41 +70,38 @@ const PostDetails = ({ loadPost, post, comments, likes, userId }) => {
     e.preventDefault();
     DeletePost();
   };
- 
 
   return (
     <>
-        <Card className={classes.root}>
-      <CardActionArea>
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-            web dev
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            bodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybody
-            bodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybody
-            bodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybody 
-          </Typography>
-          <Typography gutterBottom variant="h5" component="h2">
-            mohamed khalid
-          </Typography>
-          <Typography gutterBottom variant="h5" component="h2">
-            18/12/2021
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-     
-        <Button size="small" color="primary" >
-          Comment
-        </Button>
-      
-      </CardActions>
-    </Card>
+      <Card className={classes.root}>
+        <CardActionArea>
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="h2">
+              web dev
+            </Typography>
+            <Typography variant="body2" color="textSecondary" component="p">
+              bodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybody
+              bodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybody
+              bodybodybodybodybodybodybodybodybodybodybodybodybodybodybodybody
+            </Typography>
+            <Typography gutterBottom variant="h5" component="h2">
+              mohamed khalid
+            </Typography>
+            <Typography gutterBottom variant="h5" component="h2">
+              18/12/2021
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+        <CardActions>
+          <Button size="small" color="primary">
+            Comment
+          </Button>
+        </CardActions>
+      </Card>
 
-    <Card className={classes.comment}>
-     <form>
-     <TextField
+      <Card className={classes.comment}>
+        <form>
+          <TextField
             className={classes.field}
             label="post comment"
             variant="outlined"
@@ -115,8 +109,6 @@ const PostDetails = ({ loadPost, post, comments, likes, userId }) => {
             fullWidth
             multiline
             rows={8}
-            
-         
           />
           <Button
             className={classes.btn}
@@ -124,30 +116,34 @@ const PostDetails = ({ loadPost, post, comments, likes, userId }) => {
             variant="contained"
             disableElevation
             style={{
-              background: '#4caf50',
-              color: 'white',
+              background: "#4caf50",
+              color: "white",
               padding: 10,
-              fontWeight: 'bold',
+              fontWeight: "bold",
               fontSize: 13,
             }}
-            
           >
             Add Comment
           </Button>
-            
-     </form>
-     
+        </form>
+      </Card>
 
-    </Card>
-    
       {post ? (
         <>
-        
-          <h3>{post.body}</h3>
-          <h5>Likes: {likes.length}</h5>
+          <h2>
+            {post.first_name} {post.last_name}
+          </h2>
+          <h2>title: {post.title}</h2>
+          <h5>body: {post.body}</h5>
           <ul>
             {comments.map((comment) => {
-              return <li key={comment.id}>{comment.body}</li>;
+              return (
+                <li key={comment.id}>
+                  <h3>{comment.user}</h3>
+                  <h4>{comment.created}</h4>
+                  <h5>{comment.body}</h5>
+                </li>
+              );
             })}
           </ul>
         </>
@@ -162,7 +158,6 @@ const PostDetails = ({ loadPost, post, comments, likes, userId }) => {
         </form>
       )}
     </>
-    
   );
 };
 
@@ -170,7 +165,6 @@ const mapStateToProps = (state) => {
   return {
     post: state.post.post,
     comments: state.post.comments,
-    likes: state.post.likes,
     userId: state.profile.id,
   };
 };
