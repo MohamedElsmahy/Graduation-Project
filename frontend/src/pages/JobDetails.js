@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Navigate  } from "react-router-dom";
-import { loadJob, DeleteJob } from '../actions/jobs';
-import { connect } from 'react-redux';
-import Button from '@material-ui/core/Button';
+import { useParams, Navigate } from "react-router-dom";
+import { loadJob, DeleteJob } from "../actions/jobs";
+import { connect } from "react-redux";
+import Button from "@material-ui/core/Button";
 
-const JobDetails = ({ loadJob , DeleteJob, job, userId }) => {
+const JobDetails = ({ loadJob, DeleteJob, job, userId }) => {
   const [jobDeleted, setJobDeleted] = useState(false);
 
   const { id } = useParams();
@@ -16,13 +16,14 @@ const JobDetails = ({ loadJob , DeleteJob, job, userId }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-     DeleteJob();
-     if (DeleteJob() === 204) {
+    const delete_Job = async () => {
+      await DeleteJob();
+      if (DeleteJob() === 204) {
         setJobDeleted(true);
-    }
+      }
+    };
+    delete_Job();
   };
-
-
   return (
     <div>
       <ul>
@@ -47,14 +48,13 @@ const JobDetails = ({ loadJob , DeleteJob, job, userId }) => {
           </li>
         )}
         {userId === job.user && (
-        <form onSubmit={(e) => onSubmit(e)}>
-          <Button type="submit">
-            <h4>Delete Job</h4>
-          </Button>
-        </form>
-      )}
+          <form onSubmit={(e) => onSubmit(e)}>
+            <Button type="submit">
+              <h4>Delete Job</h4>
+            </Button>
+          </form>
+        )}
       </ul>
-      
     </div>
   );
 };
@@ -66,4 +66,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { loadJob , DeleteJob })(JobDetails);
+export default connect(mapStateToProps, { loadJob, DeleteJob })(JobDetails);
