@@ -14,7 +14,7 @@ import ContactUs from "./pages/ContactUs";
 import Layout from "./hocs/Layout";
 import PrivateRoute from "./components/PrivateRoute";
 import User from "./pages/profile";
-import SummaryCard from "./pages/profile";
+
 
 function App() {
   return (
@@ -58,11 +58,9 @@ function App() {
             <Route
               path="profile/"
               element={
-                <PrivateRoute>
-                  <User>
-                    <SummaryCard />
-                  </User>
-                </PrivateRoute>
+                // <PrivateRoute>
+                  <User/>
+                // </PrivateRoute>
               }
             />
             <Route
