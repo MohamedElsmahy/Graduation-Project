@@ -4,6 +4,7 @@ import "./App.css";
 import HomePage from "./pages/HomePage";
 import JobsList from "./pages/JobsList";
 import AddJob from "./pages/AddJob";
+import ApplyJob from "./pages/ApplyJob";
 import AddPost from "./pages/AddPost";
 import JobDetails from "./pages/JobDetails";
 import PostDetails from "./pages/PostDetails";
