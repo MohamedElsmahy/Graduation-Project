@@ -10,6 +10,7 @@ import SignIn from './pages/SignIn';
 import ContactUs from './pages/ContactUs';
 import Layout from './hocs/Layout';
 import PrivateRoute from './components/PrivateRoute';
+import ApplyJob from './pages/ApplyJob';
 
 function App() {
   return (
@@ -52,6 +53,7 @@ function App() {
             <Route path="signup/" element={<SignUp />} />
             <Route path="signin/" element={<SignIn />} />
             <Route path="contactus/" element={<ContactUs />} />
+            <Route path="applyjob/" element={<ApplyJob />} />
           </Routes>
         </Layout>
       </Router>

@@ -25,7 +25,7 @@ const AddJob = () => {
   return (
     <div>
       <Card style={{width:900,marginRight:'auto',marginLeft:'auto',marginTop:100,marginBottom:30,}} className={classes.card}>
-        <h1 style={{marginLeft:30}}>Add Job</h1>
+        <h1 style={{marginLeft:30,textAlign:"center"}}>Add Job</h1>
         <form noValidate autoComplete="off"  style={{width:850,marginRight:'auto',marginLeft:'auto'}}>
           <TextField
             className={classes.field}
@@ -103,7 +103,7 @@ const AddJob = () => {
               
             </FormControl>
         </form>
-        <Button type="submit" variant="contained" disableElevation style={{background:'#4caf50',color:"white",padding:15,fontWeight:'bold',fontSize:15}} fullWidth>
+        <Button type="submit" variant="contained" disableElevation color="primary" style={{color:"primary",padding:15,fontWeight:'bold',fontSize:15}} fullWidth>
                  Add Now
              </Button>
       </Card>

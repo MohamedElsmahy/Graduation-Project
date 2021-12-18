@@ -35,6 +35,7 @@ const Header = ({ isAuthenticated, logout }) => {
             Brwose Jobs
           </Button>
         </Link>
+        
       </Typography>
       <Typography variant="h6" color="primary" className={classes.title}>
         <Link to="/addjob">
@@ -46,6 +47,7 @@ const Header = ({ isAuthenticated, logout }) => {
             Add Job
           </Button>
         </Link>
+        
       </Typography>
       <Typography variant="h6" color="primary" className={classes.title}>
         <Link to="/contactus">
