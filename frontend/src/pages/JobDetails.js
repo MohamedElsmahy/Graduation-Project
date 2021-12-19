@@ -4,6 +4,7 @@ import { loadJob, DeleteJob } from "../actions/jobs";
 import { connect } from "react-redux";
 import Button from "@material-ui/core/Button";
 
+
 const JobDetails = ({ loadJob, DeleteJob, job, userId }) => {
   const [jobDeleted, setJobDeleted] = useState(false);
 

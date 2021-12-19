@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { connect } from "react-redux";
 import { loadPosts } from "../actions/posts";
-
+import CardHeader  from "@material-ui/core/CardHeader";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
@@ -11,8 +11,14 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
+import  CardActionArea  from "@material-ui/core/CardActionArea";
+import  CardContent  from "@material-ui/core/CardContent";
+import  CardActions  from "@material-ui/core/CardActions";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import { Card, Grid } from "@material-ui/core";
+import Avatar from '@material-ui/core/Avatar';
+
 
 const useStyles = makeStyles((themes) => ({
   table: {
@@ -20,6 +26,23 @@ const useStyles = makeStyles((themes) => ({
     marginLeft: "auto",
     marginRight: "auto",
   },
+  root: {
+    maxWidth: 650,
+    height:120,
+    marginLeft: "auto",
+    marginRight: "auto",
+    marginTop: "30px",
+    marginBottom:"30px"
+  },
+  Typography1:{
+    marginTop:-45,
+    marginLeft:55,
+    color:"blue"
+    },
+  Typography2:{
+    marginTop:-2,
+    marginLeft:60
+    },
   title: {
     flexGrow: 1,
   },
@@ -27,28 +50,8 @@ const useStyles = makeStyles((themes) => ({
     margin: themes.spacing(1),
   },
 }));
-const StyledTableCell = withStyles((theme) => ({
-  head: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  body: {
-    fontSize: 14,
-  },
-}))(TableCell);
 
-const StyledTableRow = withStyles((theme) => ({
-  root: {
-    "&:nth-of-type(odd)": {
-      backgroundColor: theme.palette.action.hover,
-    },
-  },
-}))(TableRow);
 
-function createData(title, username, create_at) {
-  return { title, username, create_at };
-}
-const rows = [createData("web dev", "mohamed khalid", "18/12/2021")];
 
 const Blog = ({ loadPosts, posts }) => {
   const classes = useStyles();
@@ -70,7 +73,66 @@ const Blog = ({ loadPosts, posts }) => {
           add Post
         </Button>
       </Typography>
-      <TableContainer component={Paper}>
+      
+      <Card className={classes.root}>
+        
+      <CardHeader
+        avatar={<Avatar aria-label="recipe">R</Avatar>}
+        subheader="mohamed khalid"  
+        // {post.username}   
+           />
+        <CardActions>
+        {/* {posts.map((post) => ( */}
+          <CardContent>
+            
+            <Typography gutterBottom variant="h5" component="h2" className={classes.Typography1}>
+            <Button to={"/posts/1"} component={RouterLink} style={{color:"blue"}}>
+                 {/* to={`/posts/${post.id}`} */}
+                    {/* {post.title} */}
+                    web dev
+                  </Button>
+            </Typography>
+            <Typography variant="p" color="textSecondary" component="p" className={classes.Typography2}>
+               {/* {post.created} */}
+               18/12/2021
+            </Typography>
+         
+          </CardContent>
+          {/* ))} */}
+        </CardActions>
+        
+      </Card>
+      <Card className={classes.root}>
+        
+      <CardHeader
+        avatar={<Avatar aria-label="recipe">R</Avatar>}
+        subheader="mohamed khalid"  
+        // {post.username}   
+           />
+        <CardActions>
+        {/* {posts.map((post) => ( */}
+          <CardContent>
+            
+            <Typography gutterBottom variant="h5" component="h2" className={classes.Typography1}>
+            <Button to={"/posts/1"} component={RouterLink} style={{color:"blue"}}>
+                 {/* to={`/posts/${post.id}`} */}
+                    {/* {post.title} */}
+                    web dev
+                  </Button>
+            </Typography>
+            <Typography variant="p" color="textSecondary" component="p" className={classes.Typography2}>
+               {/* {post.created} */}
+               18/12/2021
+            </Typography>
+         
+          </CardContent>
+          {/* ))} */}
+        </CardActions>
+        
+      </Card>
+       
+
+      {/* <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="customized table">
           <TableHead>
             <TableRow>
@@ -96,7 +158,7 @@ const Blog = ({ loadPosts, posts }) => {
             ))}
           </TableBody>
         </Table>
-      </TableContainer>
+      </TableContainer> */}
 
       {/* {posts && (
         <ul>
