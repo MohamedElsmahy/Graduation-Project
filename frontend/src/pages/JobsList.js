@@ -2,20 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
-import NativeSelect from '@material-ui/core/NativeSelect';
+import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import { Paper, TextField } from '@material-ui/core';
-
-import IconButton from '@material-ui/core/IconButton';
+import MenuItem from '@material-ui/core/MenuItem';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import Favorite from '@material-ui/icons/Favorite';
+import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
 
-import FavoriteIcon from '@material-ui/icons/Favorite';
-// import color from 'material-ui/colors/amber';
+
 
 import { loadJobs } from '../actions/jobs';
 import { connect } from 'react-redux';
@@ -32,10 +33,9 @@ const JobsList = ({ loadJobs, jobs }) => {
     width: '250px',
   };
   const header = {
-    marginLeft: '10px',
+    color: '#3f51b5',
     textAlign:"center"
   };
-
   const paperstyle = {
     padding: '2px',
     marginLeft: 'auto',
@@ -43,26 +43,21 @@ const JobsList = ({ loadJobs, jobs }) => {
   };
   const cardheader = {
     marginTop: '10px',
-    marginBottom: '0px',
+    marginBottom: '10px',
     marginLeft: '30px',
   };
   const button = {
-    background: '#4caf50',
-    color: 'primary',
+    color: '#3f51b5',
     fontSize: '15px',
     padding: '8px',
-    marginLeft: '40px',
+    marginLeft: '80px',
+    marginTop:'10px',
     fontWeight: 'bold',
     width: '160px',
-    
   };
   const icon = {
-    marginLeft: '105px',
-    color: '#4caf50',
-    background: 'lightgray',
-  };
-  const listjob = {
-    padding: '1px',
+    marginTop:'8px',
+    marginLeft: '120px',
   };
 
   useEffect(() => {
@@ -71,7 +66,7 @@ const JobsList = ({ loadJobs, jobs }) => {
 
   return (
     <div>
-      <Card
+      <Grid
         style={{
           width: 1250,
           marginRight: 'auto',
@@ -81,79 +76,68 @@ const JobsList = ({ loadJobs, jobs }) => {
         }}
       >
         <Grid container style={{ gap: 50 }}>
+        
           <Grid item xs={12} md={3}>
-            <Paper elevation={5} style={paperstyle}>
-              <h2
-                style={{
-                  padding: 10,
-                  fontWeight: 'bold',
-                  fontSize: 30,
-                  marginBottom: 1,
-                  textAlign:"center"
-                }}
-              >
-                filter
-              </h2>
+            <Paper elevation={4} style={paperstyle}>
+              <h1 style={header}> Filter </h1>
               <form style={formstyle}>
                 <TextField
+                  variant="outlined"
                   style={texfielsstyle}
                   fullWidth
-                  label="title contains"
+                  label="Title contains"
                 />
-                <FormControl fullWidth style={texfielsstyle}>
-                  <InputLabel variant="standard" htmlFor="uncontrolled-native">
-                    {' '}
-                    job_type
+                <FormControl fullWidth variant="outlined" style={texfielsstyle}>
+                  <InputLabel htmlFor="uncontrolled-native">
+                    Job Type
                   </InputLabel>
-                  <NativeSelect
+                  <Select
                     defaultValue={30}
                     inputProps={{
                       name: 'job_type',
                       id: 'uncontrolled-native',
                     }}
                   >
-                    <option value={null}>__ _ _ _</option>
-                    <option>Full time</option>
-                    <option>Part time</option>
-                  </NativeSelect>
+                    <MenuItem>Full time</MenuItem>
+                    <MenuItem>Part time</MenuItem>
+                  </Select>
                 </FormControl>
                 <TextField
                   fullWidth
-                  label="description contains"
+                  variant="outlined"
+                  label="Description contains"
                   style={texfielsstyle}
                 />
                 <TextField
                   style={texfielsstyle}
                   type="number"
-                  label="experience"
+                  label="Experience"
                   variant="outlined"
                   fullWidth
                 />
-                <FormControl fullWidth style={texfielsstyle}>
-                  <InputLabel variant="standard" htmlFor="uncontrolled-native">
-                    {' '}
-                    category
+                <FormControl fullWidth variant="outlined" style={texfielsstyle}>
+                  <InputLabel htmlFor="uncontrolled-native">
+                    Category
                   </InputLabel>
-                  <NativeSelect
+                  <Select
                     defaultValue={30}
                     inputProps={{
                       name: 'category',
                       id: 'uncontrolled-native',
                     }}
                   >
-                    <option value={null}>__ _ _ _</option>
-                    <option>web developmen</option>
-                    <option>mobile application</option>
-                    <option>other</option>
-                  </NativeSelect>
+                    <MenuItem>web developmen</MenuItem>
+                    <MenuItem>mobile application</MenuItem>
+                    <MenuItem>other</MenuItem>
+                  </Select>
                 </FormControl>
+            
                 <Button
                   type="submit"
+                  color="primary"
                   variant="contained"
                   disableElevation
                   style={{
-                    background: '#4caf50',
-                    color: 'white',
                     padding: 15,
                     fontWeight: 'bold',
                     fontSize: 15,
@@ -166,11 +150,14 @@ const JobsList = ({ loadJobs, jobs }) => {
               </form>
             </Paper>
           </Grid>
-          <Grid item xs={12} md={8}>
-            <Paper elevation={5} style={listjob}>
-              <h2 style={header}>Job list</h2>
-            </Paper>
-            <Card style={{ marginTop: 15 }} fullWidth>
+        
+          
+        <Grid item xs={12} md={8}>
+          <Paper elevation={4} style={paperstyle}>
+            
+              <h1 style={header}>Job list</h1>
+            
+            <Card style={{ backgroundColor:"whitesmoke", marginTop: 15, marginBottom: 25 }} fullWidth>
               <Grid container fullWidth>
                 <Grid container item xs={12} spacing={3}>
                   <CardHeader
@@ -183,18 +170,14 @@ const JobsList = ({ loadJobs, jobs }) => {
                   </Grid>
                   <Grid item xs={12} md={6} spacing={12}>
                     <CardActions disableSpacing>
-                      <IconButton
-                        aria-label="add to favorites"
-                        color="secondary"
+                      <FormControlLabel
                         style={icon}
-                      >
-                        <FavoriteIcon />
-                      </IconButton>
-                      
+                        control={ <Checkbox color="primary" icon={<FavoriteBorder />} checkedIcon={<Favorite />}/>}
+                      />
+            
                       <Button href="/applyjob"
                         type="submit"
                         variant="contained"
-                        color="primary"
                         disableElevation
                         style={button}
                       >
@@ -206,10 +189,10 @@ const JobsList = ({ loadJobs, jobs }) => {
                 </Grid>
               </Grid>
             </Card>
-            
+            </Paper>
           </Grid>
         </Grid>
-      </Card>
+      </Grid>
       <ul>
         {jobs ? (
           jobs.map((job) => {
