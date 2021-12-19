@@ -12,6 +12,8 @@ import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import EditProfile from "./EditProfile";
+import Grid from '@material-ui/core/Grid';
+
 // import { useSelector } from "react-redux";
 
 
@@ -28,11 +30,11 @@ const useStyles = makeStyles((theme) => ({
     top: "-45px",
     alignItems: "flex-end",
     "& > *": {
-      margin: `${theme.spacing(3)}px ${theme.spacing(1)}px`,
+      margin: `${theme.spacing(3)}px ${theme.spacing(5)}px`,
     },
   },
   spacer: {
-    flexGrow: "0.8",
+    flexGrow: "0.7",
   },
   avatar: {
     border: `3px solid white`,
@@ -49,11 +51,13 @@ const useStyles = makeStyles((theme) => ({
   summaryCards: {
     // width: '100%',
     // maxWidth: 500,
+    overflow: 'hidden',
+    padding: theme.spacing(0, 3),
     display: "flex",
     flexWrap: "wrap",
   },
   summaryCard: {
-    maxWidth: 1340,
+    maxWidth: 1300,
     margin: theme.spacing(1),
     flexGrow: 1,
     padding: theme.spacing(3),
@@ -67,11 +71,17 @@ export function SummaryCard({ title, value, component }) {
       <Typography color={"primary"} display="block" variant="h5" gutterBottom>
         {title}
       </Typography>
+      
+      <Grid container wrap="nowrap" spacing={2}>
+      <Grid item xs> 
       {component || (
-        <Typography color={"textSecondary"} noWrap variant="subtitle1">
+        <Typography noWrap>
           {value}
         </Typography>
       )}
+      </Grid>
+      </Grid>
+      
     </Paper>
   );
 }
@@ -130,8 +140,8 @@ export default function User() {
         </div>
       </div>
 
-      <div className={classes.summaryCards}>          
-        <SummaryCard title={"Bio"} value={"joipdjfihsjodkpdjfihbdjokpofjk4fddijospkjfihsjiopkdfjhskjpsdfojhigsfsijopdgihfsojdpkdjihfsojadpsgkjbfsosdbhffjsokpsodfjihbididjwokpjfsidhfidjokpdsjfihgdfjkfdsjsfjopdihgfisjofspdihffijdokposjdgihf"} />
+      <div className={classes.summaryCards}>            
+        <SummaryCard title={"Bio"} value={"joipdjpofjk4fddijospkjfihsjiopkdfjhskjpsdfojhigsfsijopdgihfsojdpkdjihfsojadpsgkjbfsosdbhffjsokpsodfjihbididjwokpjfsidhfidjokpdsjfihgdfjkfdsjsfjopdihgfisjofspdihffijdokposjdgihf"} />
       </div>  
       <div className={classes.summaryCards}>
         <SummaryCard title={"Bio"} value={"$"} />

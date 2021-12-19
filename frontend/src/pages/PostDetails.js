@@ -77,16 +77,68 @@ const useStyles = makeStyles({
   }
 });
 
-const PostDetails = ({ loadPost, post, comments, userId }) => {
- const [show,setshow]=useState(false)
+
+const PostDetails = ({ loadPost, post, comments, user, userId }) => {
+
   const classes = useStyles();
   const [postDeleted, setPostDeleted] = useState(false);
+  const [commentBody, setCommentBody] = useState("");
+  const [show,setshow]=useState(false);
 
   const { id } = useParams();
   useEffect(() => {
     loadPost(id);
   }, []);
 
+  const AddNewComment = async () => {
+    const config = {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "X-CSRFToken": Cookies.get("csrftoken"),
+      },
+    };
+    const body = JSON.stringify({
+      user: user.id,
+      username: user.username,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      post: post.id,
+      body: commentBody,
+    });
+
+    try {
+      const res = await axios.post(
+        `http://localhost:8000/blog-api/posts/${post.id}/comments/`,
+        body,
+        config
+      );
+      if (res.status === 201) {
+        loadPost(id);
+        setCommentBody("");
+      }
+    } catch (err) {}
+  };
+
+  const DeleteComment = async (comment_id) => {
+    const config = {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "X-CSRFToken": Cookies.get("csrftoken"),
+      },
+    };
+
+    try {
+      const res = await axios.delete(
+        `http://localhost:8000/blog-api/posts/${id}/comments/${comment_id}/`,
+        config
+      );
+      if (res.status === 204) {
+        loadPost(id);
+      }
+    } catch (err) {}
+  };
   const DeletePost = async () => {
     const config = {
       headers: {
@@ -109,12 +161,21 @@ const PostDetails = ({ loadPost, post, comments, userId }) => {
 
   if (postDeleted) return <Navigate replace to="/" />;
 
-  const onSubmit = (e) => {
+  const onSubmitDeletePost = (e) => {
     e.preventDefault();
     DeletePost();
   };
   
   
+
+  const onSubmitDeleteComment = (e, comment_id) => {
+    e.preventDefault();
+    DeleteComment(comment_id);
+  };
+
+  // const deleteComment = => {
+
+  // }
 
   return (
     
@@ -127,12 +188,14 @@ const PostDetails = ({ loadPost, post, comments, userId }) => {
            />
         <CardActionArea>
           <CardContent>
+
             <Typography gutterBottom variant="h5" component="h2" className={classes.Typography1}>
               web dev
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p" className={classes.Typography2}>
               {/* {post.body} */}
               bodu body bodybodyvvbodybodybody 
+
             </Typography>
             
             <Typography gutterBottom variant="h5" component="h2" className={classes.Typography3}>
@@ -194,7 +257,7 @@ const PostDetails = ({ loadPost, post, comments, userId }) => {
                    <Typography variant="body2" color="textSecondary" component="p" className={classes.lastcom}>
               create at
              </Typography>
-              
+
       </Card>
       <Card  className={classes.cardcomment} >
             
@@ -223,6 +286,15 @@ const PostDetails = ({ loadPost, post, comments, userId }) => {
                   </h3>
                   <h4>{comment.created}</h4>
                   <h5>{comment.body}</h5>
+                  {userId === comment.user && (
+                    <form
+                      onSubmit={(e) => onSubmitDeleteComment(e, comment.id)}
+                    >
+                      <Button type="submit">
+                        <h4>Delete Comment</h4>
+                      </Button>
+                    </form>
+                  )}
                 </li>
               );
             })}
@@ -232,7 +304,7 @@ const PostDetails = ({ loadPost, post, comments, userId }) => {
         <h5>Post Not Found</h5>
       )}
       {userId === post.user && (
-        <form onSubmit={(e) => onSubmit(e)}>
+        <form onSubmit={(e) => onSubmitDeletePost(e)}>
           <Button type="submit">
             <h4>Delete Post</h4>
           </Button>
@@ -246,6 +318,7 @@ const mapStateToProps = (state) => {
   return {
     post: state.post.post,
     comments: state.post.comments,
+    user: state.profile,
     userId: state.profile.id,
   };
 };

@@ -25,9 +25,9 @@ function App() {
             <Route
               path="/"
               element={
-                //<PrivateRoute>
-                <JobsList />
-                //</PrivateRoute>
+                <PrivateRoute>
+                  <JobsList />
+                </PrivateRoute>
               }
             />
             <Route
