@@ -58,7 +58,7 @@ class CommentListApi(generics.ListCreateAPIView):
 
     def get_queryset(self):
         post = Post.objects.get(id=self.kwargs['post_id'])
-        queryset = Comment.objects.filter(post=post)
+        queryset = Comment.objects.filter(post=post).order_by("-created")
         return queryset
 
 

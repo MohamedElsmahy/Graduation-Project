@@ -15,7 +15,6 @@ import Layout from "./hocs/Layout";
 import PrivateRoute from "./components/PrivateRoute";
 import User from "./pages/profile";
 
-
 function App() {
   return (
     <div className="App">
@@ -25,16 +24,16 @@ function App() {
             <Route
               path="/"
               element={
-                <PrivateRoute>
-                  <JobsList />
-                </PrivateRoute>
+                // <PrivateRoute>
+                <JobsList />
+                // </PrivateRoute>
               }
             />
             <Route
               path="blog/"
               element={
                 //<PrivateRoute>
-                  <Blog />
+                <Blog />
                 //</PrivateRoute>
               }
             />
@@ -42,46 +41,53 @@ function App() {
               path="job/:id/"
               element={
                 //<PrivateRoute>
-                  <JobDetails />
+                <JobDetails />
                 //</PrivateRoute>
               }
             />
             <Route
               path="addjob/"
               element={
-                //<PrivateRoute>
+                <PrivateRoute>
                   <AddJob />
-                //</PrivateRoute>
+                </PrivateRoute>
               }
             />
             <Route
               path="profile/"
               element={
-                //<PrivateRoute>
+                <PrivateRoute>
                   <User />
-                //</PrivateRoute>
+                </PrivateRoute>
               }
             />
             <Route
               path="posts/:id/"
               element={
-                //<PrivateRoute>
+                <PrivateRoute>
                   <PostDetails />
-                //</PrivateRoute>
+                </PrivateRoute>
               }
             />
             <Route
               path="posts/add/"
               element={
-              //  <PrivateRoute>
+                <PrivateRoute>
                   <AddPost />
-                //</PrivateRoute>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="applyjob/"
+              element={
+                <PrivateRoute>
+                  <ApplyJob />
+                </PrivateRoute>
               }
             />
             <Route path="signup/" element={<SignUp />} />
             <Route path="signin/" element={<SignIn />} />
             <Route path="contactus/" element={<ContactUs />} />
-            <Route path="applyjob/" element={<ApplyJob />} />
           </Routes>
         </Layout>
       </Router>
