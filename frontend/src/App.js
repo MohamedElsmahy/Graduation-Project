@@ -15,6 +15,7 @@ import Layout from "./hocs/Layout";
 import PrivateRoute from "./components/PrivateRoute";
 import User from "./pages/profile";
 
+
 function App() {
   return (
     <div className="App">
@@ -32,49 +33,49 @@ function App() {
             <Route
               path="blog/"
               element={
-                <PrivateRoute>
+                //<PrivateRoute>
                   <Blog />
-                </PrivateRoute>
+                //</PrivateRoute>
               }
             />
             <Route
               path="job/:id/"
               element={
-                <PrivateRoute>
+                //<PrivateRoute>
                   <JobDetails />
-                </PrivateRoute>
+                //</PrivateRoute>
               }
             />
             <Route
               path="addjob/"
               element={
-                <PrivateRoute>
+                //<PrivateRoute>
                   <AddJob />
-                </PrivateRoute>
+                //</PrivateRoute>
               }
             />
             <Route
               path="profile/"
               element={
-                <PrivateRoute>
+                //<PrivateRoute>
                   <User />
-                </PrivateRoute>
+                //</PrivateRoute>
               }
             />
             <Route
               path="posts/:id/"
               element={
-                <PrivateRoute>
+                //<PrivateRoute>
                   <PostDetails />
-                </PrivateRoute>
+                //</PrivateRoute>
               }
             />
             <Route
               path="posts/add/"
               element={
-                <PrivateRoute>
+              //  <PrivateRoute>
                   <AddPost />
-                </PrivateRoute>
+                //</PrivateRoute>
               }
             />
             <Route path="signup/" element={<SignUp />} />
