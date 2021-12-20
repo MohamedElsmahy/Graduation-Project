@@ -1,19 +1,29 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Navigate } from "react-router-dom";
-import { loadJob, DeleteJob } from "../actions/jobs";
+import { useParams, useNavigate } from "react-router-dom";
+import { loadJob, DeleteJob, UserApplyJob } from "../actions/jobs";
 import { connect } from "react-redux";
+
 import Button from "@material-ui/core/Button";
 
-
-const JobDetails = ({ loadJob, DeleteJob, job, userId }) => {
+const JobDetails = ({
+  isAuthenticated,
+  loadJob,
+  DeleteJob,
+  UserApplyJob,
+  job,
+  userId,
+}) => {
   const [jobDeleted, setJobDeleted] = useState(false);
 
   const { id } = useParams();
+
+  const navigate = useNavigate();
+
   useEffect(() => {
     loadJob(id);
   }, []);
 
-  if (jobDeleted) return <Navigate replace to="/" />;
+  if (jobDeleted) navigate("/", { replace: true });
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -25,6 +35,15 @@ const JobDetails = ({ loadJob, DeleteJob, job, userId }) => {
     };
     delete_Job();
   };
+
+  const handleApplyJob = (e) => {
+    e.preventDefault();
+    console.log(isAuthenticated);
+    {
+      isAuthenticated ? UserApplyJob(id) : navigate(`/job/${id}/apply`);
+    }
+  };
+
   return (
     <div>
       <ul>
@@ -42,6 +61,11 @@ const JobDetails = ({ loadJob, DeleteJob, job, userId }) => {
             <li>salary: {job.salary}</li>
             <li>experince: {job.experince}</li>
             <li>vacancy: {job.vacancy}</li>
+            <form onSubmit={(e) => handleApplyJob(e)}>
+              <Button type="submit">
+                <h4>Apply</h4>
+              </Button>
+            </form>
           </>
         ) : (
           <li>
@@ -64,7 +88,10 @@ const mapStateToProps = (state) => {
   return {
     job: state.job.job,
     userId: state.profile.id,
+    isAuthenticated: state.auth.isAuthenticated,
   };
 };
 
-export default connect(mapStateToProps, { loadJob, DeleteJob })(JobDetails);
+export default connect(mapStateToProps, { loadJob, DeleteJob, UserApplyJob })(
+  JobDetails
+);

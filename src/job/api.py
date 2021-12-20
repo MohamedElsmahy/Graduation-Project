@@ -1,14 +1,11 @@
-### viwes
-from rest_framework import response
 from rest_framework.views import APIView
 from .models import Application, Job
 from django.db.models import Q
 from .serializers import ApplicationSerializer, JobSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework import generics, filters
 from django_filters.rest_framework import DjangoFilterBackend
-# import django_filters.rest_framework 
+from rest_framework import generics, permissions
 
 ''' Funcation Viwes '''
 @api_view(['GET'])
@@ -30,8 +27,11 @@ class JobListApi(generics.ListCreateAPIView):
     model = Job
     queryset  = Job.objects.all()
     serializer_class = JobSerializer
+    permission_classes = (permissions.AllowAny,)
+
 
 class GetJobs(APIView):
+    permission_classes = (permissions.AllowAny,)
     def get(self, request,format=None):
         try:
             jobs = Job.objects.all()
@@ -40,20 +40,79 @@ class GetJobs(APIView):
         except Exception as e:
             return Response({'error':"error while get jobs"})
 
+
 class JobDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
     lookup_field = 'id'
+    permission_classes = (permissions.AllowAny,)
 
 
 
-class ApplicationApi(generics.ListAPIView):
+''' Job Application APIs '''
+
+class UserApplyJob(APIView):
+    def post(self, request, job_id):
+        user = self.request.user
+        job = Job.objects.get(id=job_id)
+        try:
+            if user.is_authenticated:
+                if Application.objects.filter(Q(applicant=user) & Q(job=job)).exists():
+                    return Response({'error': "You have already applied for this job"})
+                else:
+                    Application.objects.create(
+                        job=job,
+                        applicant=user,
+                        full_name=f"{user.first_name} {user.last_name}")
+                    return Response({'success': "application sent successfully"})
+            else:
+                return Response({'error': "You have to be looged in for an auto apply"})
+        except Exception as e:
+            return Response({'error': e.args})
+
+
+class AnonApplyJob(APIView):
+    permission_classes = (permissions.AllowAny,)
+    def post(self, request, job_id):
+        data = self.request.data
+        job = Job.objects.get(id=job_id)
+        # try:
+        if Application.objects.filter(Q(email=data["email"]) & Q(job=job)).exists():
+            return Response({'error': "An aplication for this job with this email already exists"})
+        else:
+            Application.objects.create(
+                job=job,
+                full_name=data["full_name"],
+                email=data["email"],
+                website=data["website"],
+                cv=data["cv"],
+                cover_letter=data["cover_letter"])
+            return Response({'success': "application sent successfully"})
+        # except Exception as e:
+        #     return Response({'error': e.args})
+
+
+class EmployeeApplications(generics.ListAPIView):
     model = Application
-    queryset = Application.objects.all()
     serializer_class = ApplicationSerializer
 
+    def get_queryset(self):
+        user = self.request.user
+        queryset = Application.objects.filter(applicant=user).order_by("-created_at")
+        return queryset
 
-class ApplicationDetail(generics.RetrieveAPIView):
+
+class EmployerApplications(generics.ListAPIView):
+    model = Application
+    serializer_class = ApplicationSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        queryset = Application.objects.filter(job__owner_id=user.id).order_by("-created_at")
+        return queryset
+
+
+class ApplicationDetails(generics.RetrieveAPIView):
     queryset = Application.objects.all()
     serializer_class = ApplicationSerializer
     lookup_field = 'id'

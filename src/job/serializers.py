@@ -1,6 +1,7 @@
 ### get data from models --> generate Json 
 
 from rest_framework import serializers
+from rest_framework.fields import NullBooleanField
 from .models import Job , Application
 
 class JobSerializer(serializers.ModelSerializer):
@@ -14,6 +15,7 @@ class JobSerializer(serializers.ModelSerializer):
 
 class ApplicationSerializer(serializers.ModelSerializer):
     title = serializers.CharField(source='job.title')
+    applicant_email = serializers.CharField(source='applicant.email', default="")
     class Meta:
         model=Application
         fields='__all__'

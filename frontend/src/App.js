@@ -77,14 +77,7 @@ function App() {
                 </PrivateRoute>
               }
             />
-            <Route
-              path="applyjob/"
-              element={
-                <PrivateRoute>
-                  <ApplyJob />
-                </PrivateRoute>
-              }
-            />
+            <Route path="job/:id/apply/" element={<ApplyJob />} />
             <Route path="signup/" element={<SignUp />} />
             <Route path="signin/" element={<SignIn />} />
             <Route path="contactus/" element={<ContactUs />} />

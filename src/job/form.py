@@ -5,7 +5,7 @@ from .models import Application , Job
 class ApplicationForm(forms.ModelForm):
     class Meta:
         model = Application
-        fields = ['name' , 'email' , 'website' , 'cv' , 'cover_letter']
+        fields = ['full_name' , 'email' , 'website' , 'cv' , 'cover_letter']
 
 
 class JobForm(forms.ModelForm):

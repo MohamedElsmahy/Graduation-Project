@@ -169,7 +169,7 @@ const JobsList = ({ loadJobs, jobs }) => {
                             <CardHeader
                               avatar={<Avatar aria-label="recipe">E</Avatar>}
                               title={job.title}
-                              subheader={job.category}
+                              subheader={job.category} // fix show category name
                             />
                           </Link>
                           <Grid item xs={12} md={3} spacing={3}>
@@ -191,15 +191,16 @@ const JobsList = ({ loadJobs, jobs }) => {
                                 }
                               />
 
-                              <Button
+                              {/* <Button
                                 href="/applyjob"
                                 type="submit"
+                                onClick={handleApplyJob(job.id)}
                                 variant="contained"
                                 disableElevation
                                 style={button}
                               >
                                 Apply Now
-                              </Button>
+                              </Button> */}
                             </CardActions>
                           </Grid>
                         </Grid>

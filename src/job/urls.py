@@ -14,15 +14,23 @@ urlpatterns = [
     # path('api/jobs', api.job_list_api , name = 'job_list_api'),
     # path('api/jobs/<int:id>', api.job_detail_api , name = 'job_detail_api'),
     
-    ##Application API
-    path('api/applications', api.ApplicationApi.as_view() , name = 'ApplicationsList'),
-    path('api/', api.JobListApi.as_view() , name = 'job'),
-    path('api/application/<int:id>', api.ApplicationDetail.as_view() , name = 'ApplicationDetail'),
-    
     ##Job API
     path('api/jobs/', api.GetJobs.as_view() , name = 'JobsList'),
     path('api/jobs/filter/', api.JobListFilter.as_view() , name = 'JobsListFilter'),
     path('api/jobs/search/', api.JobSearch.as_view() , name = 'JobsSearch'),
     path('api/<int:id>', api.JobDetail.as_view() , name = 'JobDetail'),
+
+
+    ##Job Application API
+    #apply for a job
+    path('api/jobs/<int:job_id>/apply/', api.UserApplyJob.as_view() , name = 'UserApplyJob'),
+    #apply for a job (not a user)
+    path('api/jobs/<int:job_id>/apply/anonymous/', api.AnonApplyJob.as_view() , name = 'AnonApplyJob'),
+    # get user applications
+    path('api/employee_applications/', api.EmployeeApplications.as_view() , name = 'EmployeeApplications'),
+    # get recruiter applications
+    path('api/employer_applications/', api.EmployerApplications.as_view() , name = 'EmployerApplications'),
+    # get application details
+    path('api/application/<int:id>/', api.ApplicationDetails.as_view() , name = 'ApplicationDetails'),
 
 ]
