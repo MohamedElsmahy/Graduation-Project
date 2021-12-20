@@ -46,7 +46,7 @@ class Job(models.Model):
 class Application(models.Model):
     job = models.ForeignKey(Job, related_name='application_job' , on_delete=models.CASCADE)
     applicant = models.ForeignKey(MyUser, on_delete=models.CASCADE, blank=True, null=True)
-    name = models.CharField(max_length=50, blank=True, null=True)
+    full_name = models.CharField(max_length=50, blank=True, null=True)
     email = models.EmailField(max_length=100, blank=True, null=True)
     website = models.URLField(blank=True, null=True)
     cv = models.FileField(upload_to='application/', blank=True, null=True)

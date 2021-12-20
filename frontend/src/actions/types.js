@@ -31,3 +31,7 @@ export const LOAD_JOB_FAIL = "LOAD_JOB_FAIL";
 //contact us states
 export const SEND_INFO_SUCCESS = "SEND_INFO_SUCCESS";
 export const SEND_INFO_FAIL = "SEND_INFO_FAIL";
+
+//job application states
+export const JOB_APPLICATION_SUCCESS = "JOB_APPLICATION_SUCCESS";
+export const JOB_APPLICATION_FAIL = "JOB_APPLICATION_FAIL";
