@@ -89,9 +89,9 @@ WSGI_APPLICATION = 'project.wsgi.application'
 DATABASES={
    'default':{
       'ENGINE':'django.db.backends.postgresql_psycopg2',
-      'NAME':'test',
+      'NAME':'grad_project',
       'USER':'postgres',
-      'PASSWORD':'12457896532',
+      'PASSWORD':'3562211',
       'HOST':'localhost',
       'PORT':'5432',
    }
@@ -175,7 +175,11 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_AUTHENTICATION_CLASSES':[
         'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend'
     ]
+    
 }
 
 
