@@ -1,6 +1,8 @@
 ### viwes
+from rest_framework import response
 from rest_framework.views import APIView
 from .models import Application, Job
+from django.db.models import Q
 from .serializers import ApplicationSerializer, JobSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -62,3 +64,14 @@ class JobListFilter(generics.ListAPIView):
     serializer_class = JobSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['job_type', 'experince', 'category']
+    
+        
+    
+class JobSearch(APIView):
+    def get(self,request,format=None):
+        queryset = Job.objects.all()
+        title = request.GET.get('title', '')
+        queryset = Job.objects.filter(title__icontains=title)
+        data = JobSerializer(queryset, many = True).data       
+        return Response({'job':data})
+    
