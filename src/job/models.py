@@ -23,6 +23,9 @@ class Category(models.Model):
 
 
 class Job(models.Model):
+    class Meta:
+        ordering=["-published_at"]
+
     owner = models.ForeignKey(MyUser, related_name='job_owner', on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     job_type = models.CharField(max_length=15 , choices=JOB_TYPE)
@@ -30,7 +33,7 @@ class Job(models.Model):
     published_at = models.DateTimeField(auto_now=True)
     vacancy = models.IntegerField(default=1)
     salary = models.IntegerField(default=0)
-    experince = models.IntegerField(default=1)
+    experience = models.IntegerField(default=1)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, blank=True, null=True)
     slug = models.SlugField(blank=True, null=True)
     

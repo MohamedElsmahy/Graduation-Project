@@ -15,7 +15,7 @@ urlpatterns = [
     # path('api/jobs/<int:id>', api.job_detail_api , name = 'job_detail_api'),
     
     ##Job API
-    path('api/jobs/', api.GetJobs.as_view() , name = 'JobsList'),
+    path('api/jobs/', api.JobListApi.as_view() , name = 'JobsList'),
     path('api/jobs/filter/', api.JobListFilter.as_view() , name = 'JobsListFilter'),
     path('api/jobs/search/', api.JobSearch.as_view() , name = 'JobsSearch'),
     path('api/<int:id>', api.JobDetail.as_view() , name = 'JobDetail'),
