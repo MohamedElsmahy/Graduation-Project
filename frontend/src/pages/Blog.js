@@ -107,51 +107,6 @@ const Blog = ({ loadPosts, posts }) => {
             </Card>
           );
         })}
-
-      {/* <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="customized table">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell>Title </StyledTableCell>
-              <StyledTableCell align="center">UserName</StyledTableCell>
-              <StyledTableCell align="right">CreatedAt</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {posts.map((post) => (
-              <StyledTableRow key={post.id}>
-                <StyledTableCell component="th" scope="row">
-                  <Button to={`/posts/${post.id}`} component={RouterLink}>
-                    {post.title}
-                  </Button>
-                </StyledTableCell>
-
-                <StyledTableCell align="center">
-                  {post.username}
-                </StyledTableCell>
-                <StyledTableCell align="right">{post.created}</StyledTableCell>
-              </StyledTableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer> */}
-
-      {/* {posts && (
-        <ul>
-          {posts.map((post) => {
-            return (
-              <li key={post.id}>
-                <h1>user: {post.username}</h1>
-                <h2>title: {post.title}</h2>
-                <h4>body: {post.body}</h4>
-                <h6 to={`/posts/${post.id}`} component={RouterLink}>
-                  Details
-                </h6>
-              </li>
-            );
-          })}
-        </ul>
-      )} */}
     </div>
   );
 };
