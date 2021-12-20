@@ -1,11 +1,12 @@
 ### viwes
-
 from rest_framework.views import APIView
 from .models import Application, Job
 from .serializers import ApplicationSerializer, JobSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework import generics, serializers
+from rest_framework import generics, filters
+from django_filters.rest_framework import DjangoFilterBackend
+# import django_filters.rest_framework 
 
 ''' Funcation Viwes '''
 @api_view(['GET'])
@@ -54,3 +55,10 @@ class ApplicationDetail(generics.RetrieveAPIView):
     queryset = Application.objects.all()
     serializer_class = ApplicationSerializer
     lookup_field = 'id'
+
+
+class JobListFilter(generics.ListAPIView):
+    queryset = Job.objects.all()
+    serializer_class = JobSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['job_type', 'experince', 'category']
