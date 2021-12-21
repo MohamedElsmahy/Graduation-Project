@@ -174,11 +174,11 @@ export const deleteAccount = () => async (dispatch) => {
   };
 
   const body = JSON.stringify({
-    withCredentials: true,
+    'withCredentials': true,
   });
 
   try {
-    const res = await axios.post(
+    const res = await axios.delete(
       "http://localhost:8000/accounts/delete/",
       body,
       config
