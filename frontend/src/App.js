@@ -22,61 +22,40 @@ function App() {
         <Layout>
           <Routes>
             <Route
-              path="/"
-              element={
-                // <PrivateRoute>
-                <JobsList />
-                // </PrivateRoute>
-              }
-            />
-            <Route
-              path="blog/"
+              path="profile/"
               element={
                 //<PrivateRoute>
-                <Blog />
-                //</PrivateRoute>
-              }
-            />
-            <Route
-              path="job/:id/"
-              element={
-                //<PrivateRoute>
-                <JobDetails />
+                <User />
                 //</PrivateRoute>
               }
             />
             <Route
               path="addjob/"
               element={
-                <PrivateRoute>
-                  <AddJob />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="profile/"
-              element={
-                <PrivateRoute>
-                  <User />
-                </PrivateRoute>
+                //<PrivateRoute>
+                <AddJob />
+                //</PrivateRoute>
               }
             />
             <Route
               path="posts/:id/"
               element={
-                <PrivateRoute>
-                  <PostDetails />
-                </PrivateRoute>
+                //<PrivateRoute>
+                <PostDetails />
+                //</PrivateRoute>
               }
             />
             <Route
               path="posts/add/"
               element={
-                <PrivateRoute>
-                  <AddPost />
-                </PrivateRoute>
+                //<PrivateRoute>
+                <AddPost />
+                //</PrivateRoute>
               }
             />
+            <Route path="/" element={<JobsList />} />
+            <Route path="blog/" element={<Blog />} />
+            <Route path="job/:id/" element={<JobDetails />} />
             <Route path="job/:id/apply/" element={<ApplyJob />} />
             <Route path="signup/" element={<SignUp />} />
             <Route path="signin/" element={<SignIn />} />

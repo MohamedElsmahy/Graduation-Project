@@ -22,18 +22,6 @@ const Header = ({ isAuthenticated, is_employer, logout }) => {
 
   const authLinks = (
     <>
-      <Typography variant="h6" color="primary" className={classes.title}>
-        <Button
-          variant="contained"
-          noWrap
-          to={"/blog"}
-          component={RouterLink}
-          color="primary"
-          className={classes.margin}
-        >
-          Discussion Blog
-        </Button>
-      </Typography>
       {is_employer && (
         <Typography variant="h6" color="primary" className={classes.title}>
           <Button
@@ -48,19 +36,6 @@ const Header = ({ isAuthenticated, is_employer, logout }) => {
           </Button>
         </Typography>
       )}
-      <Typography variant="h6" color="primary" className={classes.title}>
-        <Button
-          variant="contained"
-          noWrap
-          to={"/contactus"}
-          component={RouterLink}
-          color="primary"
-          className={classes.margin}
-        >
-          Contact Us
-        </Button>
-      </Typography>
-      
       <Button
         variant="contained"
         noWrap
@@ -121,6 +96,30 @@ const Header = ({ isAuthenticated, is_employer, logout }) => {
               className={classes.margin}
             >
               Home
+            </Button>
+          </Typography>
+          <Typography variant="h6" color="primary" className={classes.title}>
+            <Button
+              variant="contained"
+              noWrap
+              to={"/blog"}
+              component={RouterLink}
+              color="primary"
+              className={classes.margin}
+            >
+              Discussion Blog
+            </Button>
+          </Typography>
+          <Typography variant="h6" color="primary" className={classes.title}>
+            <Button
+              variant="contained"
+              noWrap
+              to={"/contactus"}
+              component={RouterLink}
+              color="primary"
+              className={classes.margin}
+            >
+              Contact Us
             </Button>
           </Typography>
           {isAuthenticated ? authLinks : guestLinks}
