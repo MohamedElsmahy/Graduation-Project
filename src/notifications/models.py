@@ -22,12 +22,12 @@ class Notification(models.Model):
   
     notifications_type=models.CharField(max_length=100,choices=CHOICES)
     is_read=models.BooleanField(default=False)
-    namejob=models.CharField(max_length=200,null=True,blank=True)
+    job=models.ForeignKey(Job, on_delete=models.CASCADE)
     created_at=models.DateTimeField(auto_now_add=True,null=True,blank=True)
     created_by=models.ForeignKey(MyUser,related_name='creatednotifications',on_delete=models.CASCADE,null=True)
 
     def __str__(self):
-        return f"{self.created_by} apply for {self.namejob} job"
+        return f" application  for {self.job.title} job from {self.created_by.username}"
 
     
 # @receiver(post_save, sender=settings.AUTH_USER_MODEL)
@@ -39,7 +39,7 @@ class Notification(models.Model):
 @receiver(post_save, sender=Application)
 def Create_save_job_notification(sender, instance, created, **kwargs):
     if created:
-            Notification.objects.create(created_by=instance.applicant,notifications_type='application',is_read=True,namejob=instance.job,to_user=instance.job.owner)
+            Notification.objects.create(created_by=instance.applicant,notifications_type='application',is_read=True,job=instance.job,to_user=instance.job.owner)
     
 
     
