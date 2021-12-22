@@ -47,18 +47,32 @@ export const updateProfile =
     bio,
     image,
     cv,
-    location
+    location,
+    user
   ) =>
   async (dispatch) => {
+    const formData = new FormData();
+    formData.append("first_name",first_name);
+    formData.append("last_name",last_name);
+    formData.append("email",email);
+    formData.append("title",title);
+    formData.append("phone_number",phone_number);
+    formData.append("website",website);
+    formData.append("bio",bio);
+    formData.append("image",image);
+    formData.append("cv",cv);
+    formData.append("location",location);
+    formData.append("user",user);
+
     const config = {
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
         "X-CSRFToken": Cookies.get("csrftoken"),
       },
     };
     const body = JSON.stringify({
-      withCredentials: true,
+      'withCredentials': true,
 
       first_name,
       last_name,
@@ -70,17 +84,25 @@ export const updateProfile =
       image,
       cv,
       location,
+      user
     });
     try {
       const res = await axios.put(
         `http://localhost:8000/accounts/profile/update/`,
-        body,
+        formData,
         config
       );
-      dispatch({
-        type: UPDATE_PROFILE_SUCCESS,
-        payload: res.data,
-      });
+      if (res.status==200){
+        dispatch({
+          type: UPDATE_PROFILE_SUCCESS,
+          payload: res.data,
+        }); 
+      } else{
+        dispatch({
+          type: UPDATE_PROFILE_FAIL,
+        });
+      }
+      
     } catch (err) {
       dispatch({
         type: UPDATE_PROFILE_FAIL,
