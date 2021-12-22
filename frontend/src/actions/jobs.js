@@ -6,6 +6,8 @@ import {
   LOAD_JOB_FAIL,
   JOB_APPLICATION_SUCCESS,
   JOB_APPLICATION_FAIL,
+  LOAD_CATEGORIES_SUCCESS,
+  LOAD_CATEGORIES_FAIL,
 } from "./types";
 import Cookies from "js-cookie";
 
@@ -84,7 +86,7 @@ export const AnonApplyJob =
         type: JOB_APPLICATION_FAIL,
       });
     }
-  };
+};
 
 export const loadJobs = () => async (dispatch) => {
   const config = {
@@ -112,6 +114,7 @@ export const loadJobs = () => async (dispatch) => {
     });
   }
 };
+
 export const loadJob = (id) => async (dispatch) => {
   const config = {
     headers: {
@@ -153,4 +156,34 @@ export const DeleteJob = (id) => async () => {
     );
     return res.status;
   } catch (err) {}
+};
+
+export const loadCategories = () => async (dispatch) => {
+  const config = {
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  };
+
+  try {
+    const res = await axios.get(
+      "http://localhost:8000/jobs/api/category/",
+      config
+    );
+    if (res.data.error) {
+      dispatch({
+        type: LOAD_CATEGORIES_FAIL,
+      });
+    } else {
+      dispatch({
+        type: LOAD_CATEGORIES_SUCCESS,
+        payload: res.data,
+      });
+    }
+  } catch (err) {
+    dispatch({
+      type: LOAD_CATEGORIES_FAIL,
+    });
+  }
 };

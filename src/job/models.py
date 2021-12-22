@@ -30,7 +30,7 @@ class Job(models.Model):
     published_at = models.DateTimeField(auto_now=True)
     vacancy = models.IntegerField(default=1)
     salary = models.IntegerField(default=0)
-    experince = models.IntegerField(default=1)
+    experience = models.IntegerField(default=1)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, blank=True, null=True)
     slug = models.SlugField(blank=True, null=True)
     

@@ -20,7 +20,9 @@ urlpatterns = [
     path('api/jobs/search/', api.JobSearch.as_view() , name = 'JobsSearch'),
     path('api/<int:id>', api.JobDetail.as_view() , name = 'JobDetail'),
 
-
+    ##Category API
+    path('api/category/', api.CategoryListApi.as_view() , name = 'CategoriesList'),
+    
     ##Job Application API
     #apply for a job
     path('api/jobs/<int:job_id>/apply/', api.UserApplyJob.as_view() , name = 'UserApplyJob'),

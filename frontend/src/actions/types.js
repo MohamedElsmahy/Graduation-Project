@@ -32,6 +32,18 @@ export const LOAD_JOB_FAIL = "LOAD_JOB_FAIL";
 export const SEND_INFO_SUCCESS = "SEND_INFO_SUCCESS";
 export const SEND_INFO_FAIL = "SEND_INFO_FAIL";
 
+//category states
+export const LOAD_CATEGORIES_SUCCESS = "LOAD_CATEGORIES_SUCCESS";
+export const LOAD_CATEGORIES_FAIL = "LOAD_CATEGORIES_FAIL";
+
 //job application states
 export const JOB_APPLICATION_SUCCESS = "JOB_APPLICATION_SUCCESS";
 export const JOB_APPLICATION_FAIL = "JOB_APPLICATION_FAIL";
+
+//jobs filter states
+export const JOBS_FILTER_SUCCESS = "JOBS_FILTER_SUCCESS";
+export const JOBS_FILTER_FAIL = "JOBS_FILTER_FAIL";
+
+//jobs search states
+export const JOBS_SEARCH_SUCCESS = "JOBS_SEARCH_SUCCESS";
+export const JOBS_SEARCH_FAIL = "JOBS_SEARCH_FAIL";

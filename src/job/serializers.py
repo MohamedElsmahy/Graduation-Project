@@ -1,13 +1,22 @@
 ### get data from models --> generate Json 
 
+from django.db.models import fields
+from django.db.models.base import Model
 from rest_framework import serializers
 from rest_framework.fields import NullBooleanField
-from .models import Job , Application
+from .models import Job , Application, Category
+
+class StringSerializer(serializers.StringRelatedField):
+    def to_internal_value(self, value):
+        return value
+
 
 class JobSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='owner.username')
     first_name = serializers.CharField(source='owner.first_name')
     last_name = serializers.CharField(source='owner.last_name')
+    owner = StringSerializer(many=False)
+    category = StringSerializer(many=False)
     class Meta:
         model = Job
         fields = '__all__'
@@ -19,3 +28,8 @@ class ApplicationSerializer(serializers.ModelSerializer):
     class Meta:
         model=Application
         fields='__all__'
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = '__all__'
