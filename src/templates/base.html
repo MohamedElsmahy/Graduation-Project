@@ -67,6 +67,7 @@
                                     {% if request.user.is_authenticated %}
                                     <div class="phone_num d-none d-xl-block">
                                         <a href="{% url 'accounts:profile' %}">Profile</a>
+                                        <a href="{% url 'notifications'%}" >notifications ({{notifications.count}})</a>
                                     </div>     
                                     {% else %}
                                         <div class="phone_num d-none d-xl-block">

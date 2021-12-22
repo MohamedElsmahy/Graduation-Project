@@ -9,6 +9,7 @@ from django.views.generic import TemplateView
 urlpatterns = [
     # path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/', include('accounts.urls',namespace='accounts')),
+    path('notifications/',include('notifications.urls')),
     path('admin/', admin.site.urls),
     path('jobs/', include('job.urls' , namespace='jobs')),
     path('contact-us/', include('contact.urls' , namespace='contact')),

@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+
     #3rd party apps
     "corsheaders",
     'django_filters',
@@ -49,6 +50,7 @@ INSTALLED_APPS = [
     'job',
     'blog',
     'contact',
+    'notifications'
 ]
 
 MIDDLEWARE = [
@@ -75,6 +77,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                 'notifications.context_processors.notifications'
             ],
         },
     },
@@ -89,9 +92,9 @@ WSGI_APPLICATION = 'project.wsgi.application'
 DATABASES={
    'default':{
       'ENGINE':'django.db.backends.postgresql_psycopg2',
-      'NAME':'test',
+      'NAME':'grad_project',
       'USER':'postgres',
-      'PASSWORD':'12457896532',
+      'PASSWORD':'123',
       'HOST':'localhost',
       'PORT':'5432',
    }

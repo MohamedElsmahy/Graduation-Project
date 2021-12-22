@@ -6,6 +6,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics, permissions
+from notifications.utilities import create_notification
 
 ''' Funcation Viwes '''
 @api_view(['GET'])
@@ -65,6 +66,7 @@ class UserApplyJob(APIView):
                         job=job,
                         applicant=user,
                         full_name=f"{user.first_name} {user.last_name}")
+                        
                     return Response({'success': "application sent successfully"})
             else:
                 return Response({'error': "You have to be looged in for an auto apply"})

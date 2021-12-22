@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% block body %}
+<div class="container">
+    <h1 class='title'>Notifications</h1>
+    {% if not notifications%}
+     No notifications yet!
+     {% endif%}
+
+     {% for notification in notifications%}
+     <div class="container">
+       <p>
+           {% if notification.notifications_type =='message'%}
+           <a href="{% url 'notifications'%}?goto=view_application&notification={{notification.id}}&extra_id={{notification.extra_id}}">
+
+            <strong>{{notification.creates_by.username}}</strong>send you a message </br>
+            <small>{{notification.created_at/timesince}} ago</small>
+           </a>
+           <a href="{% url 'notifications'%}?goto=view_application&notification={{notification.id}}&extra_id={{notification.extra_id}}">
+          {% elif notification.notifications_type =='application'%}
+          <strong>{{notification.creates_by.username}}</strong> Applied for your job</br>
+          <small>{{notification.created_at/timesince}} ago</small>
+           </a>
+           {% endif%}
+       </p>
+
+     </div>
+     {% endfor%}
+</div>
+{% endblock body%}
