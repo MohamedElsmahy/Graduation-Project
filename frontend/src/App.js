@@ -14,6 +14,7 @@ import ContactUs from "./pages/ContactUs";
 import Layout from "./hocs/Layout";
 import PrivateRoute from "./components/PrivateRoute";
 import User from "./pages/profile";
+import ProfilePage from "./pages/ProfilePage";
 
 function App() {
   return (
@@ -53,6 +54,7 @@ function App() {
                 //</PrivateRoute>
               }
             />
+            <Route path="/profilepage" element={<ProfilePage />} />
             <Route path="/" element={<JobsList />} />
             <Route path="blog/" element={<Blog />} />
             <Route path="job/:id/" element={<JobDetails />} />
