@@ -18,6 +18,7 @@ import EmailIcon from "@material-ui/icons/Email";
 import PhoneIcon from "@material-ui/icons/Phone";
 import { connect } from "react-redux";
 import Content from "../hocs/Content";
+import GetAppIcon from '@material-ui/icons/GetApp';
 
 function Copyright() {
   return (
@@ -123,7 +124,11 @@ const ProfilePage = ({ user }) => {
                     </Typography>
                     <Typography variant={"body1"}>
                       <LanguageIcon className={classes.iconStyle} />{" "}
-                      <a>{user.website}</a>
+                      <a href={user.website}>{user.website}</a>
+                    </Typography>
+                    <Typography variant={"body1"}>
+                      <GetAppIcon className={classes.iconStyle} />{" "}
+                       <a href={user.cv}>Download my Resume</a>
                     </Typography>
                   </Grid>
                 </Grid>
@@ -132,18 +137,14 @@ const ProfilePage = ({ user }) => {
             {/* Recent Deposits */}
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper} elevation={3}>
-                <SummaryCard title={"CV"} value={user.cv} />
-              </Paper>
-            </Grid>
-
-            <Grid item xs={12}>
-              <Paper className={classes.paper} elevation={3}>
-                <Typography color="primary" variant={"h6"}>
+              <Typography color="primary" variant={"h6"}>
                   Personal Summary
                 </Typography>
                 <Typography variant={"subtitle2"}>{user.bio}</Typography>
               </Paper>
             </Grid>
+
+            
             {/* Recent Orders */}
             <Grid item xs={12}>
               <Paper className={classes.paper} elevation={3}>
