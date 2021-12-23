@@ -1,4 +1,6 @@
 from rest_framework.views import APIView
+
+from accounts.models import EmployeeProfile
 from .models import Application, Category, Job
 from django.db.models import Q
 from .serializers import ApplicationSerializer, CategorySerializer, JobSerializer
@@ -113,6 +115,17 @@ class EmployerApplications(generics.ListAPIView):
         return queryset
 
 
+class EmployerJobs(generics.ListAPIView):
+    model = Job
+    serializer_class = JobSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        queryset = Job.objects.filter(owner=user)
+        return queryset
+
+
+
 class ApplicationDetails(generics.RetrieveAPIView):
     queryset = Application.objects.all()
     serializer_class = ApplicationSerializer
@@ -139,3 +152,27 @@ class JobSearch(APIView):
 class CategoryListApi(generics.ListAPIView):
     queryset  = Category.objects.all()
     serializer_class = CategorySerializer
+
+
+class SaveJob(APIView):
+    def put(self, request, job_id):
+        profile = EmployeeProfile.objects.get(user=self.request.user)
+        job = Job.objects.get(id=job_id)
+        try:
+            profile.saved_jobs.add(job)
+            profile.save()
+            return Response({"success": "job saved successfully"})
+        except Exception as e:
+            return Response({"error": e.args})
+
+
+class RemoveSavedJob(APIView):
+    def put(self, request, job_id):
+        profile = EmployeeProfile.objects.get(user=self.request.user)
+        job = Job.objects.get(id=job_id)
+        try:
+            profile.saved_jobs.remove(job)
+            profile.save()
+            return Response({"success": "job removed successfully"})
+        except Exception as e:
+            return Response({"error": e.args})

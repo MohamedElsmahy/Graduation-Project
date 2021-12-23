@@ -23,8 +23,8 @@ class JobSerializer(serializers.ModelSerializer):
 
 
 class ApplicationSerializer(serializers.ModelSerializer):
-    title = serializers.CharField(source='job.title')
     applicant_email = serializers.CharField(source='applicant.email', default="")
+    job = JobSerializer()
     class Meta:
         model=Application
         fields='__all__'
