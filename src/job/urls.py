@@ -32,6 +32,8 @@ urlpatterns = [
     path('api/jobs/<int:job_id>/remove/', api.RemoveSavedJob.as_view() , name = 'RemoveJob'),
     #apply for a job (not a user)
     path('api/jobs/<int:job_id>/apply/anonymous/', api.AnonApplyJob.as_view() , name = 'AnonApplyJob'),
+    #get recruiter jobs
+    path('api/jobs/employer_jobs/', api.EmployerJobs.as_view() , name = 'EmployerJobs'),
     # get user applications
     path('api/employee_applications/', api.EmployeeApplications.as_view() , name = 'EmployeeApplications'),
     # get recruiter applications

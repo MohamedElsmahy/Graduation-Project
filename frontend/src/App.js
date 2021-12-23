@@ -25,36 +25,43 @@ function App() {
             <Route
               path="profile/"
               element={
-                //<PrivateRoute>
-                <User />
-                //</PrivateRoute>
+                <PrivateRoute>
+                  <User />
+                </PrivateRoute>
               }
             />
             <Route
               path="addjob/"
               element={
-                //<PrivateRoute>
-                <AddJob />
-                //</PrivateRoute>
+                <PrivateRoute>
+                  <AddJob />
+                </PrivateRoute>
               }
             />
             <Route
               path="posts/:id/"
               element={
-                //<PrivateRoute>
-                <PostDetails />
-                //</PrivateRoute>
+                <PrivateRoute>
+                  <PostDetails />
+                </PrivateRoute>
               }
             />
             <Route
               path="posts/add/"
               element={
-                //<PrivateRoute>
-                <AddPost />
-                //</PrivateRoute>
+                <PrivateRoute>
+                  <AddPost />
+                </PrivateRoute>
               }
             />
-            <Route path="/profilepage" element={<ProfilePage />} />
+            <Route
+              path="/profilepage"
+              element={
+                <PrivateRoute>
+                  <ProfilePage />
+                </PrivateRoute>
+              }
+            />
             <Route path="/" element={<JobsList />} />
             <Route path="blog/" element={<Blog />} />
             <Route path="job/:id/" element={<JobDetails />} />

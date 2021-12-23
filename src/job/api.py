@@ -115,6 +115,17 @@ class EmployerApplications(generics.ListAPIView):
         return queryset
 
 
+class EmployerJobs(generics.ListAPIView):
+    model = Job
+    serializer_class = JobSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        queryset = Job.objects.filter(owner=user)
+        return queryset
+
+
+
 class ApplicationDetails(generics.RetrieveAPIView):
     queryset = Application.objects.all()
     serializer_class = ApplicationSerializer
