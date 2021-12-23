@@ -12,12 +12,12 @@ import Box from "@material-ui/core/Box";
 import Avatar from "@material-ui/core/Avatar";
 import EmployeeTabs from "../components/EmployeeTabs";
 import EmployerTabs from "../components/EmployerTabs";
-import LocationOnIcon from '@material-ui/icons/LocationOn';
-import LanguageIcon from '@material-ui/icons/Language';
-import EmailIcon from '@material-ui/icons/Email';
-import PhoneIcon from '@material-ui/icons/Phone';
-import TitleIcon from '@material-ui/icons/Title';
+import LocationOnIcon from "@material-ui/icons/LocationOn";
+import LanguageIcon from "@material-ui/icons/Language";
+import EmailIcon from "@material-ui/icons/Email";
+import PhoneIcon from "@material-ui/icons/Phone";
 import { connect } from "react-redux";
+import Content from "../hocs/Content";
 
 function Copyright() {
   return (
@@ -58,9 +58,24 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
   },
   fixedHeight: {
-    height: 240,
+    height: 280,
+  },
+  iconStyle: {
+    marginTop: theme.spacing(2),
   },
 }));
+
+export function SummaryCard({ title, value }) {
+  const classes = useStyles();
+  return (
+    <Paper elevation={3} className={classes.paper}>
+      <Typography color={"primary"} variant="h5" gutterBottom>
+        {title}
+      </Typography>
+      <div>{value}</div>
+    </Paper>
+  );
+}
 
 const ProfilePage = ({ user }) => {
   const classes = useStyles();
@@ -77,28 +92,61 @@ const ProfilePage = ({ user }) => {
             {/* Chart */}
             <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper} elevation={3}>
-              <Avatar
-              src={user.image}
-              classes={{ root: classes.avatar, circle: classes.circle }}
-            />
-            <Typography variant={"h6"}>{user.first_name} {user.last_name}</Typography>
-            <Typography variant={"subtitle1"}>{user.title}</Typography>
-            <Typography variant={"body1"}><LocationOnIcon />{user.location}</Typography>
-            <Typography variant={"body1"}><PhoneIcon/>{user.phone_number}</Typography>
-            <Typography variant={"body1"}><EmailIcon/>{user.email}</Typography>
-            <Typography variant={"body1"}><EmailIcon/><a>{user.website}</a></Typography>
+                <Grid
+                  container
+                  direction="row"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <Grid xs={4}>
+                    <Avatar
+                      src={user.image}
+                      classes={{ root: classes.avatar, circle: classes.circle }}
+                    />
+                    <Typography variant={"h5"}>
+                      {user.first_name} {user.last_name}
+                    </Typography>
+                    <Typography variant={"h6"}>{user.title}</Typography>
+                  </Grid>
 
-        
-            </Paper>
+                  <Grid className={classes.gridStyle}>
+                    <Typography variant={"body1"}>
+                      <LocationOnIcon className={classes.iconStyle} />{" "}
+                      {user.location}
+                    </Typography>
+                    <Typography variant={"body1"}>
+                      <PhoneIcon className={classes.iconStyle} />{" "}
+                      {user.phone_number}
+                    </Typography>
+                    <Typography variant={"body1"}>
+                      <EmailIcon className={classes.iconStyle} /> {user.email}
+                    </Typography>
+                    <Typography variant={"body1"}>
+                      <LanguageIcon className={classes.iconStyle} />{" "}
+                      <a>{user.website}</a>
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Paper>
             </Grid>
             {/* Recent Deposits */}
             <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}><Typography color="primary" variant={"h6"}>Personal Summary</Typography>
-              <Typography variant={"subtitle2"}>{user.bio}</Typography></Paper>
+              <Paper className={fixedHeightPaper} elevation={3}>
+                <SummaryCard title={"CV"} value={user.cv} />
+              </Paper>
+            </Grid>
+
+            <Grid item xs={12}>
+              <Paper className={classes.paper} elevation={3}>
+                <Typography color="primary" variant={"h6"}>
+                  Personal Summary
+                </Typography>
+                <Typography variant={"subtitle2"}>{user.bio}</Typography>
+              </Paper>
             </Grid>
             {/* Recent Orders */}
             <Grid item xs={12}>
-              <Paper className={classes.paper}>
+              <Paper className={classes.paper} elevation={3}>
                 {user.is_employer ? <EmployerTabs /> : <EmployeeTabs />}
               </Paper>
             </Grid>
