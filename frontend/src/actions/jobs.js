@@ -238,3 +238,4 @@ export const loadCategories = () => async (dispatch) => {
     });
   }
 };
+
