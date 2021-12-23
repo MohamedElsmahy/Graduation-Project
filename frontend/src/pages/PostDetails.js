@@ -278,29 +278,6 @@ const PostDetails = ({ loadPost, post, comments, user }) => {
               </Card>
             );
           })}
-
-          {/* <ul>
-            {comments.map((comment) => {
-              return (
-                <li key={comment.id}>
-                  <h3>
-                    {comment.first_name} {comment.last_name}
-                  </h3>
-                  <h4>{comment.created}</h4>
-                  <h5>{comment.body}</h5>
-                  {userId === comment.user && (
-                    <form
-                      onSubmit={(e) => onSubmitDeleteComment(e, comment.id)}
-                    >
-                      <Button type="submit">
-                        <h4>Delete Comment</h4>
-                      </Button>
-                    </form>
-                  )}
-                </li>
-              );
-            })}
-          </ul> */}
         </>
       ) : (
         <h5>Post Not Found</h5>

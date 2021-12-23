@@ -1,4 +1,4 @@
-import React from "react";
+import React , {useEffect} from "react";
 // import { useParams } from "react-router-dom";
 import Content from "../hocs/Content";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -13,7 +13,10 @@ import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import EditProfile from "./EditProfile";
 import Grid from '@material-ui/core/Grid';
-
+import {loadProfile} from "../actions/profile";
+import { connect } from "react-redux";
+import { deleteAccount } from "../actions/auth";
+import CSRFToken from '../components/CSRFToken';
 // import { useSelector } from "react-redux";
 
 
@@ -64,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function SummaryCard({ title, value, component }) {
+export function SummaryCard({ title, value, component, deleteAccount }) {
   const classes = useStyles();
   return (
     <Paper elevation={3} className={classes.summaryCard}>
@@ -88,7 +91,7 @@ export function SummaryCard({ title, value, component }) {
 
 
 
-export default function User() {
+const User =({loadProfile,user,updateProfile, deleteAccount})=> {
 //   const { driverId } = useParams();
 //   id = id ? id : driverId;
 //   const rows = useSelector(selectPeople);
@@ -99,6 +102,11 @@ export default function User() {
   const classes = useStyles();
   const loading = false;
 
+  useEffect(() => {
+    loadProfile();
+  }, []);
+
+
   if (loading) {
     return (
       <Content>
@@ -106,6 +114,11 @@ export default function User() {
       </Content>
     );
   }
+  const onSubmit = (e) => {
+    e.preventDefault();
+    deleteAccount()
+  };
+
 
   return (
     <Content>
@@ -113,11 +126,11 @@ export default function User() {
         <div className={classes.header}>
           <Avatar
             // alt={driver.name}
-            // src={driver.img}
+            src={user.image}
             classes={{ root: classes.avatar, circle: classes.circle }}
           />
-          <Typography variant={"h5"}>Hamoksha</Typography>
-          <Chip variant={"outlined"} icon={<DriveIcon />} label="Employee" />
+          <Typography variant={"h5"}>{user.first_name}</Typography>
+          <Chip variant={"outlined"} icon={<DriveIcon />} label={user.title} />
           <div className={classes.spacer} />
           <div className={classes.actionGroup}>
             <EditProfile
@@ -133,24 +146,44 @@ export default function User() {
                 </Button>
               )}
             />
-            <Button color="secondary" variant="contained" startIcon={<DeleteIcon />}>
+            <form onSubmit={(e) => onSubmit(e)} >
+            <CSRFToken />
+            <Button type="submit" color="secondary" variant="contained" startIcon={<DeleteIcon />}>
               Delete
             </Button>
+
+            </form>
+            
           </div>
         </div>
       </div>
 
       <div className={classes.summaryCards}>            
-        <SummaryCard title={"Bio"} value={"joipdjpofjk4fddijospkjfihsjiopkdfjhskjpsdfojhigsfsijopdgihfsojdpkdjihfsojadpsgkjbfsosdbhffjsokpsodfjihbididjwokpjfsidhfidjokpdsjfihgdfjkfdsjsfjopdihgfisjofspdihffijdokposjdgihf"} />
+        <SummaryCard title={"Bio"} value={user.bio}/>
       </div>  
       <div className={classes.summaryCards}>
-        <SummaryCard title={"Bio"} value={"$"} />
-        <SummaryCard title={"Addtional Information"} value={"trips"} />
-        <SummaryCard title={"CV"} value={"cv"} />
-        <SummaryCard title={"Rating"} value={"web"} />
+        <SummaryCard title={"Email"} value={user.email} />
+        <SummaryCard title={"Phone Number"} value={user.phone_number} />
+        <SummaryCard title={"WebSite"} value={user.website} />
+        {/* <SummaryCard title={"CV"} > */}
+        <div>
+        <img src={user.cv}>
+         </img>
+
+        </div>
+         
+        {/* <link to={user.cv}></link> */}
+        {/* </SummaryCard> */}
+        
       </div>
     </Content> 
   );
-}
+};
 
+const mapStateToProps = (state) => {
+  return { 
+    user: state.profile
+   };
+};
 
+export default connect(mapStateToProps, { loadProfile , deleteAccount})(User);

@@ -19,6 +19,7 @@ urlpatterns = [
     path('logout/',api.LogoutView.as_view(),name="logout"),
     path('delete/',api.DeleteUserView.as_view(),name="delete"),
     path('profile/',api.GetProfile.as_view(),name="profile"),
+    path('profile/<int:user_id>/',api.VisitProfile.as_view(),name="visit_profile"),
     path('profile/update/',api.UpdateProfileView.as_view(),name="profile_update"),
     
     

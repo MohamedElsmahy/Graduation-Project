@@ -113,19 +113,38 @@ class GetProfile(APIView):
     def get(self, request, format=None):
         user = self.request.user
 
-        # try:
-        if user.is_employer:
-            profile = EmployerProfile.objects.get(user=user)
-            profile = EmployerProfileSerializer(profile)
-        else:
-            profile = EmployeeProfile.objects.get(user=user)
-            profile = EmployeeProfileSerializer(profile)
+        try:
+            if user.is_employer:
+                profile = EmployerProfile.objects.get(user=user)
+                profile = EmployerProfileSerializer(profile)
+            else:
+                profile = EmployeeProfile.objects.get(user=user)
+                profile = EmployeeProfileSerializer(profile)
 
-        user = MyUserSerializer(user)
+            user = MyUserSerializer(user)
 
-        return Response({"user": user.data, "profile": profile.data})
-        # except:
-        #     return Response({'error': "something went wrong while retrieveing profile data"})
+            return Response({"user": user.data, "profile": profile.data})
+        except:
+            return Response({'error': "something went wrong while retrieveing profile data"})
+
+
+class VisitProfile(APIView):
+    def get(self, request, user_id):
+        user = MyUser.objects.get(id=user_id)
+
+        try:
+            if user.is_employer:
+                profile = EmployerProfile.objects.get(user=user)
+                profile = EmployerProfileSerializer(profile)
+            else:
+                profile = EmployeeProfile.objects.get(user=user)
+                profile = EmployeeProfileSerializer(profile)
+
+            user = MyUserSerializer(user)
+
+            return Response({"user": user.data, "profile": profile.data})
+        except:
+            return Response({'error': "something went wrong while retrieveing profile data"})
 
 
 

@@ -4,12 +4,69 @@ import {
   LOAD_JOBS_FAIL,
   LOAD_JOB_SUCCESS,
   LOAD_JOB_FAIL,
+  ADD_JOB_SUCCESS,
+  ADD_JOB_FAIL,
   JOB_APPLICATION_SUCCESS,
   JOB_APPLICATION_FAIL,
   LOAD_CATEGORIES_SUCCESS,
   LOAD_CATEGORIES_FAIL,
 } from "./types";
 import Cookies from "js-cookie";
+
+export const AddNewJob =
+  (
+    owner,
+    username,
+    first_name,
+    last_name,
+    title,
+    job_type,
+    description,
+    vacancy,
+    salary,
+    experience,
+    category
+  ) =>
+  async (dispatch) => {
+    const config = {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "X-CSRFToken": Cookies.get("csrftoken"),
+      },
+    };
+
+    const body = JSON.stringify({
+      owner,
+      username,
+      first_name,
+      last_name,
+      title,
+      job_type,
+      description,
+      vacancy,
+      salary,
+      experience,
+      category,
+      withCredentials: true,
+    });
+
+    try {
+      const res = await axios.post(
+        "http://127.0.0.1:8000/jobs/api/jobs/",
+        body,
+        config
+      );
+      dispatch({
+        type: ADD_JOB_SUCCESS,
+      });
+      return res;
+    } catch (err) {
+      dispatch({
+        type: ADD_JOB_FAIL,
+      });
+    }
+  };
 
 export const UserApplyJob = (id) => async (dispatch) => {
   const config = {
@@ -98,16 +155,10 @@ export const loadJobs = () => async (dispatch) => {
 
   try {
     const res = await axios.get("http://localhost:8000/jobs/api/jobs/", config);
-    if (res.data.error) {
-      dispatch({
-        type: LOAD_JOBS_FAIL,
-      });
-    } else {
-      dispatch({
-        type: LOAD_JOBS_SUCCESS,
-        payload: res.data.jobs,
-      });
-    }
+    dispatch({
+      type: LOAD_JOBS_SUCCESS,
+      payload: res.data,
+    });
   } catch (err) {
     dispatch({
       type: LOAD_JOBS_FAIL,

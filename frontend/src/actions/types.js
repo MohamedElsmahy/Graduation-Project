@@ -27,6 +27,8 @@ export const LOAD_JOBS_SUCCESS = "LOAD_JOBS_SUCCESS";
 export const LOAD_JOBS_FAIL = "LOAD_JOBS_FAIL";
 export const LOAD_JOB_SUCCESS = "LOAD_JOB_SUCCESS";
 export const LOAD_JOB_FAIL = "LOAD_JOB_FAIL";
+export const ADD_JOB_SUCCESS = "ADD_JOB_SUCCESS";
+export const ADD_JOB_FAIL = "ADD_JOB_FAIL";
 
 //contact us states
 export const SEND_INFO_SUCCESS = "SEND_INFO_SUCCESS";

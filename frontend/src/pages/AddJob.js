@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Navigate } from "react-router-dom";
 
 import Card from "@material-ui/core/Card";
-import Grid from "@material-ui/core/Grid";
 import { makeStyles, Paper, TextField } from "@material-ui/core";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -10,6 +9,7 @@ import NativeSelect from "@material-ui/core/NativeSelect";
 import Button from "@material-ui/core/Button";
 
 import { connect } from "react-redux";
+import { AddNewJob } from "../actions/jobs";
 
 const useStyle = makeStyles({
   card: {
@@ -22,8 +22,58 @@ const useStyle = makeStyles({
   },
 });
 
-const AddJob = ({ is_employer }) => {
+const AddJob = ({ is_employer, user, AddNewJob }) => {
   const classes = useStyle();
+  const [formData, setFormData] = useState({
+    owner: user.id,
+    username: user.username,
+    first_name: user.first_name,
+    last_name: user.last_name,
+    title: "",
+    job_type: "Full time",
+    description: "",
+    vacancy: "",
+    salary: "",
+    experience: "",
+    category: 1,
+  });
+
+  let {
+    owner,
+    username,
+    first_name,
+    last_name,
+    title,
+    job_type,
+    description,
+    vacancy,
+    salary,
+    experience,
+    category,
+  } = formData;
+
+  const onChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    const res = await AddNewJob(
+      owner,
+      username,
+      first_name,
+      last_name,
+      title,
+      job_type,
+      description,
+      Number(vacancy),
+      Number(salary),
+      Number(experience),
+      category
+    );
+    if (res.status === 201) return <Navigate replace to="/" />;
+  };
+
   if (!is_employer) return <Navigate replace to="/" />;
 
   return (
@@ -40,6 +90,9 @@ const AddJob = ({ is_employer }) => {
       >
         <h1 style={{ marginLeft: 30, textAlign: "center" }}>Add Job</h1>
         <form
+          onSubmit={(e) => {
+            onSubmit(e);
+          }}
           noValidate
           autoComplete="off"
           style={{ width: 850, marginRight: "auto", marginLeft: "auto" }}
@@ -47,6 +100,11 @@ const AddJob = ({ is_employer }) => {
           <TextField
             className={classes.field}
             label="title"
+            name="title"
+            value={title}
+            onChange={(e) => {
+              onChange(e);
+            }}
             variant="outlined"
             color="primary"
             fullWidth
@@ -59,6 +117,11 @@ const AddJob = ({ is_employer }) => {
             </InputLabel>
             <NativeSelect
               defaultValue={30}
+              name="job_type"
+              // value={job_type}
+              // onChange={(e) => {
+              //   onChange(e);
+              // }}
               inputProps={{
                 name: "job_type",
                 id: "uncontrolled-native",
@@ -72,7 +135,12 @@ const AddJob = ({ is_employer }) => {
 
           <TextField
             className={classes.field}
-            label="descriptions"
+            label="description"
+            name="description"
+            value={description}
+            onChange={(e) => {
+              onChange(e);
+            }}
             variant="outlined"
             color="primary"
             multiline
@@ -83,6 +151,11 @@ const AddJob = ({ is_employer }) => {
           <TextField
             type="number"
             label="vacancy"
+            name="vacancy"
+            value={vacancy}
+            onChange={(e) => {
+              onChange(e);
+            }}
             variant="outlined"
             fullWidth
           />
@@ -92,6 +165,11 @@ const AddJob = ({ is_employer }) => {
           <TextField
             type="number"
             label="salary"
+            name="salary"
+            value={salary}
+            onChange={(e) => {
+              onChange(e);
+            }}
             variant="outlined"
             fullWidth
           />
@@ -101,6 +179,11 @@ const AddJob = ({ is_employer }) => {
           <TextField
             type="number"
             label="experience"
+            name="experience"
+            value={experience}
+            onChange={(e) => {
+              onChange(e);
+            }}
             variant="outlined"
             fullWidth
           />
@@ -112,6 +195,11 @@ const AddJob = ({ is_employer }) => {
               category
             </InputLabel>
             <NativeSelect
+              name="category"
+              // value={category}
+              // onChange={(e) => {
+              //   onChange(e);
+              // }}
               defaultValue={30}
               inputProps={{
                 name: "category",
@@ -124,34 +212,29 @@ const AddJob = ({ is_employer }) => {
               <option>other</option>
             </NativeSelect>
           </FormControl>
-          <FormControl className={classes.field}>
-            <InputLabel>image</InputLabel>
-
-            <input type="file" />
-          </FormControl>
+          <Button
+            type="submit"
+            variant="contained"
+            disableElevation
+            color="primary"
+            style={{
+              color: "primary",
+              padding: 15,
+              fontWeight: "bold",
+              fontSize: 15,
+            }}
+            fullWidth
+          >
+            Add Job
+          </Button>
         </form>
-        <Button
-          type="submit"
-          variant="contained"
-          disableElevation
-          color="primary"
-          style={{
-            color: "primary",
-            padding: 15,
-            fontWeight: "bold",
-            fontSize: 15,
-          }}
-          fullWidth
-        >
-          Add Now
-        </Button>
       </Card>
     </div>
   );
 };
 
 const mapStateToProps = (state) => {
-  return { is_employer: state.profile.is_employer };
+  return { is_employer: state.profile.is_employer, user: state.profile };
 };
 
-export default connect(mapStateToProps)(AddJob);
+export default connect(mapStateToProps, { AddNewJob })(AddJob);

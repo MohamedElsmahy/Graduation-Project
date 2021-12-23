@@ -24,6 +24,7 @@ def job_detail_api(request , id):
 ''' Generic Views '''
 
 class JobListApi(generics.ListCreateAPIView):
+    permission_classes = (permissions.AllowAny,)
     model = Job
     queryset  = Job.objects.all()
     serializer_class = JobSerializer
@@ -42,10 +43,10 @@ class GetJobs(APIView):
 
 
 class JobDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = (permissions.AllowAny,)
     queryset = Job.objects.all()
     serializer_class = JobSerializer
     lookup_field = 'id'
-    permission_classes = (permissions.AllowAny,)
 
 
 
@@ -76,20 +77,20 @@ class AnonApplyJob(APIView):
     def post(self, request, job_id):
         data = self.request.data
         job = Job.objects.get(id=job_id)
-        # try:
-        if Application.objects.filter(Q(email=data["email"]) & Q(job=job)).exists():
-            return Response({'error': "An aplication for this job with this email already exists"})
-        else:
-            Application.objects.create(
-                job=job,
-                full_name=data["full_name"],
-                email=data["email"],
-                website=data["website"],
-                cv=data["cv"],
-                cover_letter=data["cover_letter"])
-            return Response({'success': "application sent successfully"})
-        # except Exception as e:
-        #     return Response({'error': e.args})
+        try:
+            if Application.objects.filter(Q(email=data["email"]) & Q(job=job)).exists():
+                return Response({'error': "An aplication for this job with this email already exists"})
+            else:
+                Application.objects.create(
+                    job=job,
+                    full_name=data["full_name"],
+                    email=data["email"],
+                    website=data["website"],
+                    cv=data["cv"],
+                    cover_letter=data["cover_letter"])
+                return Response({'success': "application sent successfully"})
+        except Exception as e:
+            return Response({'error': e.args})
 
 
 class EmployeeApplications(generics.ListAPIView):
