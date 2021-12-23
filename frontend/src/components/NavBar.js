@@ -205,7 +205,7 @@ const Navbar = ({ isAuthenticated }) => {
                 <IconButton
                   edge="end"
                   color="inherit"
-                  to={"/profile"}
+                  to={"/profilepage"}
                   component={RouterLink}
                 >
                   <AccountCircle />
