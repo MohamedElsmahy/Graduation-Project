@@ -10,13 +10,12 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     overflow: "auto",
     [theme.breakpoints.up("sm")]: {
-      width: `calc(100% - 200px)`,
-      marginLeft: '50px',
+      width: `calc(100% - 250px)`,
     },
   },
   container: {
-    paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4),
+    paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(1),
     position: "relative",
   },
 }));
