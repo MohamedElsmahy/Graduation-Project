@@ -26,12 +26,12 @@ const useStyles = makeStyles({
   },
 });
 
-const SideDrawer = ({ is_employer , logout}) => {
+const SideDrawer = ({ is_employer, isAuthenticated, logout }) => {
   const navigate = useNavigate();
-  const handleClick =() =>{
+  const handleClick = () => {
     logout();
-    navigate.push("/")
-  }
+    navigate("/", { replace: true });
+  };
   const classes = useStyles();
   const [state, setState] = React.useState({
     left: false,
@@ -69,41 +69,42 @@ const SideDrawer = ({ is_employer , logout}) => {
       </List> */}
 
       <List>
-        <ListItem to={"/"}  component={RouterLink} button >
-            <ListItemIcon>
-              <Home />
-            </ListItemIcon>
-            <ListItemText primary="Home" />
-         
+        <ListItem to={"/"} component={RouterLink} button>
+          <ListItemIcon>
+            <Home />
+          </ListItemIcon>
+          <ListItemText primary="Home" />
         </ListItem>
 
         {is_employer && (
-          <ListItem to={"/addjob"}  component={RouterLink} button>
-              <ListItemIcon>
-                <AddIcon />
-              </ListItemIcon>
-              <ListItemText primary="Add Job" />
+          <ListItem to={"/addjob"} component={RouterLink} button>
+            <ListItemIcon>
+              <AddIcon />
+            </ListItemIcon>
+            <ListItemText primary="Add Job" />
           </ListItem>
         )}
 
-        <ListItem to={"/blog"}  component={RouterLink} button>
-            <ListItemIcon>
-              <BorderColorIcon />
-            </ListItemIcon>
-            <ListItemText primary="Blog" />
-        </ListItem>
-        <ListItem to={"/contactus"}  component={RouterLink} button>
-            <ListItemIcon>
-              <MailIcon />
-            </ListItemIcon>
-            <ListItemText primary="Contact Us" />
-        </ListItem>
-        <ListItem onClick={handleClick} button>
+        <ListItem to={"/blog"} component={RouterLink} button>
           <ListItemIcon>
-            <ExitToAppIcon />
+            <BorderColorIcon />
           </ListItemIcon>
-          <ListItemText primary="Logout" />
+          <ListItemText primary="Blog" />
         </ListItem>
+        <ListItem to={"/contactus"} component={RouterLink} button>
+          <ListItemIcon>
+            <MailIcon />
+          </ListItemIcon>
+          <ListItemText primary="Contact Us" />
+        </ListItem>
+        {isAuthenticated && (
+          <ListItem onClick={handleClick} button>
+            <ListItemIcon>
+              <ExitToAppIcon />
+            </ListItemIcon>
+            <ListItemText primary="Logout" />
+          </ListItem>
+        )}
       </List>
     </div>
   );
@@ -131,7 +132,8 @@ const SideDrawer = ({ is_employer , logout}) => {
 const mapStateToProps = (state) => {
   return {
     is_employer: state.profile.is_employer,
+    isAuthenticated: state.auth.isAuthenticated,
   };
 };
 
-export default connect(mapStateToProps,{logout})(SideDrawer);
+export default connect(mapStateToProps, { logout })(SideDrawer);

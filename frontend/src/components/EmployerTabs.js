@@ -1,11 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
+import React from "react";
+import PropTypes from "prop-types";
+import { makeStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
+import EmployerJobsTable from "../hocs/EmployerJobsTable";
+import EmployerApplications from "../hocs/EmployerApplications";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -19,7 +21,7 @@ function TabPanel(props) {
       {...other}
     >
       {value === index && (
-        <Box p={1}>
+        <Box p={2}>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -36,7 +38,7 @@ TabPanel.propTypes = {
 function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
   };
 }
 
@@ -58,17 +60,23 @@ const EmployerTabs = () => {
   return (
     <div className={classes.root}>
       <AppBar position="static">
-        <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          aria-label="simple tabs example"
+        >
           <Tab label="My Jobs" {...a11yProps(0)} />
+          <Tab label="Applications" {...a11yProps(1)} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        Item Three
+        <EmployerJobsTable />
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+        <EmployerApplications />
       </TabPanel>
     </div>
   );
-}
+};
 
-
-  
 export default EmployerTabs;

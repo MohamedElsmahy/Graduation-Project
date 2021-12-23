@@ -1,3 +1,4 @@
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
@@ -8,6 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import TableSavedJobs from '../hocs/TableSavedJobs';
 import TableAppliedJobs from '../hocs/TableAppliedJobs'
+
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -38,7 +40,7 @@ TabPanel.propTypes = {
 function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
   };
 }
 
@@ -49,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EmployeeTabs = ( ) => {
+const EmployeeTabs = () => {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -60,21 +62,27 @@ const EmployeeTabs = ( ) => {
   return (
     <div className={classes.root}>
       <AppBar position="static">
-        <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          aria-label="simple tabs example"
+        >
           <Tab label="Saved Jobs" {...a11yProps(0)} />
           <Tab label="Applications" {...a11yProps(1)} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
 
+
          <TableSavedJobs/> 
          
+
       </TabPanel>
       <TabPanel value={value} index={1}>
         <TableAppliedJobs/>
       </TabPanel>
     </div>
   );
-}
-  
+};
+
 export default EmployeeTabs;
