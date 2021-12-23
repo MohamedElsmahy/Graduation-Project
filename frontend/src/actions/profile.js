@@ -36,6 +36,7 @@ export const loadProfile = () => async (dispatch) => {
     });
   }
 };
+
 export const updateProfile =
   (
     first_name,
@@ -108,4 +109,7 @@ export const updateProfile =
         type: UPDATE_PROFILE_FAIL,
       });
     }
-  };
+};
+
+
+

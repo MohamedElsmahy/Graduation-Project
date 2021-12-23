@@ -5,12 +5,14 @@ import Footer from '../components/Footer';
 import { connect } from 'react-redux';
 import { checkAuth } from './../actions/auth';
 import { loadProfile } from '../actions/profile';
+import { loadCategories } from '../actions/jobs';
 
 
-const Layout = ({ children, checkAuth, loadProfile }) => {
+const Layout = ({ children, checkAuth, loadProfile, loadCategories }) => {
   useEffect(() => {
     checkAuth();
     loadProfile();
+    loadCategories();
     
   }, []);
   return (
@@ -22,4 +24,4 @@ const Layout = ({ children, checkAuth, loadProfile }) => {
   );
 };
 
-export default connect(null, { checkAuth, loadProfile })(Layout);
+export default connect(null, { checkAuth, loadProfile, loadCategories })(Layout);

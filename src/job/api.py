@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
-from .models import Application, Job
+from .models import Application, Category, Job
 from django.db.models import Q
-from .serializers import ApplicationSerializer, JobSerializer
+from .serializers import ApplicationSerializer, CategorySerializer, JobSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
@@ -123,7 +123,7 @@ class JobListFilter(generics.ListAPIView):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['job_type', 'experince', 'category']
+    filterset_fields = ['job_type', 'experience', 'category']
     
         
     
@@ -135,3 +135,7 @@ class JobSearch(APIView):
         data = JobSerializer(queryset, many = True).data       
         return Response({'job':data})
     
+ 
+class CategoryListApi(generics.ListAPIView):
+    queryset  = Category.objects.all()
+    serializer_class = CategorySerializer
