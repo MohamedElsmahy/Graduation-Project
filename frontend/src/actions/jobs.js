@@ -143,7 +143,7 @@ export const AnonApplyJob =
         type: JOB_APPLICATION_FAIL,
       });
     }
-};
+  };
 
 export const loadJobs = () => async (dispatch) => {
   const config = {
@@ -175,7 +175,7 @@ export const loadJob = (id) => async (dispatch) => {
   };
   try {
     const jobRes = await axios.get(
-      `http://localhost:8000/jobs/api/${id}`,
+      `http://localhost:8000/jobs/api/jobs/${id}/`,
       config
     );
     dispatch({
