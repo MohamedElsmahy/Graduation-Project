@@ -204,8 +204,9 @@ const Navbar = ({ isAuthenticated }) => {
                 </IconButton>
                 <IconButton
                   edge="end"
-                  //   onClick={}
                   color="inherit"
+                  to={"/profile"}
+                  component={RouterLink}
                 >
                   <AccountCircle />
                 </IconButton>
@@ -222,7 +223,6 @@ const Navbar = ({ isAuthenticated }) => {
                 >
                   SignUp
                 </Button>
-                
 
                 <Button
                   variant="contained"
