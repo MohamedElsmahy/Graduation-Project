@@ -49,3 +49,7 @@ export const JOBS_FILTER_FAIL = "JOBS_FILTER_FAIL";
 //jobs search states
 export const JOBS_SEARCH_SUCCESS = "JOBS_SEARCH_SUCCESS";
 export const JOBS_SEARCH_FAIL = "JOBS_SEARCH_FAIL";
+
+// apply job states
+export const APPLY_JOB_SUCCESS ="APPLY_JOB_SUCCESS"
+export const APPLY_JOB_FAIL ="APPLY_JOB_FAIL"
