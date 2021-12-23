@@ -1,5 +1,6 @@
 import axios from "axios";
 import Cookies from "js-cookie";
+import { Navigate } from "react-router-dom";
 
 import { loadProfile } from "./profile";
 import {
@@ -103,6 +104,7 @@ export const logout = () => async (dispatch) => {
       dispatch({
         type: LOGOUT_SUCCESS,
       });
+      
     } else {
       dispatch({
         type: LOGOUT_FAIL,
