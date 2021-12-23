@@ -167,9 +167,7 @@ const User =({loadProfile,user,updateProfile, deleteAccount})=> {
         <SummaryCard title={"WebSite"} value={user.website} />
         {/* <SummaryCard title={"CV"} > */}
         <div>
-        <img src={user.cv}>
-         </img>
-
+        <img src={user.cv}/>
         </div>
          
         {/* <link to={user.cv}></link> */}
