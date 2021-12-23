@@ -165,7 +165,7 @@ const JobsList = ({ loadJobs, jobs, categories, FilterJobs, SearchJobs }) => {
             <SearchIcon />
           </div>
           <InputBase
-            name = "title"
+            name="title"
             value={title}
             onChange={(e) => onChangeSearch(e)}
             placeholder="Title Contains"
@@ -177,20 +177,20 @@ const JobsList = ({ loadJobs, jobs, categories, FilterJobs, SearchJobs }) => {
           />
         </div>
         <Button
-                  type="submit"
-                  color="primary"
-                  variant="contained"
-                  disableElevation
-                  style={{
-                    padding: 15,
-                    fontWeight: "bold",
-                    fontSize: 15,
-                    margin: 5,
-                    width: 260,
-                  }}
-                >
-                  Search
-                </Button>
+          type="submit"
+          color="primary"
+          variant="contained"
+          disableElevation
+          style={{
+            padding: 15,
+            fontWeight: "bold",
+            fontSize: 15,
+            margin: 5,
+            width: 260,
+          }}
+        >
+          Search
+        </Button>
       </form>
       <Grid
         style={{
@@ -211,39 +211,6 @@ const JobsList = ({ loadJobs, jobs, categories, FilterJobs, SearchJobs }) => {
                   onSubmit(e);
                 }}
               >
-                {/* <select 
-                name = "job_type"
-                value={job_type}
-                onChange={(e) => onChange(e)}
-                >
-                    <option>{" "}</option>
-                    <option value = "Full time" >Full Time</option>
-                    <option value = "Part time">Part Time</option>
-                </select>
-
-                <TextField
-                  style={texfielsstyle}
-                  name="experience"
-                  value={experience}
-                  onChange={(e) => onChange(e)}
-                  type="number"
-                  label="Experience"
-                  variant="outlined"
-                  fullWidth
-                />
-
-                <select name = "category"
-                value={category}
-                onChange={(e) => onChange(e)}>
-                  <option>{" "}</option>
-                {categories.map((category) => {
-                      return (
-                        <option key={category.id} value={category.id}>{category.name}</option>
-                      );
-                    })}
-                </select>
-                <button type="submit">Search</button> */}
-
                 <FormControl fullWidth variant="outlined" style={texfielsstyle}>
                   <InputLabel htmlFor="uncontrolled-native">
                     Job Type
