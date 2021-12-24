@@ -57,17 +57,6 @@ const SideDrawer = ({ is_employer, isAuthenticated, logout }) => {
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-      {/* <List>
-        {["Home", "Blog", "Contact Us", "Logout"].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List> */}
-
       <List>
         <ListItem to={"/"} component={RouterLink} button>
           <ListItemIcon>
