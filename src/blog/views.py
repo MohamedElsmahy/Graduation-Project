@@ -1,12 +1,10 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
-
 from accounts.models import MyUser
 from .models import Post , Comment
 from .serializers import PostSerializer , CommentSerializer
-from rest_framework import generics
-# Create your views here.
+from rest_framework import generics, permissions
 
 
 '''Generic API Views'''
@@ -20,9 +18,7 @@ class PostListApi(generics.ListCreateAPIView):
     queryset = Post.objects.all()
     queryset = queryset.order_by("-created")
     serializer_class = PostSerializer
-
-    
-
+    permission_classes = (permissions.AllowAny,)
 
 
 class GetPosts(APIView):
@@ -46,8 +42,6 @@ class PostDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PostSerializer
     lookup_field = "id"
 
-    
-
 
 '''            Comment             '''
 
@@ -55,6 +49,7 @@ class PostDetail(generics.RetrieveUpdateDestroyAPIView):
 class CommentListApi(generics.ListCreateAPIView):
     model = Comment
     serializer_class = CommentSerializer
+    permission_classes = (permissions.AllowAny,)
 
     def get_queryset(self):
         post = Post.objects.get(id=self.kwargs['post_id'])
@@ -64,6 +59,7 @@ class CommentListApi(generics.ListCreateAPIView):
 
 #API view for Retrieve , Delete & Update Comment
 class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = (permissions.AllowAny,)
     serializer_class = CommentSerializer
     lookup_field = "id"
 

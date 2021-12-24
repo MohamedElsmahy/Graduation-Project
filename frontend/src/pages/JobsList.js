@@ -298,7 +298,7 @@ const JobsList = ({ loadJobs, jobs, categories, FilterJobs, SearchJobs }) => {
                         <Grid container item xs={12} spacing={3}>
                           <Link to={`/job/${job.id}`}>
                             <CardHeader
-                              avatar={<Avatar aria-label="recipe">E</Avatar>}
+                              avatar={<Avatar src={job.image} />}
                               title={job.title}
                               subheader={job.category} // fix show category name
                             />

@@ -1,69 +1,92 @@
 import React from "react";
-import  Grid  from "@material-ui/core/Grid";
-import  Box  from "@material-ui/core/Box";
-import { Link } from "react-router-dom";
-import { Container } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import Box from "@material-ui/core/Box";
+import { Link as RouterLink } from "react-router-dom";
+import FacebookIcon from "@material-ui/icons/Facebook";
+import TwitterIcon from "@material-ui/icons/Twitter";
+import YouTubeIcon from "@material-ui/icons/YouTube";
+import Button from "@material-ui/core/Button";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
+import Link from "@material-ui/core/Link";
+
+function Copyright() {
+  return (
+    <Typography variant="body2" color="textSecondary">
+      {"Copyright © "}
+      <Link color="inherit" href="https://mui.com/">
+        JobBoard
+      </Link>{" "}
+      {new Date().getFullYear()}
+      {"."}
+    </Typography>
+  );
+}
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+    flexDirection: "column",
+    minHeight: "100vh",
+  },
+  footer: {
+    padding: theme.spacing(2, 2),
+    marginTop: "auto",
+    backgroundColor:
+      theme.palette.type === "dark"
+        ? theme.palette.grey[200]
+        : theme.palette.grey[800],
+  },
+}));
 
 const Footer = () => {
+  const classes = useStyles();
   return (
-    <footer>
-      <Box px={{xs:3 ,sm:10}} py={{xs:5,sm:10}} style={{background:"gray" ,color:"white",fontSize:20}} >
-        <Container maxWidth="1g">
-          <Grid container spacing={5}>
-            <Grid item xs={12} sm={4}>
-              <Box borderBottom={1}>help</Box>
-             <Box>
-               <Link to="/" color="inherite" style={{color:"white"}}>
-                 Contact
-               </Link>
-               </Box>
-               <Box>
-               <Link to="/" color="inherite" style={{color:"white"}} >
-                 Support
-               </Link>
-               </Box>
-               <Box>
-               <Link to="/" color="inherite" style={{color:"white"}} >
-                 Privacy
-               </Link>
-               </Box>
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <Box borderBottom={1}>Account</Box>
-             <Box>
-               <Link to="/" color="inherite" style={{color:"white"}}>
-                 Login
-               </Link>
-               </Box>
-               <Box>
-               <Link to="/" color="inherite" style={{color:"white"}}>
-                 Register
-               </Link>
-               </Box>
-         
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <Box borderBottom={1}>Messeges</Box>
-             <Box>
-               <Link to="/" color="inherite" style={{color:"white"}}>
-                 Backup
-               </Link>
-               </Box>
-               <Box>
-               <Link to="/" color="inherite" style={{color:"white"}}>
-                 History
-               </Link>
-               </Box>
-              
-            </Grid>
-          </Grid>
-         <Box textAlign="center" pt={{xs:5,sm:10}} pb={{xs:5 ,sm:0}}>
-           JobBoard Website &reg; {new Date().getFullYear()}
-         </Box>
+    <div className={classes.root}>
+      <CssBaseline />
+      <footer className={classes.footer}>
+        <Container maxWidth="sm">
+          <Typography variant="body1">
+            <Box textAlign="center">
+              <Copyright />
+              <Button to="#" component={RouterLink}>
+                <FacebookIcon />
+              </Button>
+              <Button to="#" component={RouterLink}>
+                <TwitterIcon />
+              </Button>
+              <Button to="#" component={RouterLink}>
+                <YouTubeIcon />
+              </Button>
+            </Box>
+          </Typography>
         </Container>
-      </Box>
-    </footer>
+      </footer>
+    </div>
   );
+  // return (
+  //   <footer className={classes.footer}>
+  //     <Box px={{ xs: 3, sm: 10 }}>
+  //       <Container maxWidth="1g">
+  //         <Box textAlign="center" pt={{ xs: 1, sm: 1 }} pb={{ xs: 5, sm: 0 }}>
+  //           JobBoard &reg; {new Date().getFullYear()}
+  //         </Box>
+  //         <Box textAlign="center">
+  //           <Button to="#" component={RouterLink}>
+  //             <FacebookIcon />
+  //           </Button>
+  //           <Button to="#" component={RouterLink}>
+  //             <TwitterIcon />
+  //           </Button>
+  //           <Button to="#" component={RouterLink}>
+  //             <YouTubeIcon />
+  //           </Button>
+  //         </Box>
+  //       </Container>
+  //     </Box>
+  //   </footer>
+  // );
 };
 
 export default Footer;

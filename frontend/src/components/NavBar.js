@@ -13,10 +13,11 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import { connect } from "react-redux";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import SideDrawer from "./Drawer";
 import Button from "@material-ui/core/Button";
-import MenuIcon from '@material-ui/icons/Menu';
+import UpdateRoundedIcon from "@material-ui/icons/UpdateRounded";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -89,7 +90,6 @@ const Navbar = ({ isAuthenticated }) => {
   const classes = useStyles();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [anchorEl, setAnchorEl] = React.useState(null);
-  
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -104,6 +104,7 @@ const Navbar = ({ isAuthenticated }) => {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
+    //to delete
     handleMobileMenuClose();
   };
 
@@ -111,20 +112,58 @@ const Navbar = ({ isAuthenticated }) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  const menuId = 'primary-search-account-menu';
+  const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
       id={menuId}
       keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      transformOrigin={{ vertical: "top", horizontal: "right" }}
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem to={"/profilepage"} component={RouterLink} onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem to={"/editprofile"} component={RouterLink} onClick={handleMenuClose}>Edit</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Delete</MenuItem>
+      <MenuItem
+        to={"/profilepage"}
+        component={RouterLink}
+        onClick={handleMenuClose}
+      >
+        <IconButton
+          aria-label="account of current user"
+          aria-controls="primary-search-account-menu"
+          aria-haspopup="true"
+          color="inherit"
+        >
+          <AccountCircle />
+        </IconButton>
+        <p>My Profile</p>
+      </MenuItem>
+      <MenuItem
+        to={"/editprofile"}
+        component={RouterLink}
+        onClick={handleMenuClose}
+      >
+        <IconButton
+          aria-label="account of current user"
+          aria-controls="primary-search-account-menu"
+          aria-haspopup="true"
+          color="inherit"
+        >
+          <UpdateRoundedIcon />
+        </IconButton>
+        <p>Update Profile</p>
+      </MenuItem>
+      <MenuItem onClick={handleMenuClose}>
+        <IconButton
+          aria-label="account of current user"
+          aria-controls="primary-search-account-menu"
+          aria-haspopup="true"
+          color="inherit"
+        >
+          <DeleteForeverIcon />
+        </IconButton>
+        <p>Delete My Account</p>
+      </MenuItem>
     </Menu>
   );
 
@@ -149,7 +188,7 @@ const Navbar = ({ isAuthenticated }) => {
             </IconButton>
             <p>Notifications</p>
           </MenuItem>
-          <MenuItem to={"/profilepage"} component={RouterLink}>
+          <MenuItem onClick={handleProfileMenuOpen}>
             <IconButton
               aria-label="account of current user"
               aria-controls="primary-search-account-menu"
@@ -158,34 +197,30 @@ const Navbar = ({ isAuthenticated }) => {
             >
               <AccountCircle />
             </IconButton>
-            <p>Profile</p>
+            <p>My Profile</p>
           </MenuItem>
         </>
       ) : (
         <>
-          <MenuItem>
-            <Button
-              variant="contained"
-              noWrap
-              to={"/signup"}
-              component={RouterLink}
-              color="primary"
-              className={classes.margin}
-            >
-              SignUp
-            </Button>
+          <MenuItem
+            variant="contained"
+            noWrap
+            to={"/signup"}
+            component={RouterLink}
+            color="primary"
+            className={classes.margin}
+          >
+            SignUp
           </MenuItem>
-          <MenuItem>
-            <Button
-              variant="contained"
-              noWrap
-              to={"/signin"}
-              component={RouterLink}
-              color="primary"
-              className={classes.margin}
-            >
-              Login
-            </Button>
+          <MenuItem
+            variant="contained"
+            noWrap
+            to={"/signin"}
+            component={RouterLink}
+            color="primary"
+            className={classes.margin}
+          >
+            Login
           </MenuItem>
         </>
       )}
@@ -239,8 +274,6 @@ const Navbar = ({ isAuthenticated }) => {
                   aria-haspopup="true"
                   onClick={handleProfileMenuOpen}
                   color="inherit"
-                  to={"/profilepage"}
-                  component={RouterLink}
                 >
                   <AccountCircle />
                 </IconButton>

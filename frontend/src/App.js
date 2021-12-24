@@ -14,13 +14,13 @@ import ContactUs from "./pages/ContactUs";
 import Layout from "./hocs/Layout";
 import PrivateRoute from "./components/PrivateRoute";
 // import User from "./pages/profile";
-import Notifications  from "./components/Notification";
+import Notifications from "./components/Notification";
 import ProfilePage from "./pages/ProfilePage";
 import EditProfile from "./pages/EditProfile";
 
 function App() {
   return (
-    <div className="App">
+    <div className="app">
       <Router>
         <Layout>
           <Routes>
