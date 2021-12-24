@@ -42,9 +42,15 @@ export const LOAD_CATEGORIES_FAIL = "LOAD_CATEGORIES_FAIL";
 export const JOB_APPLICATION_SUCCESS = "JOB_APPLICATION_SUCCESS";
 export const JOB_APPLICATION_FAIL = "JOB_APPLICATION_FAIL";
 
+
 //job application reject
 export const APPLICATION_REJECT_SUCCESS = "APPLICATION_REJECT_SUCCESS";
 export const APPLICATION_REJECT_FAIL = "APPLICATION_REJECT_FAIL";
+
+
+//notifications
+export const Notification_SUCCESS = "Notification_SUCCESS";
+export const Notification_FAIL = "Notification_FAIL";
 
 //jobs filter states
 export const JOBS_FILTER_SUCCESS = "JOBS_FILTER_SUCCESS";
