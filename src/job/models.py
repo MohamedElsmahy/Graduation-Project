@@ -1,13 +1,20 @@
 from django.db import models
 from django.utils.text import slugify
 from accounts.models import MyUser
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 # Create your models here.
 
 JOB_TYPE = (
     ('Full time','Full time'),
     ('Part time','Part time'),
+)
 
+APPLICATION_STATUS = (
+    ('Pending','Pending'),
+    ('Accepted','Accepted'),
+    ('Rejected','Rejected'),
 )
 
 def image_upload(instance,filename):
@@ -55,6 +62,31 @@ class Application(models.Model):
     cv = models.FileField(upload_to='application/', blank=True, null=True)
     cover_letter = models.TextField(max_length=500, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=10, choices=APPLICATION_STATUS, default="Pending")
+
     
     def __str__(self):
+        if self.applicant:
+            return f"{self.applicant.email} application for {self.job}"
         return f"{self.email} application for {self.job}"
+
+
+class Interview(models.Model):
+    application = models.OneToOneField(Application, related_name="application", on_delete=models.CASCADE)
+    address = models.CharField(max_length=255)
+    time = models.DateTimeField()
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        if self.application.applicant:
+            return f"Interviewee: {self.application.applicant.email} | Position: {self.application.job}"
+        return f"Interviewee: {self.application.email} | Position: {self.application.job}"
+
+
+@receiver(post_save, sender=Interview)
+def update_application(sender, instance, created, **kwargs):
+    if created:
+        application = Application.objects.filter(id=instance.application.id)[0]
+        application.status="Accepted"
+        application.save()
+        instance.save()

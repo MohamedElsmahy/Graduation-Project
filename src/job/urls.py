@@ -40,5 +40,14 @@ urlpatterns = [
     path('api/employer_applications/', api.EmployerApplications.as_view() , name = 'EmployerApplications'),
     # get application details
     path('api/application/<int:id>/', api.ApplicationDetails.as_view() , name = 'ApplicationDetails'),
+    # update application status
+    path('api/application/<int:id>/update/', api.UpdateApplicationStatus.as_view() , name = 'UpdateApplicationStatus'),
+
+    #Interview APIs
+    #create interview
+    path('api/application/<int:application_id>/setup_interview/', api.CreateInterview.as_view() , name = 'CreateInterview'),
+    #list all interviews
+    path('api/interviews/', api.GetInterviews.as_view() , name = 'InterviewList'),
+
 
 ]
