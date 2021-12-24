@@ -13,7 +13,8 @@ urlpatterns = [
     path('jobs/', include('job.urls' , namespace='jobs')),
     path('contact-us/', include('contact.urls' , namespace='contact')),
     path('api-auth/', include('rest_framework.urls')),
-    path('blog-api/',include('blog.urls'),name='blog-api')
+    path('blog-api/',include('blog.urls'),name='blog-api'),
+    path('notifications/',include('notifications.urls')),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
