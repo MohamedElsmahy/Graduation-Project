@@ -34,6 +34,10 @@ export const ADD_JOB_FAIL = "ADD_JOB_FAIL";
 export const SEND_INFO_SUCCESS = "SEND_INFO_SUCCESS";
 export const SEND_INFO_FAIL = "SEND_INFO_FAIL";
 
+//category states
+export const LOAD_CATEGORIES_SUCCESS = "LOAD_CATEGORIES_SUCCESS";
+export const LOAD_CATEGORIES_FAIL = "LOAD_CATEGORIES_FAIL";
+
 //job application states
 export const JOB_APPLICATION_SUCCESS = "JOB_APPLICATION_SUCCESS";
 export const JOB_APPLICATION_FAIL = "JOB_APPLICATION_FAIL";
@@ -42,3 +46,14 @@ export const JOB_APPLICATION_FAIL = "JOB_APPLICATION_FAIL";
 
 export const Notification_SUCCESS = "Notification_SUCCESS";
 export const Notification_FAIL = "Notification_FAIL";
+//jobs filter states
+export const JOBS_FILTER_SUCCESS = "JOBS_FILTER_SUCCESS";
+export const JOBS_FILTER_FAIL = "JOBS_FILTER_FAIL";
+
+//jobs search states
+export const JOBS_SEARCH_SUCCESS = "JOBS_SEARCH_SUCCESS";
+export const JOBS_SEARCH_FAIL = "JOBS_SEARCH_FAIL";
+
+// apply job states
+export const APPLY_JOB_SUCCESS ="APPLY_JOB_SUCCESS"
+export const APPLY_JOB_FAIL ="APPLY_JOB_FAIL"

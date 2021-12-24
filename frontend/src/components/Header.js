@@ -150,6 +150,30 @@ const Header = ({ isAuthenticated, is_employer, logout }) => {
               Home
             </Button>
           </Typography>
+          <Typography variant="h6" color="primary" className={classes.title}>
+            <Button
+              variant="contained"
+              noWrap
+              to={"/blog"}
+              component={RouterLink}
+              color="primary"
+              className={classes.margin}
+            >
+              Discussion Blog
+            </Button>
+          </Typography>
+          <Typography variant="h6" color="primary" className={classes.title}>
+            <Button
+              variant="contained"
+              noWrap
+              to={"/contactus"}
+              component={RouterLink}
+              color="primary"
+              className={classes.margin}
+            >
+              Contact Us
+            </Button>
+          </Typography>
           {isAuthenticated ? authLinks : guestLinks}
         </Toolbar>
       </AppBar>
