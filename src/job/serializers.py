@@ -15,6 +15,7 @@ class JobSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='owner.username')
     first_name = serializers.CharField(source='owner.first_name')
     last_name = serializers.CharField(source='owner.last_name')
+    image = serializers.ImageField(source='owner.employerprofile.image')
     published_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M", read_only=True)
     owner = StringSerializer(many=False)
     category = StringSerializer(many=False)

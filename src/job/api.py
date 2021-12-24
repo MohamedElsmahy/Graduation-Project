@@ -213,3 +213,17 @@ class GetInterviews(generics.ListAPIView):
     model = Interview
     serializer_class = InterviewSerializer
     queryset = Interview.objects.all()
+
+
+class GetJobApplications(APIView):
+    permission_classes = (permissions.AllowAny,)
+    def get(self, request, job_id):
+        try:
+            pending = Application.objects.filter(Q(job__id=job_id) & Q(status="Pending")).count()
+            accepted = Application.objects.filter(Q(job__id=job_id) & Q(status="Accepted")).count()
+            rejected = Application.objects.filter(Q(job__id=job_id) & Q(status="Rejected")).count()
+            return Response({"pending": pending, "accepted": accepted, "rejected": rejected})
+        except Exception as e:
+            return Response({"error": e.args})
+
+

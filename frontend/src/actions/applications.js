@@ -7,6 +7,8 @@ import {
   APPLICATION_REJECT_FAIL,
   SETUP_INTERVIEW_SUCCESS,
   SETUP_INTERVIEW_FAIL,
+  LOAD_APPLICATIONS_SUCCESS,
+  LOAD_APPLICATIONS_FAIL,
 } from "./types";
 
 const loadEmployeeApplications = () => async (dispatch) => {
@@ -90,6 +92,36 @@ export const createInterview = (address, time, id) => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: SETUP_INTERVIEW_FAIL,
+    });
+  }
+};
+
+export const loadJobApplications = (id) => async (dispatch) => {
+  const config = {
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  };
+
+  try {
+    const res = await axios.get(
+      `http://localhost:8000/jobs/api/jobs/${id}/applications/`,
+      config
+    );
+    if (res.data.error) {
+      dispatch({
+        type: LOAD_APPLICATIONS_FAIL,
+      });
+    } else {
+      dispatch({
+        type: LOAD_APPLICATIONS_SUCCESS,
+      });
+      return res.data;
+    }
+  } catch (err) {
+    dispatch({
+      type: LOAD_APPLICATIONS_FAIL,
     });
   }
 };
