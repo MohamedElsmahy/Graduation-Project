@@ -72,11 +72,7 @@ const EmployeeTabs = () => {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-
-
          <TableSavedJobs/> 
-         
-
       </TabPanel>
       <TabPanel value={value} index={1}>
         <TableAppliedJobs/>

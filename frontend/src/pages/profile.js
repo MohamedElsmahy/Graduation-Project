@@ -1,4 +1,4 @@
-import React , {useEffect} from "react";
+import React, { useEffect } from "react";
 // import { useParams } from "react-router-dom";
 import Content from "../hocs/Content";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -12,14 +12,12 @@ import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import EditProfile from "./EditProfile";
-import Grid from '@material-ui/core/Grid';
-import {loadProfile} from "../actions/profile";
+import Grid from "@material-ui/core/Grid";
+import { loadProfile } from "../actions/profile";
 import { connect } from "react-redux";
 import { deleteAccount } from "../actions/auth";
-import CSRFToken from '../components/CSRFToken';
+import CSRFToken from "../components/CSRFToken";
 // import { useSelector } from "react-redux";
-
-
 
 const useStyles = makeStyles((theme) => ({
   headerContainer: {
@@ -54,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
   summaryCards: {
     // width: '100%',
     // maxWidth: 500,
-    overflow: 'hidden',
+    overflow: "hidden",
     padding: theme.spacing(0, 3),
     display: "flex",
     flexWrap: "wrap",
@@ -74,38 +72,30 @@ export function SummaryCard({ title, value, component, deleteAccount }) {
       <Typography color={"primary"} display="block" variant="h5" gutterBottom>
         {title}
       </Typography>
-      
+
       <Grid container wrap="nowrap" spacing={2}>
-      <Grid item xs> 
-      {component || (
-        <Typography noWrap>
-          {value}
-        </Typography>
-      )}
+        <Grid item xs>
+          {component || <Typography noWrap>{value}</Typography>}
+        </Grid>
       </Grid>
-      </Grid>
-      
     </Paper>
   );
 }
 
-
-
-const User =({loadProfile,user,updateProfile, deleteAccount})=> {
-//   const { driverId } = useParams();
-//   id = id ? id : driverId;
-//   const rows = useSelector(selectPeople);
-//   let driver = rows.find((row) => row.id === +id);
-//   if (!driver) {
-//     driver = { name: "hello", id: 3, img: "foo" };
-//   }
+const User = ({ loadProfile, user, updateProfile, deleteAccount }) => {
+  //   const { driverId } = useParams();
+  //   id = id ? id : driverId;
+  //   const rows = useSelector(selectPeople);
+  //   let driver = rows.find((row) => row.id === +id);
+  //   if (!driver) {
+  //     driver = { name: "hello", id: 3, img: "foo" };
+  //   }
   const classes = useStyles();
   const loading = false;
 
   useEffect(() => {
     loadProfile();
   }, []);
-
 
   if (loading) {
     return (
@@ -116,9 +106,8 @@ const User =({loadProfile,user,updateProfile, deleteAccount})=> {
   }
   const onSubmit = (e) => {
     e.preventDefault();
-    deleteAccount()
+    deleteAccount();
   };
-
 
   return (
     <Content>
@@ -134,7 +123,7 @@ const User =({loadProfile,user,updateProfile, deleteAccount})=> {
           <div className={classes.spacer} />
           <div className={classes.actionGroup}>
             <EditProfile
-            //   data={driver}
+              //   data={driver}
               render={(open) => (
                 <Button
                   color="primary"
@@ -146,42 +135,44 @@ const User =({loadProfile,user,updateProfile, deleteAccount})=> {
                 </Button>
               )}
             />
-            <form onSubmit={(e) => onSubmit(e)} >
-            <CSRFToken />
-            <Button type="submit" color="secondary" variant="contained" startIcon={<DeleteIcon />}>
-              Delete
-            </Button>
-
+            <form onSubmit={(e) => onSubmit(e)}>
+              <CSRFToken />
+              <Button
+                type="submit"
+                color="secondary"
+                variant="contained"
+                startIcon={<DeleteIcon />}
+              >
+                Delete
+              </Button>
             </form>
-            
           </div>
         </div>
       </div>
 
-      <div className={classes.summaryCards}>            
-        <SummaryCard title={"Bio"} value={user.bio}/>
-      </div>  
+      <div className={classes.summaryCards}>
+        <SummaryCard title={"Bio"} value={user.bio} />
+      </div>
       <div className={classes.summaryCards}>
         <SummaryCard title={"Email"} value={user.email} />
         <SummaryCard title={"Phone Number"} value={user.phone_number} />
         <SummaryCard title={"WebSite"} value={user.website} />
         {/* <SummaryCard title={"CV"} > */}
         <div>
-        <img src={user.cv}/>
+          <img src={user.cv} />
         </div>
-         
+
         {/* <link to={user.cv}></link> */}
         {/* </SummaryCard> */}
-        
       </div>
-    </Content> 
+    </Content>
   );
 };
 
 const mapStateToProps = (state) => {
-  return { 
-    user: state.profile
-   };
+  return {
+    user: state.profile,
+  };
 };
 
-export default connect(mapStateToProps, { loadProfile , deleteAccount})(User);
+export default connect(mapStateToProps, { loadProfile, deleteAccount })(User);
