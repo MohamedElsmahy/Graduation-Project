@@ -1,9 +1,9 @@
 from rest_framework.views import APIView
 
 from accounts.models import EmployeeProfile
-from .models import Application, Category, Job
+from .models import Application, Category, Interview, Job
 from django.db.models import Q
-from .serializers import ApplicationSerializer, CategorySerializer, JobSerializer
+from .serializers import ApplicationSerializer, CategorySerializer, InterviewSerializer, JobSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
@@ -176,3 +176,40 @@ class RemoveSavedJob(APIView):
             return Response({"success": "job removed successfully"})
         except Exception as e:
             return Response({"error": e.args})
+
+
+class UpdateApplicationStatus(APIView):
+    def patch(self, request, id):
+
+        application = Application.objects.get(id=id)
+        serializer = ApplicationSerializer(application, data=self.request.data, partial=True)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=200)
+        else:
+            return Response(serializer.errors, status=400)
+
+
+class CreateInterview(APIView):
+    def post(self, request, application_id):
+        data = self.request.data
+        application = Application.objects.get(id=application_id)
+
+        try:
+            if Interview.objects.filter(application=application).exists():
+                return Response({'error': "An interview for this application has already been set up"})
+            else:
+                Interview.objects.create(
+                    application=application,
+                    address=data["address"],
+                    time=data["time"])
+                return Response({'success': "Interview is set up successfully"})
+        except Exception as e:
+            return Response({"error": e.args})
+
+
+class GetInterviews(generics.ListAPIView):
+    model = Interview
+    serializer_class = InterviewSerializer
+    queryset = Interview.objects.all()

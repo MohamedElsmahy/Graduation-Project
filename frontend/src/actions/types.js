@@ -42,10 +42,16 @@ export const LOAD_CATEGORIES_FAIL = "LOAD_CATEGORIES_FAIL";
 export const JOB_APPLICATION_SUCCESS = "JOB_APPLICATION_SUCCESS";
 export const JOB_APPLICATION_FAIL = "JOB_APPLICATION_FAIL";
 
-//notifications
 
+//job application reject
+export const APPLICATION_REJECT_SUCCESS = "APPLICATION_REJECT_SUCCESS";
+export const APPLICATION_REJECT_FAIL = "APPLICATION_REJECT_FAIL";
+
+
+//notifications
 export const Notification_SUCCESS = "Notification_SUCCESS";
 export const Notification_FAIL = "Notification_FAIL";
+
 //jobs filter states
 export const JOBS_FILTER_SUCCESS = "JOBS_FILTER_SUCCESS";
 export const JOBS_FILTER_FAIL = "JOBS_FILTER_FAIL";
@@ -55,5 +61,9 @@ export const JOBS_SEARCH_SUCCESS = "JOBS_SEARCH_SUCCESS";
 export const JOBS_SEARCH_FAIL = "JOBS_SEARCH_FAIL";
 
 // apply job states
-export const APPLY_JOB_SUCCESS ="APPLY_JOB_SUCCESS"
-export const APPLY_JOB_FAIL ="APPLY_JOB_FAIL"
+export const APPLY_JOB_SUCCESS = "APPLY_JOB_SUCCESS";
+export const APPLY_JOB_FAIL = "APPLY_JOB_FAIL";
+
+// setup interview states
+export const SETUP_INTERVIEW_SUCCESS = "SETUP_INTERVIEW_SUCCESS";
+export const SETUP_INTERVIEW_FAIL = "SETUP_INTERVIEW_FAIL";

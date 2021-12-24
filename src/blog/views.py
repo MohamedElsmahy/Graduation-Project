@@ -72,26 +72,3 @@ class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
         queryset = Comment.objects.filter(post=post)
         return queryset
 
-
-
-'''             Likes                 '''
-
-# #API View for list and create Like
-# class LikeListApi(generics.ListCreateAPIView):
-#     model = Like
-#     serializer_class = LikeSerializer
-
-#     def get_queryset(self):
-#         post = Post.objects.get(id=self.kwargs['post_id'])
-#         queryset = Like.objects.filter(post=post)
-#         return queryset
-
-# #API view for Retrieve , Delete & Update Like
-# class LikeDetail(generics.RetrieveUpdateDestroyAPIView):
-#     serializer_class = LikeSerializer
-#     lookup_field = "id"
-
-#     def get_queryset(self):
-#         post = Post.objects.get(id=self.kwargs['post_id'])
-#         queryset = Like.objects.filter(post=post)
-#         return queryset
