@@ -7,6 +7,11 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { connect } from "react-redux";
 import { logout } from "../actions/auth";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+
+
+
 
 const useStyles = makeStyles((themes) => ({
   title: {
@@ -18,6 +23,9 @@ const useStyles = makeStyles((themes) => ({
 }));
 
 const Header = ({ isAuthenticated, is_employer, logout }) => {
+  const navigate = useNavigate();
+  // const applicationjob=useContext(Notifications);
+
   const classes = useStyles();
 
   const authLinks = (
@@ -34,6 +42,24 @@ const Header = ({ isAuthenticated, is_employer, logout }) => {
           Discussion Blog
         </Button>
       </Typography>
+      <Typography variant="h6" color="primary" className={classes.title}>
+        <Button
+        onClick={()=>{
+          navigate.push("/notifications")
+        }}
+          variant="contained"
+          noWrap
+          to={"/notifications"}
+          component={RouterLink}
+          color="primary"
+          className={classes.margin}
+        >
+          Notifications
+        </Button>
+      </Typography>
+
+      
+
       {is_employer && (
         <Typography variant="h6" color="primary" className={classes.title}>
           <Button
@@ -60,6 +86,7 @@ const Header = ({ isAuthenticated, is_employer, logout }) => {
           Contact Us
         </Button>
       </Typography>
+      
       
       <Button
         variant="contained"

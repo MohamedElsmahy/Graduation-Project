@@ -1,12 +1,18 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef,useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
+
+
 
 import Card from "@material-ui/core/Card";
 import { makeStyles, TextField } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
+import {SendNotifications} from '../actions/notifications';
+// import Notifications from "/Notifications"
 
 import { AnonApplyJob } from "../actions/jobs";
+
+
 
 const useStyle = makeStyles({
   card: {
@@ -19,7 +25,25 @@ const useStyle = makeStyles({
   },
 });
 
-const ApplyJob = ({ AnonApplyJob }) => {
+const ApplyJob = ({ AnonApplyJob ,SendNotifications,job,created_by}) => {
+  // const applicationjob=useContext(Notifications);
+
+  // function applystatushandler(){
+  //  applicationjob.addapply({
+  //   id:AnonApplyJob.id,
+  //   full_name:AnonApplyJob.full_name,
+  //   email:AnonApplyJob.email,
+  //   website:AnonApplyJob.website,
+  //   cv:AnonApplyJob.cv,
+  //   cover_letter:AnonApplyJob.cover_letter,
+    
+
+  //  }) 
+  // }
+  // const sendnotify=(job,created_by)=>{
+  
+
+  // }
   const classes = useStyle();
   const { id } = useParams();
   const navigate = useNavigate();
@@ -31,7 +55,7 @@ const ApplyJob = ({ AnonApplyJob }) => {
     cv: null,
     cover_letter: "",
   });
-
+ 
   const { full_name, email, website, cv, cover_letter } = formData;
 
   const onChange = (e) => {
@@ -40,6 +64,9 @@ const ApplyJob = ({ AnonApplyJob }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+   
+   
+    // sendnotify();
     const res = await AnonApplyJob(
       id,
       full_name,
@@ -51,6 +78,8 @@ const ApplyJob = ({ AnonApplyJob }) => {
     if (res.success) navigate(`/job/${id}`);
     else console.log(res.error);
   };
+
+  
 
   return (
     <div>
@@ -136,6 +165,7 @@ const ApplyJob = ({ AnonApplyJob }) => {
           <br></br>
           <br></br>
           <Button
+            
             type="submit"
             variant="contained"
             color="primary"
@@ -145,6 +175,7 @@ const ApplyJob = ({ AnonApplyJob }) => {
               fontWeight: "bold",
               fontSize: 15,
               marginTop: 5,
+              
             }}
             fullWidth
           >
@@ -159,7 +190,10 @@ const mapStateToProps = (state) => {
   return {
     job: state.job.job,
     isAuthenticated: state.isAuthenticated,
+    created_by:state.profile.id,
+    
+
   };
 };
 
-export default connect(mapStateToProps, { AnonApplyJob })(ApplyJob);
+export default connect(mapStateToProps, { AnonApplyJob,SendNotifications })(ApplyJob)

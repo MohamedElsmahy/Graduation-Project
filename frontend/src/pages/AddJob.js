@@ -11,6 +11,7 @@ import Button from "@material-ui/core/Button";
 import { connect } from "react-redux";
 import { AddNewJob } from "../actions/jobs";
 
+
 const useStyle = makeStyles({
   card: {
     boxShadow: 10,
@@ -75,6 +76,7 @@ const AddJob = ({ is_employer, user, AddNewJob }) => {
   };
 
   if (!is_employer) return <Navigate replace to="/" />;
+  
 
   return (
     <div>
@@ -213,6 +215,7 @@ const AddJob = ({ is_employer, user, AddNewJob }) => {
             </NativeSelect>
           </FormControl>
           <Button
+            
             type="submit"
             variant="contained"
             disableElevation

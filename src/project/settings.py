@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'job',
     'blog',
     'contact',
+    'notifications'
 ]
 
 MIDDLEWARE = [
@@ -89,9 +90,9 @@ WSGI_APPLICATION = 'project.wsgi.application'
 DATABASES={
    'default':{
       'ENGINE':'django.db.backends.postgresql_psycopg2',
-      'NAME':'test',
+      'NAME':'grad_pro',
       'USER':'postgres',
-      'PASSWORD':'12457896532',
+      'PASSWORD':'123',
       'HOST':'localhost',
       'PORT':'5432',
    }

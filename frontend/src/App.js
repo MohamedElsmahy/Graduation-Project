@@ -14,6 +14,7 @@ import ContactUs from "./pages/ContactUs";
 import Layout from "./hocs/Layout";
 import PrivateRoute from "./components/PrivateRoute";
 import User from "./pages/profile";
+import  Notifications  from "./components/Notification";
 
 function App() {
   return (
@@ -81,6 +82,7 @@ function App() {
             <Route path="signup/" element={<SignUp />} />
             <Route path="signin/" element={<SignIn />} />
             <Route path="contactus/" element={<ContactUs />} />
+             <Route path="notifications" element={<Notifications />} />
           </Routes>
         </Layout>
       </Router>

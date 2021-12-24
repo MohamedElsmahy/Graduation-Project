@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { loadJob, DeleteJob, UserApplyJob } from "../actions/jobs";
 import { connect } from "react-redux";
+import { SendNotifications } from "../actions/notifications";
 
 import Button from "@material-ui/core/Button";
 
 const JobDetails = ({
+  SendNotifications,
   isAuthenticated,
   loadJob,
   DeleteJob,
@@ -27,6 +29,7 @@ const JobDetails = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
+
     const delete_Job = async () => {
       await DeleteJob();
       if (DeleteJob() === 204) {
@@ -38,6 +41,9 @@ const JobDetails = ({
 
   const handleApplyJob = (e) => {
     e.preventDefault();
+    SendNotifications(job.owner,true,job.id,userId).then(res=>{
+      window.alert(res)
+     });
     console.log(isAuthenticated);
     {
       isAuthenticated ? UserApplyJob(id) : navigate(`/job/${id}/apply`);
@@ -92,6 +98,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { loadJob, DeleteJob, UserApplyJob })(
+export default connect(mapStateToProps, { loadJob, DeleteJob, UserApplyJob,SendNotifications })(
   JobDetails
 );
