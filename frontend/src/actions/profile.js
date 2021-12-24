@@ -49,7 +49,8 @@ export const updateProfile =
     image,
     cv,
     location,
-    user
+    user,
+    saved_jobs
   ) =>
   async (dispatch) => {
     const formData = new FormData();
@@ -64,6 +65,7 @@ export const updateProfile =
     formData.append("cv",cv);
     formData.append("location",location);
     formData.append("user",user);
+    formData.append("saved_jobs",saved_jobs);
 
     const config = {
       headers: {
@@ -85,7 +87,8 @@ export const updateProfile =
       image,
       cv,
       location,
-      user
+      user,
+      saved_jobs,
     });
     try {
       const res = await axios.put(
@@ -93,6 +96,7 @@ export const updateProfile =
         formData,
         config
       );
+      console.log(res.data)
       if (res.status==200){
         dispatch({
           type: UPDATE_PROFILE_SUCCESS,

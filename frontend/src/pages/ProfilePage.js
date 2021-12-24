@@ -4,7 +4,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
-// import Chip from "@material-ui/core/Chip";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Link from "@material-ui/core/Link";
@@ -17,7 +16,6 @@ import LanguageIcon from "@material-ui/icons/Language";
 import EmailIcon from "@material-ui/icons/Email";
 import PhoneIcon from "@material-ui/icons/Phone";
 import { connect } from "react-redux";
-import Content from "../hocs/Content";
 import GetAppIcon from '@material-ui/icons/GetApp';
 
 function Copyright() {
@@ -80,7 +78,6 @@ export function SummaryCard({ title, value }) {
 
 const ProfilePage = ({ user }) => {
   const classes = useStyles();
-
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (

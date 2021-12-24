@@ -1,63 +1,67 @@
-import React , {useState , useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
-import Select from "@material-ui/core/Select";
+// import Dialog from "@material-ui/core/Dialog";
+import Paper from "@material-ui/core/Paper";
+// import DialogActions from "@material-ui/core/DialogActions";
+// import DialogContent from "@material-ui/core/DialogContent";
+// import DialogTitle from "@material-ui/core/DialogTitle";
+// import FormControl from "@material-ui/core/FormControl";
+// import InputLabel from "@material-ui/core/InputLabel";
+// import Select from "@material-ui/core/Select";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 // import NativeSelect from '@material-ui/core/NativeSelect';
 import { connect } from "react-redux";
 // import { add, update } from "../ReduxTable/peopleSlice";
 // import { useDispatch } from "react-redux";
 // import { nextID } from "../ReduxTable/peopleSlice";
-import {updateProfile} from "../actions/profile";
-import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
-import { deleteAccount } from './../actions/auth';
+import { updateProfile } from "../actions/profile";
+import Grid from "@material-ui/core/Grid";
+import { makeStyles } from "@material-ui/core/styles";
+import { deleteAccount } from "./../actions/auth";
+import { Label } from "@material-ui/icons";
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.primary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(3),
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
 }));
-const EditProfile=({ data, render, onSave,updateProfile,first_name_global,last_name_global,phone_number_global,image_global,cv_global,user_global,email_global,title_global,website_global,bio_global,location_global,emp_global })=> {
-  const [profileUpdated,setProfileUpdated] = useState(false);
+const EditProfile = ({
+  updateProfile,
+  first_name_global,
+  last_name_global,
+  phone_number_global,
+  image_global,
+  cv_global,
+  user_global,
+  email_global,
+  title_global,
+  website_global,
+  bio_global,
+  location_global,
+  emp_global,
+  saved_jobs_global,
+}) => {
+  const [profileUpdated, setProfileUpdated] = useState(false);
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const navigate = useNavigate();
   // const dispatch = useDispatch();
 
-  const defaultImg = data && data.img;
-  const defaultName = data && data.name;
-  // Existing ID or random ID
-  const id = data && data.id;
-
-  const [img, setImg] = React.useState(defaultImg);
-  const [name, setName] = React.useState(defaultName);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-    setName(defaultName);
-    setImg(defaultImg);
-  };
-
   const handleClose = () => {
-    setOpen(false);
+    navigate("/profilepage", { replace: true });
   };
 
   // const handleSave = () => {
@@ -66,18 +70,20 @@ const EditProfile=({ data, render, onSave,updateProfile,first_name_global,last_n
   //   onSave && onSave();
   //   handleClose();
   // };
+
   const [formData, setFormData] = useState({
-    first_name: '',
-    last_name: '',
-    phone_number:'',
-    image:'',
-    cv: '',
-    email: '',
-    title: '',
-    website:'',
-    location:'',
-    bio:''
+    first_name: "",
+    last_name: "",
+    phone_number: "",
+    image: "",
+    cv: "",
+    email: "",
+    title: "",
+    website: "",
+    location: "",
+    bio: "",
   });
+
   const {
     first_name,
     last_name,
@@ -90,26 +96,27 @@ const EditProfile=({ data, render, onSave,updateProfile,first_name_global,last_n
     location,
     bio,
   } = formData;
-useEffect(()=>{
-  setFormData({
-    first_name: first_name_global,
-    last_name: last_name_global,
-    phone_number:phone_number_global,
-    image: image_global,
-    cv: cv_global,
-    title:title_global,
-    email:email_global,
-    bio:bio_global,
-    website:website_global,
-    location:location_global,
-  });
-},[first_name_global])
+
+  useEffect(() => {
+    setFormData({
+      first_name: first_name_global,
+      last_name: last_name_global,
+      phone_number: phone_number_global,
+      image: image_global,
+      cv: cv_global,
+      title: title_global,
+      email: email_global,
+      bio: bio_global,
+      website: website_global,
+      location: location_global,
+    });
+  }, [first_name_global]);
 
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    
   };
-  const update = async () =>{
+
+  const update = async () => {
     await updateProfile(
       first_name,
       last_name,
@@ -122,27 +129,26 @@ useEffect(()=>{
       cv,
       location,
       user_global,
-      
+      saved_jobs_global,
     );
-    setProfileUpdated(!profileUpdated)
+    setProfileUpdated(!profileUpdated);
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
-    update()
+    update();
+    navigate("/profilepage", { replace: true });
   };
 
   return (
     <>
-    
-      {render(handleClickOpen)}
-      <Dialog
-        open={open}
-        // onClose={handleClose}
-        aria-labelledby="form-dialog-title"
-      >
-        
-        <form onSubmit={(e) => onSubmit(e)} className={classes.form} noValidate encType="multipart/form-data">
+      <Paper className={classes.paper} elevation={3}>
+        <form
+          onSubmit={(e) => onSubmit(e)}
+          className={classes.form}
+          noValidate
+          encType="multipart/form-data"
+        >
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -257,31 +263,56 @@ useEffect(()=>{
                 autoComplete="location"
               />
             </Grid>
-            
+
             <Grid item xs={12} sm={6}>
-              <input type="file" id="image" name="image"  onChange={(e) => setFormData({ ...formData, [e.target.name]: e.target.files[0] })}>
-              </input>
+              <h4>image</h4>
+              <input
+                type="file"
+                accept={image_global}
+                id="image"
+                name="image"
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    [e.target.name]: e.target.files[0],
+                  })  
+                }
+              ></input>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <input type="file" id="cv" name="cv"  onChange={(e) => setFormData({ ...formData, [e.target.name]: e.target.files[0] })}>
-              </input>
+            <h4>CV</h4>
+              <input
+                type="file"
+                accept={cv_global}
+                id="cv"
+                name="cv"
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    [e.target.name]: e.target.files[0],
+                  })
+                }
+              ></input>
             </Grid>
-           
-           
-            
           </Grid>
           <Button
-            type="submit"
-            fullWidth
+            onClick={handleClose}
             variant="contained"
             color="primary"
             className={classes.submit}
           >
-           Save
+            Cancel
           </Button>
-          
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+          >
+            Save
+          </Button>
         </form>
-          
+
         {/* <DialogTitle id="form-dialog-title">Edit User</DialogTitle>
         <DialogContent>
           <TextField
@@ -355,12 +386,13 @@ useEffect(()=>{
           </Button>
           <Button color="primary">Save</Button>
         </DialogActions> */}
-      </Dialog>
-    </> 
+        {/* </Dialog> */}
+      </Paper>
+    </>
   );
-}
+};
 const mapStateToProps = (state) => {
-  return { 
+  return {
     first_name_global: state.profile.first_name,
     last_name_global: state.profile.last_name,
     phone_number_global: state.profile.phone_number,
@@ -372,10 +404,9 @@ const mapStateToProps = (state) => {
     title_global: state.profile.title,
     location_global: state.profile.location,
     bio_global: state.profile.bio,
-    website_global: state.website
-
-
-   };
+    website_global: state.profile.website,
+    saved_jobs_global: state.profile.saved_jobs,
+  };
 };
 
 export default connect(mapStateToProps, { updateProfile })(EditProfile);
