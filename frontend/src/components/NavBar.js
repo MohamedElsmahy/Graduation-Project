@@ -8,7 +8,6 @@ import InputBase from "@material-ui/core/InputBase";
 import Badge from "@material-ui/core/Badge";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import NotificationsIcon from "@material-ui/icons/Notifications";
@@ -17,6 +16,8 @@ import { connect } from "react-redux";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import SideDrawer from "./Drawer";
 import Button from "@material-ui/core/Button";
+import MenuIcon from '@material-ui/icons/Menu';
+
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
@@ -87,16 +88,45 @@ const useStyles = makeStyles((theme) => ({
 const Navbar = ({ isAuthenticated }) => {
   const classes = useStyles();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  
 
+  const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const handleProfileMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
   };
 
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    handleMobileMenuClose();
+  };
+
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+
+  const menuId = 'primary-search-account-menu';
+  const renderMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem to={"/profilepage"} component={RouterLink} onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem to={"/editprofile"} component={RouterLink} onClick={handleMenuClose}>Edit</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Delete</MenuItem>
+    </Menu>
+  );
 
   const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
@@ -119,7 +149,7 @@ const Navbar = ({ isAuthenticated }) => {
             </IconButton>
             <p>Notifications</p>
           </MenuItem>
-          <MenuItem to={"/profile"} component={RouterLink}>
+          <MenuItem to={"/profilepage"} component={RouterLink}>
             <IconButton
               aria-label="account of current user"
               aria-controls="primary-search-account-menu"
@@ -204,6 +234,10 @@ const Navbar = ({ isAuthenticated }) => {
                 </IconButton>
                 <IconButton
                   edge="end"
+                  aria-label="account of current user"
+                  aria-controls={menuId}
+                  aria-haspopup="true"
+                  onClick={handleProfileMenuOpen}
                   color="inherit"
                   to={"/profilepage"}
                   component={RouterLink}
@@ -251,6 +285,7 @@ const Navbar = ({ isAuthenticated }) => {
         </Toolbar>
       </AppBar>
       {renderMobileMenu}
+      {renderMenu}
     </div>
   );
 };
