@@ -232,7 +232,7 @@ const JobDetails = ({
             color="textPrimary"
             className={classes.Typography2}
           >
-            applications:
+            applications: {job.applications}
           </Typography>
           <div className={classes.applications}>
             <Chip
