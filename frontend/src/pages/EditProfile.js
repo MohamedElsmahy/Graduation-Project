@@ -1,25 +1,17 @@
 import React, { useState, useEffect } from "react";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { connect } from "react-redux";
+
+import { updateProfile } from "../actions/profile";
+
+import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-// import Dialog from "@material-ui/core/Dialog";
 import Paper from "@material-ui/core/Paper";
-// import DialogActions from "@material-ui/core/DialogActions";
-// import DialogContent from "@material-ui/core/DialogContent";
-// import DialogTitle from "@material-ui/core/DialogTitle";
-// import FormControl from "@material-ui/core/FormControl";
-// import InputLabel from "@material-ui/core/InputLabel";
-// import Select from "@material-ui/core/Select";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
-// import NativeSelect from '@material-ui/core/NativeSelect';
-import { connect } from "react-redux";
-// import { add, update } from "../ReduxTable/peopleSlice";
-// import { useDispatch } from "react-redux";
-// import { nextID } from "../ReduxTable/peopleSlice";
-import { updateProfile } from "../actions/profile";
 import Grid from "@material-ui/core/Grid";
-import { makeStyles } from "@material-ui/core/styles";
-import { deleteAccount } from "./../actions/auth";
-import { Label } from "@material-ui/icons";
+import IconButton from "@material-ui/core/IconButton";
+import PhotoCamera from "@material-ui/icons/PhotoCamera";
+
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -32,11 +24,14 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.primary.main,
   },
   form: {
-    width: "100%", // Fix IE 11 issue.
+    width: "100%",
     marginTop: theme.spacing(3),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
+    margin: theme.spacing(3, 1, 2),
+  },
+  fileInput: {
+    display: "none",
   },
 }));
 const EditProfile = ({
@@ -102,8 +97,6 @@ const EditProfile = ({
       first_name: first_name_global,
       last_name: last_name_global,
       phone_number: phone_number_global,
-      image: image_global,
-      cv: cv_global,
       title: title_global,
       email: email_global,
       bio: bio_global,
@@ -129,7 +122,7 @@ const EditProfile = ({
       cv,
       location,
       user_global,
-      saved_jobs_global,
+      saved_jobs_global
     );
     setProfileUpdated(!profileUpdated);
   };
@@ -207,20 +200,22 @@ const EditProfile = ({
                 autoComplete="email"
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="title"
-                label="title"
-                placeholder={`${title_global}`}
-                name="title"
-                value={title}
-                onChange={(e) => onChange(e)}
-                autoComplete="title"
-              />
-            </Grid>
+            {!emp_global && (
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  variant="outlined"
+                  required
+                  fullWidth
+                  id="title"
+                  label="title"
+                  placeholder={`${title_global}`}
+                  name="title"
+                  value={title}
+                  onChange={(e) => onChange(e)}
+                  autoComplete="title"
+                />
+              </Grid>
+            )}
             <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
@@ -243,7 +238,7 @@ const EditProfile = ({
                 id="bio"
                 label="bio"
                 placeholder={`${bio_global}`}
-                name="website"
+                name="bio"
                 value={bio}
                 onChange={(e) => onChange(e)}
                 autoComplete="bio"
@@ -265,40 +260,58 @@ const EditProfile = ({
             </Grid>
 
             <Grid item xs={12} sm={6}>
-              <h4>image</h4>
               <input
                 type="file"
+                className={classes.fileInput}
                 accept={image_global}
-                id="image"
+                id="upload-image"
                 name="image"
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    [e.target.name]: e.target.files[0],
-                  })  
-                }
-              ></input>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-            <h4>CV</h4>
-              <input
-                type="file"
-                accept={cv_global}
-                id="cv"
-                name="cv"
                 onChange={(e) =>
                   setFormData({
                     ...formData,
                     [e.target.name]: e.target.files[0],
                   })
                 }
-              ></input>
+              />
+              <label htmlFor="upload-image">
+                <Button variant="contained" color="primary" component="span">
+                  update profile picture
+                </Button>
+              </label>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              {!emp_global && (
+                <>
+                  <input
+                    type="file"
+                    className={classes.fileInput}
+                    accept={cv_global}
+                    id="upload-cv"
+                    name="cv"
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        [e.target.name]: e.target.files[0],
+                      })
+                    }
+                  ></input>
+                  <label htmlFor="upload-cv">
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      component="span"
+                    >
+                      update your CV
+                    </Button>
+                  </label>
+                </>
+              )}
             </Grid>
           </Grid>
           <Button
             onClick={handleClose}
             variant="contained"
-            color="primary"
+            color="secondary"
             className={classes.submit}
           >
             Cancel
@@ -312,81 +325,6 @@ const EditProfile = ({
             Save
           </Button>
         </form>
-
-        {/* <DialogTitle id="form-dialog-title">Edit User</DialogTitle>
-        <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Name"
-            fullWidth
-            // value={name}
-            // onChange={(e) => {
-            //   setName(e.target.value);
-            // }}
-          />
-          <TextField
-            autoFocus
-            margin="dense"
-            label="Bio"
-            fullWidth
-            // value={Bio}
-            // onChange={(e) => {
-            //   setImg(e.target.value);
-            // }}
-          />
-          <TextField
-            autoFocus
-            margin="dense"
-            label="Phone Number"
-            fullWidth
-            // value={img}
-            // onChange={(e) => {
-            //   setImg(e.target.value);
-            // }}
-          />
-          <TextField
-            autoFocus
-            margin="dense"
-            label="Website"
-            fullWidth
-            // value={img}
-            // onChange={(e) => {
-            //   setImg(e.target.value);
-            // }}
-          />
-          <TextField
-            autoFocus
-            margin="dense"
-            label="Location"
-            fullWidth
-            // value={img}
-            // onChange={(e) => {
-            //   setImg(e.target.value);
-            // }}
-          />
-          <br />
-          <br />
-          <Button variant="contained" component="label">
-            Upload Image
-            <input type="file" hidden />
-          </Button>
-          <br></br>
-          <br></br>
-          <Button variant="contained" component="label">
-            Upload Cv
-            <input type="file" hidden />
-          </Button>
-        </DialogContent>
-
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button color="primary">Save</Button>
-        </DialogActions> */}
-        {/* </Dialog> */}
       </Paper>
     </>
   );

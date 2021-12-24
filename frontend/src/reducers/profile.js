@@ -1,19 +1,24 @@
-import { LOAD_PROFILE_SUCCESS, LOAD_PROFILE_FAIL, UPDATE_PROFILE_SUCCESS, UPDATE_PROFILE_FAIL } from '../actions/types';
+import {
+  LOAD_PROFILE_SUCCESS,
+  LOAD_PROFILE_FAIL,
+  UPDATE_PROFILE_SUCCESS,
+  UPDATE_PROFILE_FAIL,
+} from "../actions/types";
 
 const initialState = {
-  id: '',
+  id: "",
   is_employer: false,
-  first_name: '',
-  last_name: '',
-  username: '',
-  email: '',
-  title: '',
-  phone_number: '',
-  website: '',
-  bio: '',
-  image: '',
-  cv: '',
-  location: '',
+  first_name: "",
+  last_name: "",
+  username: "",
+  email: "",
+  title: "",
+  phone_number: "",
+  website: "",
+  bio: "",
+  image: "",
+  cv: "",
+  location: "",
   saved_jobs: [],
 };
 
@@ -43,25 +48,25 @@ const profile = (state = initialState, action) => {
     case LOAD_PROFILE_FAIL:
       return {
         ...state,
-        id: '',
+        id: "",
         is_employer: false,
-        first_name: '',
-        last_name: '',
-        username: '',
-        email: '',
-        title: '',
-        phone_number: '',
-        website: '',
-        bio: '',
-        image: '',
-        cv: '',
-        location: '',
-        saved_jobs: '',
+        first_name: "",
+        last_name: "",
+        username: "",
+        email: "",
+        title: "",
+        phone_number: "",
+        website: "",
+        bio: "",
+        image: "",
+        cv: "",
+        location: "",
+        saved_jobs: "",
       };
-     case UPDATE_PROFILE_FAIL:
-       return{
-         ...state,
-       }
+    case UPDATE_PROFILE_FAIL:
+      return {
+        ...state,
+      };
     default:
       return state;
   }

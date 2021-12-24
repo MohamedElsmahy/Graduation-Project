@@ -33,7 +33,7 @@ from job.models import Job
 
 class EmployeeProfile(models.Model):
     user = models.OneToOneField(MyUser, on_delete=models.CASCADE)
-    saved_jobs = models.ManyToManyField(Job, blank=True, null=True)
+    saved_jobs = models.ManyToManyField(Job, blank=True)
     title = models.CharField(max_length=200, blank=True, null=True)
     location = models.CharField(max_length=255, blank=True, null=True)
     phone_number = models.CharField(max_length = 15)
@@ -44,10 +44,6 @@ class EmployeeProfile(models.Model):
 
     def __str__(self):
         return str(self.user)
-
-
-
-
 
 
 @receiver(post_save, sender=MyUser)

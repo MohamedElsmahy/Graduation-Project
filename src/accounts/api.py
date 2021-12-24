@@ -156,16 +156,22 @@ class UpdateProfileView(APIView):
         
         if user.is_employer:
             profile = EmployerProfile.objects.get(user=user)
-            serializer = EmployerProfileSerializer(profile, data=self.request.data, partial=True)
+            profile_serializer = EmployerProfileSerializer(profile, data=self.request.data, partial=True)
         else:
             profile = EmployeeProfile.objects.get(user=user)
-            serializer = EmployeeProfileSerializer(profile, data=self.request.data, partial=True)
+            profile_serializer = EmployeeProfileSerializer(profile, data=self.request.data, partial=True)
 
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=200)
+        user_serializer = MyUserSerializer(user, data=self.request.data, partial=True)
+
+        if profile_serializer.is_valid():
+            if user_serializer.is_valid():
+                user_serializer.save()
+                profile_serializer.save()
+                return Response({"user": user_serializer.data, "profile": profile_serializer.data}, status=200)
+            else:
+                return Response(user_serializer.errors, status=400)
         else:
-            return Response(serializer.errors, status=400)
+            return Response(profile_serializer.errors, status=400)
 
 
 
