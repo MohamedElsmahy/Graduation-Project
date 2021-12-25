@@ -58,6 +58,10 @@ export const Notification_FAIL = "Notification_FAIL";
 export const EMP_NOTIFICATIONS_SUCCESS = "EMP_NOTIFICATIONS_SUCCESS";
 export const EMP_NOTIFICATIONS_FAIL = "EMP_NOTIFICATIONS_FAIL";
 
+//update employee notifications
+export const UPDATE_EMP_NOTIF_SUCCESS = "UPDATE_EMP_NOTIF_SUCCESS";
+export const UPDATE_EMP_NOTIF_FAIL = "UPDATE_EMP_NOTIF_FAIL";
+
 //jobs filter states
 export const JOBS_FILTER_SUCCESS = "JOBS_FILTER_SUCCESS";
 export const JOBS_FILTER_FAIL = "JOBS_FILTER_FAIL";
@@ -73,3 +77,7 @@ export const APPLY_JOB_FAIL = "APPLY_JOB_FAIL";
 // setup interview states
 export const SETUP_INTERVIEW_SUCCESS = "SETUP_INTERVIEW_SUCCESS";
 export const SETUP_INTERVIEW_FAIL = "SETUP_INTERVIEW_FAIL";
+
+// load interview states
+export const LOAD_INTERVIEW_SUCCESS = "LOAD_INTERVIEW_SUCCESS";
+export const LOAD_INTERVIEW_FAIL = "LOAD_INTERVIEW_FAIL";

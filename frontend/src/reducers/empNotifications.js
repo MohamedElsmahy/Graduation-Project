@@ -5,6 +5,7 @@ import {
 
 const initialState = {
   notifications: [],
+  unread: 0,
 };
 
 const empNotifications = (state = initialState, action) => {
@@ -14,11 +15,13 @@ const empNotifications = (state = initialState, action) => {
     case EMP_NOTIFICATIONS_SUCCESS:
       return {
         ...state,
-        notifications: payload,
+        notifications: payload.notifications,
+        unread: payload.unread,
       };
     case EMP_NOTIFICATIONS_FAIL:
       return {
-        ...state,
+        notifications: [],
+        unread: 0,
       };
     default:
       return state;
