@@ -22,7 +22,7 @@ import { loadJobs } from "../actions/jobs";
 import { connect } from "react-redux";
 import { FilterJobs, SearchJobs } from "../actions/filters";
 
-const JobsList = ({ loadJobs, jobs, categories, FilterJobs, SearchJobs }) => {
+const JobsList = ({ loadJobs, jobs, categories, FilterJobs, SearchJobs,filters }) => {
   const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
@@ -137,6 +137,8 @@ const JobsList = ({ loadJobs, jobs, categories, FilterJobs, SearchJobs }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     FilterJobs(job_type, experience, category);
+    
+    
   };
 
   const onSubmitSearch = (e) => {
@@ -282,6 +284,7 @@ const JobsList = ({ loadJobs, jobs, categories, FilterJobs, SearchJobs }) => {
           <Grid item xs={12} md={8}>
             <Paper elevation={4} style={paperstyle}>
               <h1 style={header}>Job list</h1>
+              
               {jobs ? (
                 jobs.map((job) => {
                   return (
@@ -384,7 +387,7 @@ const JobsList = ({ loadJobs, jobs, categories, FilterJobs, SearchJobs }) => {
 };
 
 const mapStateToProps = (state) => {
-  return { jobs: state.jobs.jobs, categories: state.categories.categories };
+  return { jobs: state.jobs.jobs, categories: state.categories.categories , filters : state.filter.filter};
 };
 
 export default connect(mapStateToProps, { loadJobs, FilterJobs, SearchJobs })(

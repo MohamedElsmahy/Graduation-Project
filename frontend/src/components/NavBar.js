@@ -252,85 +252,85 @@ const Navbar = ({
 
   const ITEM_HEIGHT = 48;
 
-  const notificationsMenu = (
-    <div>
-      {isAuthenticated && user.is_employer ? (
-        <Menu
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "center",
-          }}
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "center",
-          }}
-          id="notification-menu"
-          anchorEl={anchorNotif}
-          keepMounted
-          open={notifOpen}
-          onClose={handleNotifClose}
-          PaperProps={{
-            style: {
-              maxHeight: ITEM_HEIGHT * 4.5,
-            },
-          }}
-        >
-          {employerNotifications &&
-            employerNotifications.map((employer_notification) => (
-              <>
-                <MenuItem
-                  key={employer_notification.id}
-                  onClick={handleNotifClose}
-                >
-                  <p>
-                    {employer_notification.created_by.username} applied for{" "}
-                    {employer_notification.job.title}
-                  </p>
-                  <p>{employer_notification.created_at}</p>
-                </MenuItem>
-                <hr />
-              </>
-            ))}
-        </Menu>
-      ) : (
-        <Menu
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "center",
-          }}
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "center",
-          }}
-          id="notification-menu"
-          anchorEl={anchorNotif}
-          keepMounted
-          open={notifOpen}
-          onClose={handleNotifClose}
-          PaperProps={{
-            style: {
-              maxHeight: ITEM_HEIGHT * 4.5,
-            },
-          }}
-        >
-          {
-            empNotifications.map((notification) => (
-              <>
-                <MenuItem key={notification.id} onClick={handleNotifClose}>
-                  <p>
-                    {notification.sender.user.username} accepted your
-                    application for{" "}
-                    {notification.interview.application.job.title}
-                  </p>
-                  <p>{notification.created}</p>
-                </MenuItem>
-                <hr />
-              </>
-            ))}
-        </Menu>
-      )}
-    </div>
-  );
+  // const notificationsMenu = (
+  //   <div>
+  //     {isAuthenticated && user.is_employer ? (
+  //       <Menu
+  //         anchorOrigin={{
+  //           vertical: "bottom",
+  //           horizontal: "center",
+  //         }}
+  //         transformOrigin={{
+  //           vertical: "top",
+  //           horizontal: "center",
+  //         }}
+  //         id="notification-menu"
+  //         anchorEl={anchorNotif}
+  //         keepMounted
+  //         open={notifOpen}
+  //         onClose={handleNotifClose}
+  //         PaperProps={{
+  //           style: {
+  //             maxHeight: ITEM_HEIGHT * 4.5,
+  //           },
+  //         }}
+  //       >
+  //         {employerNotifications &&
+  //           employerNotifications.map((employer_notification) => (
+  //             <>
+  //               <MenuItem
+  //                 key={employer_notification.id}
+  //                 onClick={handleNotifClose}
+  //               >
+  //                 <p>
+  //                   {employer_notification.created_by.username} applied for{" "}
+  //                   {employer_notification.job.title}
+  //                 </p>
+  //                 <p>{employer_notification.created_at}</p>
+  //               </MenuItem>
+  //               <hr />
+  //             </>
+  //           ))}
+  //       </Menu>
+  //     ) : (
+  //       <Menu
+  //         anchorOrigin={{
+  //           vertical: "bottom",
+  //           horizontal: "center",
+  //         }}
+  //         transformOrigin={{
+  //           vertical: "top",
+  //           horizontal: "center",
+  //         }}
+  //         id="notification-menu"
+  //         anchorEl={anchorNotif}
+  //         keepMounted
+  //         open={notifOpen}
+  //         onClose={handleNotifClose}
+  //         PaperProps={{
+  //           style: {
+  //             maxHeight: ITEM_HEIGHT * 4.5,
+  //           },
+  //         }}
+  //       >
+  //         {
+  //           empNotifications&&empNotifications.map((notification) => (
+  //             <>
+  //               <MenuItem key={notification.id} onClick={handleNotifClose}>
+  //                 <p>
+  //                   {notification.sender.user.username} accepted your
+  //                   application for{" "}
+  //                   {notification.interview.application.job.title}
+  //                 </p>
+  //                 <p>{notification.created}</p>
+  //               </MenuItem>
+  //               <hr />
+  //             </>
+  //           ))}
+  //       </Menu>
+  //     )}
+  //   </div>
+  // );
 
   return (
     <div className={classes.grow}>
@@ -442,7 +442,7 @@ const Navbar = ({
           </div>
         </Toolbar>
       </AppBar>
-      {notificationsMenu}
+      {/* {notificationsMenu} */}
       {renderMobileMenu}
       {renderMenu}
     </div>
