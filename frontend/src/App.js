@@ -13,8 +13,6 @@ import SignIn from "./pages/SignIn";
 import ContactUs from "./pages/ContactUs";
 import Layout from "./hocs/Layout";
 import PrivateRoute from "./components/PrivateRoute";
-// import User from "./pages/profile";
-import Notifications from "./components/Notification";
 import ProfilePage from "./pages/ProfilePage";
 import EditProfile from "./pages/EditProfile";
 
@@ -24,14 +22,6 @@ function App() {
       <Router>
         <Layout>
           <Routes>
-            {/* <Route
-              path="profile/"
-              element={
-                <PrivateRoute>
-                  <User />
-                </PrivateRoute>
-              }
-            /> */}
             <Route
               path="addjob/"
               element={
@@ -79,7 +69,6 @@ function App() {
             <Route path="signup/" element={<SignUp />} />
             <Route path="signin/" element={<SignIn />} />
             <Route path="contactus/" element={<ContactUs />} />
-            <Route path="notifications/" element={<Notifications />} />
           </Routes>
         </Layout>
       </Router>

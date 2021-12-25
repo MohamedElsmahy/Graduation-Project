@@ -18,7 +18,10 @@ import Grid from "@material-ui/core/Grid";
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import CardHeader from "@material-ui/core/CardHeader";
-
+import CommentIcon from "@material-ui/icons/Comment";
+import DeleteIcon from "@material-ui/icons/Delete";
+import TitleIcon from "@material-ui/icons/Title";
+import ScheduleIcon from "@material-ui/icons/Schedule";
 const useStyles = makeStyles({
   root: {
     maxWidth: 700,
@@ -48,12 +51,12 @@ const useStyles = makeStyles({
   comm: {
     marginLeft: 75,
     marginTop: 5,
-    color: "blue",
+    color: "#34495E",
   },
   Typography1: {
     marginTop: -30,
     marginLeft: 55,
-    color: "blue",
+    color: "#34495E",
   },
   Typography2: {
     marginTop: 10,
@@ -169,40 +172,61 @@ const PostDetails = ({ loadPost, post, comments, user }) => {
     <>
       <Card className={classes.root}>
         <CardHeader
-          avatar={<Avatar aria-label="recipe">R</Avatar>}
-          subheader={`${post.first_name} ${post.last_name}`}
+          avatar={
+            <Avatar aria-label="recipe" src={user.image}>
+              R
+            </Avatar>
+          }
+          title={`${post.first_name} ${post.last_name} `}
+          subheader={post.created}
         />
-        <CardActionArea>
-          <CardContent>
-            <Typography
-              gutterBottom
-              variant="h5"
-              component="h2"
-              className={classes.Typography1}
-            >
-              {post.title}
-            </Typography>
-            <Typography
-              variant="body2"
-              color="textSecondary"
-              component="p"
-              className={classes.Typography2}
-            >
-              {post.body}
-            </Typography>
-            <Typography
-              gutterBottom
-              variant="h5"
-              component="h2"
-              className={classes.Typography3}
-            >
-              {post.created}
-            </Typography>
-          </CardContent>
-        </CardActionArea>
+
+        {user.id === post.user && (
+          <Button
+            size="large"
+            style={{
+              position: "absolute",
+              left: "70%",
+              transform: "translate(-50%, -50%)",
+            }}
+            color="primary"
+            onClick={(e) => DeletePost()}
+          >
+            <DeleteIcon />
+          </Button>
+        )}
+
+        <CardContent>
+          <Typography
+            gutterBottom
+            variant="h5"
+            component="h2"
+            className={classes.Typography1}
+          >
+            {post.title}
+          </Typography>
+          <Typography
+            variant="body2"
+            color="textSecondary"
+            component="p"
+            className={classes.Typography2}
+          >
+            {post.body}
+          </Typography>
+        </CardContent>
+
         <CardActions>
-          <Button size="small" color="primary" onClick={(e) => setshow(!show)}>
-            Comment
+          <Button
+            size="large"
+            style={{
+              position: "absolute",
+              left: "70%",
+              transform: "translate(-50%, -50%)",
+            }}
+            color="primary"
+            onClick={(e) => setshow(!show)}
+          >
+            <CommentIcon />
           </Button>
         </CardActions>
       </Card>
@@ -254,11 +278,34 @@ const PostDetails = ({ loadPost, post, comments, user }) => {
         <>
           {comments.map((comment) => {
             return (
-              <Card key={comment.id} className={classes.cardcomment}>
+              <Card
+                key={comment.id}
+                className={classes.cardcomment}
+                style={{
+                  backgroundColor: "#cfe8fc",
+                  left: "50%",
+                }}
+              >
                 <CardHeader
                   avatar={<Avatar aria-label="recipe">R</Avatar>}
-                  subheader={`${comment.first_name} ${comment.last_name}`}
+                  title={`${comment.first_name} ${comment.last_name} `}
+                  subheader={comment.created}
                 />
+                {(user.id === comment.user || user.id === post.user)&&(
+                  <Button
+                    size="large"
+                    style={{
+                      position: "absolute",
+                      left: "70%",
+                      transform: "translate(-50%, -50%)",
+                    }}
+                    color="primary"
+                    onClick={(e) => DeleteComment(comment.id)}
+                  >
+                    <DeleteIcon />
+                  </Button>
+                )}
+
                 <Typography
                   variant="body2"
                   color="textSecondary"
@@ -267,27 +314,12 @@ const PostDetails = ({ loadPost, post, comments, user }) => {
                 >
                   {comment.body}
                 </Typography>
-                <Typography
-                  variant="body2"
-                  color="textSecondary"
-                  component="p"
-                  className={classes.lastcom}
-                >
-                  {comment.created}
-                </Typography>
               </Card>
             );
           })}
         </>
       ) : (
         <h5>Post Not Found</h5>
-      )}
-      {user.id === post.user && (
-        <form onSubmit={(e) => onSubmitDeletePost(e)}>
-          <Button type="submit">
-            <h4>Delete Post</h4>
-          </Button>
-        </form>
       )}
     </>
   );

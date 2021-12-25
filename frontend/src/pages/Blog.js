@@ -18,7 +18,12 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { Card, Grid } from "@material-ui/core";
 import Avatar from "@material-ui/core/Avatar";
-
+import Container from "@material-ui/core/Container";
+import AddIcon from "@material-ui/icons/Add";
+import Tooltip from "@material-ui/core/Tooltip";
+import Fab from "@material-ui/core/Fab";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 const useStyles = makeStyles((themes) => ({
   table: {
     width: 900,
@@ -36,7 +41,7 @@ const useStyles = makeStyles((themes) => ({
   Typography1: {
     marginTop: -45,
     marginLeft: 55,
-    color: "blue",
+    color: "#black",
   },
   Typography2: {
     marginTop: -2,
@@ -48,6 +53,14 @@ const useStyles = makeStyles((themes) => ({
   margin: {
     margin: themes.spacing(1),
   },
+  fab: {
+    margin: themes.spacing(2),
+  },
+  absolute: {
+    position: "absolute",
+    bottom: themes.spacing(2),
+    right: themes.spacing(3),
+  },
 }));
 
 const Blog = ({ loadPosts, posts }) => {
@@ -58,24 +71,40 @@ const Blog = ({ loadPosts, posts }) => {
 
   return (
     <div>
-      <h1>Discussion Blog</h1>
-      <Typography variant="h6" color="primary" className={classes.title}>
-        <Button
-          to={"/posts/add"}
-          variant="contained"
-          color="primary"
-          component={RouterLink}
-          className={classes.margin}
+      <CssBaseline />
+      <Container maxWidth="sm">
+        <Typography
+          component="div"
+          style={{
+            backgroundColor: "#cfe8fc",
+            width: "650px",
+            marginLeft: -50,
+          }}
         >
-          add Post
-        </Button>
-      </Typography>
+          <h1 style={{ margin: "10px", padding: "10px" }}>
+            What Is In Your Mind?
+          </h1>
+          <Tooltip title="Add" aria-label="add post">
+            <Fab color="primary" className={classes.absolute}>
+              <Button to="/posts/add" component={RouterLink}>
+                <AddIcon />
+              </Button>
+            </Fab>
+          </Tooltip>
+
+          {/* <AddIcon  style={{ marginLeft:"600px" }}/> */}
+        </Typography>
+      </Container>
       {posts &&
         posts.map((post) => {
           return (
             <Card key={post.id} className={classes.root}>
               <CardHeader
-                avatar={<Avatar aria-label="recipe">R</Avatar>}
+                avatar={
+                  <Button to={`/posts/${post.id}`} component={RouterLink}>
+                    <ArrowForwardIcon />
+                  </Button>
+                }
                 subheader={post.username}
               />
               <CardActions>
@@ -86,13 +115,9 @@ const Blog = ({ loadPosts, posts }) => {
                     component="h2"
                     className={classes.Typography1}
                   >
-                    <Button
-                      to={`/posts/${post.id}`}
-                      component={RouterLink}
-                      style={{ color: "blue" }}
-                    >
+                    
                       {post.title}
-                    </Button>
+                  
                   </Typography>
                   <Typography
                     variant="p"
