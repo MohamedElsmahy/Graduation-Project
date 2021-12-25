@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-// import { useParams } from "react-router-dom";
 import Content from "../hocs/Content";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { makeStyles } from "@material-ui/core/styles";
@@ -17,7 +16,7 @@ import { loadProfile } from "../actions/profile";
 import { connect } from "react-redux";
 import { deleteAccount } from "../actions/auth";
 import CSRFToken from "../components/CSRFToken";
-// import { useSelector } from "react-redux";
+
 
 const useStyles = makeStyles((theme) => ({
   headerContainer: {
