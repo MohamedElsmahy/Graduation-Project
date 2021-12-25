@@ -16,13 +16,12 @@ import LanguageIcon from "@material-ui/icons/Language";
 import EmailIcon from "@material-ui/icons/Email";
 import PhoneIcon from "@material-ui/icons/Phone";
 import { connect } from "react-redux";
-import Content from "../hocs/Content";
 import GetAppIcon from "@material-ui/icons/GetApp";
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
+      {"JobBoard © "}
       <Link color="inherit" href="https://mui.com/">
         Your Website
       </Link>{" "}
