@@ -34,7 +34,6 @@ import Avatar from "@material-ui/core/Avatar";
 
 import loadEmployeeNotifications, {
   updateEmpNotification,
-  loadEmployerNotifications
 } from "../actions/notifications";
 
 const useStyles = makeStyles((theme) => ({
@@ -132,11 +131,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const Navbar = ({
-  user,
   isAuthenticated,
   empNotifications,
-  employerNotifications,
-  loadEmployerNotifications,
   unreadCount,
   loadEmployeeNotifications,
   updateEmpNotification,
@@ -307,10 +303,7 @@ const Navbar = ({
         <>
           <MenuItem onClick={handleNotifIconClick}>
             <IconButton aria-label="show 11 new notifications" color="inherit">
-              <Badge
-                badgeContent={employerNotifications.length}
-                color="secondary"
-              >
+              <Badge badgeContent={11} color="secondary">
                 <NotificationsIcon />
               </Badge>
             </IconButton>
@@ -518,6 +511,15 @@ const Navbar = ({
                 <Button
                   variant="contained"
                   noWrap
+                  onClick={interviewDialogOpen}
+                  color="primary"
+                  className={classes.margin}
+                >
+                  open dialog
+                </Button>
+                <Button
+                  variant="contained"
+                  noWrap
                   to={"/signup"}
                   component={RouterLink}
                   color="primary"
@@ -552,7 +554,7 @@ const Navbar = ({
           </div>
         </Toolbar>
       </AppBar>
-      {/* {notificationsMenu} */}
+      {notificationsMenu}
       {renderMobileMenu}
       {renderMenu}
       {currentNotification && interviewDialog(currentNotification)}
@@ -561,16 +563,13 @@ const Navbar = ({
 };
 const mapStateToProps = (state) => {
   return {
-    user: state.profile,
     isAuthenticated: state.auth.isAuthenticated,
     empNotifications: state.empNotifications.notifications,
-    employerNotifications: state.employerNotifications.employer_notifications,
     unreadCount: state.empNotifications.unread,
   };
 };
 
 export default connect(mapStateToProps, {
   loadEmployeeNotifications,
-  loadEmployerNotifications,
   updateEmpNotification,
 })(Navbar);
