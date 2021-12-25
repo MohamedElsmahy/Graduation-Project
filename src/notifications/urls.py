@@ -7,5 +7,6 @@ urlpatterns = [
 
     path('api/',api.Notificationss.as_view() ),
     path('api/employee/notifications/',api.GetEmployeeNotifications.as_view(), name="employeeNotifications"),
+    path('api/employee/notifications/<int:id>/update/',api.UpdateEmpNotifications.as_view(), name="UpdateEmployeeNotifications"),
 
 ]

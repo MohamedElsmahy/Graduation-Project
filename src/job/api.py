@@ -217,10 +217,16 @@ class CreateInterview(APIView):
             return Response({"error": e.args})
 
 
-class GetInterviews(generics.ListAPIView):
-    model = Interview
-    serializer_class = InterviewSerializer
-    queryset = Interview.objects.all()
+# class GetInterviews(generics.ListAPIView):
+#     model = Interview
+#     serializer_class = InterviewSerializer
+#     queryset = Interview.objects.all()
+
+
+# class InterviewDetails(generics.RetrieveAPIView):
+#     queryset = Interview.objects.all()
+#     serializer_class = InterviewSerializer
+#     lookup_field = "id"
 
 
 class GetJobApplications(APIView):
