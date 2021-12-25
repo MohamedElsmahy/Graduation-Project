@@ -1,6 +1,6 @@
 from rest_framework.views import APIView
-
-from accounts.models import EmployeeProfile
+from accounts.models import EmployeeProfile, EmployerProfile
+from notifications.models import EmployeeNotification
 from .models import Application, Category, Interview, Job
 from django.db.models import Q
 from .serializers import ApplicationSerializer, CategorySerializer, InterviewSerializer, JobSerializer
@@ -200,10 +200,18 @@ class CreateInterview(APIView):
             if Interview.objects.filter(application=application).exists():
                 return Response({'error': "An interview for this application has already been set up"})
             else:
-                Interview.objects.create(
-                    application=application,
-                    address=data["address"],
-                    time=data["time"])
+                Interview.objects.create(application=application, address=data["address"], time=data["time"])
+                employer = EmployerProfile.objects.get(user=application.job.owner)
+                employee = EmployeeProfile.objects.get(user=application.applicant)
+                interview = Interview.objects.last()
+                print(employer)
+                print(employee)
+                print(interview)
+                EmployeeNotification.objects.create(
+                    sender=employer,
+                    receiver=employee,
+                    interview=interview)
+
                 return Response({'success': "Interview is set up successfully"})
         except Exception as e:
             return Response({"error": e.args})

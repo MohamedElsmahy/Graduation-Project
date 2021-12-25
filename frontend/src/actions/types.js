@@ -54,6 +54,10 @@ export const APPLICATION_REJECT_FAIL = "APPLICATION_REJECT_FAIL";
 export const Notification_SUCCESS = "Notification_SUCCESS";
 export const Notification_FAIL = "Notification_FAIL";
 
+//employee notifications
+export const EMP_NOTIFICATIONS_SUCCESS = "EMP_NOTIFICATIONS_SUCCESS";
+export const EMP_NOTIFICATIONS_FAIL = "EMP_NOTIFICATIONS_FAIL";
+
 //jobs filter states
 export const JOBS_FILTER_SUCCESS = "JOBS_FILTER_SUCCESS";
 export const JOBS_FILTER_FAIL = "JOBS_FILTER_FAIL";
