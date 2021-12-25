@@ -1,23 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
-
 import { updateProfile } from "../actions/profile";
-
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import IconButton from "@material-ui/core/IconButton";
-import PhotoCamera from "@material-ui/icons/PhotoCamera";
+import { Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(2),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    padding: "8px",
+    marginLeft: "150px",
+    marginRight: "150px",
   },
   avatar: {
     margin: theme.spacing(1),
@@ -53,18 +53,10 @@ const EditProfile = ({
   const [profileUpdated, setProfileUpdated] = useState(false);
   const classes = useStyles();
   const navigate = useNavigate();
-  // const dispatch = useDispatch();
 
   const handleClose = () => {
     navigate("/profilepage", { replace: true });
   };
-
-  // const handleSave = () => {
-  //   const action = data ? update : add;
-  //   dispatch(action({ name, id: id || nextID(), img }));
-  //   onSave && onSave();
-  //   handleClose();
-  // };
 
   const [formData, setFormData] = useState({
     first_name: "",
@@ -135,6 +127,15 @@ const EditProfile = ({
 
   return (
     <>
+      <Typography
+        variant="h4"
+        align="center"
+        color="primary"
+        className={classes.root}
+        gutterBottom
+      >
+        Update Your Profile
+      </Typography>
       <Paper className={classes.paper} elevation={3}>
         <form
           onSubmit={(e) => onSubmit(e)}
@@ -142,7 +143,13 @@ const EditProfile = ({
           noValidate
           encType="multipart/form-data"
         >
-          <Grid container spacing={2}>
+          <Grid
+            container
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+            spacing={2}
+          >
             <Grid item xs={12} sm={6}>
               <TextField
                 autoComplete="fname"
@@ -258,7 +265,6 @@ const EditProfile = ({
                 autoComplete="location"
               />
             </Grid>
-
             <Grid item xs={12} sm={6}>
               <input
                 type="file"
@@ -274,7 +280,7 @@ const EditProfile = ({
                 }
               />
               <label htmlFor="upload-image">
-                <Button variant="contained" color="primary" component="span">
+                <Button variant="contained" color="inherit" component="span">
                   update profile picture
                 </Button>
               </label>
@@ -298,7 +304,7 @@ const EditProfile = ({
                   <label htmlFor="upload-cv">
                     <Button
                       variant="contained"
-                      color="primary"
+                      color="inherit"
                       component="span"
                     >
                       update your CV
@@ -308,22 +314,25 @@ const EditProfile = ({
               )}
             </Grid>
           </Grid>
-          <Button
-            onClick={handleClose}
-            variant="contained"
-            color="secondary"
-            className={classes.submit}
-          >
-            Cancel
-          </Button>
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Save
-          </Button>
+
+          <Grid container justifyContent="center" alignItems="center">
+            <Button
+              onClick={handleClose}
+              variant="contained"
+              color="secondary"
+              className={classes.submit}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              Save
+            </Button>
+          </Grid>
         </form>
       </Paper>
     </>
