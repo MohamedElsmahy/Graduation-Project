@@ -50,9 +50,9 @@ export const LOAD_APPLICATIONS_FAIL = "LOAD_APPLICATIONS_FAIL";
 export const APPLICATION_REJECT_SUCCESS = "APPLICATION_REJECT_SUCCESS";
 export const APPLICATION_REJECT_FAIL = "APPLICATION_REJECT_FAIL";
 
-//notifications
-export const Notification_SUCCESS = "Notification_SUCCESS";
-export const Notification_FAIL = "Notification_FAIL";
+//employer notifications
+export const NOTIFICATIONS_SUCCESS = "NOTIFICATIONS_SUCCESS";
+export const NOTIFICATIONS_FAIL = "NOTIFICATIONS_FAIL";
 
 //employee notifications
 export const EMP_NOTIFICATIONS_SUCCESS = "EMP_NOTIFICATIONS_SUCCESS";

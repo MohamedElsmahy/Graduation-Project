@@ -18,8 +18,7 @@ import SideDrawer from "./Drawer";
 import Button from "@material-ui/core/Button";
 import UpdateRoundedIcon from "@material-ui/icons/UpdateRounded";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
-
-import loadEmployeeNotifications from "../actions/notifications";
+import { loadEmployeeNotifications , loadEmployerNotifications } from "../actions/notifications";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -89,9 +88,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Navbar = ({
+  user,
   isAuthenticated,
   empNotifications,
+  employerNotifications,
   loadEmployeeNotifications,
+  loadEmployerNotifications,
 }) => {
   const classes = useStyles();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -99,6 +101,7 @@ const Navbar = ({
 
   useEffect(() => {
     loadEmployeeNotifications();
+    loadEmployerNotifications();
   }, []);
 
   const isMenuOpen = Boolean(anchorEl);
@@ -187,11 +190,11 @@ const Navbar = ({
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      {isAuthenticated ? (
+      {isAuthenticated && user.is_employer ? (
         <>
           <MenuItem>
             <IconButton aria-label="show 11 new notifications" color="inherit">
-              <Badge badgeContent={11} color="secondary">
+              <Badge badgeContent={employerNotifications.length} color="secondary">
                 <NotificationsIcon />
               </Badge>
             </IconButton>
@@ -251,40 +254,81 @@ const Navbar = ({
 
   const notificationsMenu = (
     <div>
-      <Menu
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "center",
-        }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "center",
-        }}
-        id="notification-menu"
-        anchorEl={anchorNotif}
-        keepMounted
-        open={notifOpen}
-        onClose={handleNotifClose}
-        PaperProps={{
-          style: {
-            maxHeight: ITEM_HEIGHT * 4.5,
-          },
-        }}
-      >
-        {empNotifications &&
-          empNotifications.map((notification) => (
-            <>
-              <MenuItem key={notification.id} onClick={handleNotifClose}>
-                <p>
-                  {notification.sender.user.username} accepted your application
-                  for {notification.interview.application.job.title}
-                </p>
-                <p>{notification.created}</p>
-              </MenuItem>
-              <hr />
-            </>
-          ))}
-      </Menu>
+      {isAuthenticated && user.is_employer ? (
+        <Menu
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "center",
+          }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "center",
+          }}
+          id="notification-menu"
+          anchorEl={anchorNotif}
+          keepMounted
+          open={notifOpen}
+          onClose={handleNotifClose}
+          PaperProps={{
+            style: {
+              maxHeight: ITEM_HEIGHT * 4.5,
+            },
+          }}
+        >
+          {employerNotifications &&
+            employerNotifications.map((employer_notification) => (
+              <>
+                <MenuItem
+                  key={employer_notification.id}
+                  onClick={handleNotifClose}
+                >
+                  <p>
+                    {employer_notification.created_by.username} applied for{" "}
+                    {employer_notification.job.title}
+                  </p>
+                  <p>{employer_notification.created_at}</p>
+                </MenuItem>
+                <hr />
+              </>
+            ))}
+        </Menu>
+      ) : (
+        <Menu
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "center",
+          }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "center",
+          }}
+          id="notification-menu"
+          anchorEl={anchorNotif}
+          keepMounted
+          open={notifOpen}
+          onClose={handleNotifClose}
+          PaperProps={{
+            style: {
+              maxHeight: ITEM_HEIGHT * 4.5,
+            },
+          }}
+        >
+          {
+            empNotifications.map((notification) => (
+              <>
+                <MenuItem key={notification.id} onClick={handleNotifClose}>
+                  <p>
+                    {notification.sender.user.username} accepted your
+                    application for{" "}
+                    {notification.interview.application.job.title}
+                  </p>
+                  <p>{notification.created}</p>
+                </MenuItem>
+                <hr />
+              </>
+            ))}
+        </Menu>
+      )}
     </div>
   );
 
@@ -347,7 +391,7 @@ const Navbar = ({
               </>
             ) : (
               <>
-                <Button
+                {/* <Button
                   variant="contained"
                   noWrap
                   to={"#"}
@@ -360,7 +404,7 @@ const Navbar = ({
                   onClick={handleNotifClick}
                 >
                   open
-                </Button>
+                </Button> */}
                 <Button
                   variant="contained"
                   noWrap
@@ -406,9 +450,14 @@ const Navbar = ({
 };
 const mapStateToProps = (state) => {
   return {
+    user: state.profile,
     isAuthenticated: state.auth.isAuthenticated,
     empNotifications: state.empNotifications.notifications,
+    employerNotifications: state.employerNotifications.employer_notifications,
   };
 };
 
-export default connect(mapStateToProps, { loadEmployeeNotifications })(Navbar);
+export default connect(mapStateToProps, {
+  loadEmployeeNotifications,
+  loadEmployerNotifications,
+})(Navbar);

@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework import generics,mixins,viewsets
 
 
-class Notificationss(generics.ListCreateAPIView):
+class Notificationss(generics.ListAPIView):
     queryset=Notification.objects.all()
     serializer_class=Notificationserializer
  

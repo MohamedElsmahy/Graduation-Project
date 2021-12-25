@@ -6,6 +6,7 @@ from job.serializers import InterviewSerializer
 from .models import EmployeeNotification, Notification
 
 class Notificationserializer(serializers.ModelSerializer):
+    created_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M", read_only=True)
     class Meta:
         model=Notification
         fields='__all__'

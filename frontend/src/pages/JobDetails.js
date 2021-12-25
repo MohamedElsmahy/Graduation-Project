@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, Link as RouterLink } from "react-router-dom";
 import { connect } from "react-redux";
-
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Chip from "@material-ui/core/Chip";
@@ -16,9 +15,6 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import EditIcon from "@material-ui/icons/Edit";
 import DoneAllIcon from "@material-ui/icons/DoneAll";
-import Paper from "@material-ui/core/Paper";
-
-import { SendNotifications } from "../actions/notifications";
 import { loadJobApplications } from "../actions/applications";
 import { loadJob, DeleteJob, UserApplyJob } from "../actions/jobs";
 
@@ -64,7 +60,6 @@ const useStyles = makeStyles({
 });
 
 const JobDetails = ({
-  SendNotifications,
   isAuthenticated,
   loadJob,
   DeleteJob,
@@ -279,6 +274,5 @@ export default connect(mapStateToProps, {
   loadJob,
   DeleteJob,
   UserApplyJob,
-  SendNotifications,
   loadJobApplications,
 })(JobDetails);
