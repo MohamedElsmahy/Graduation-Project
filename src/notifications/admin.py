@@ -1,6 +1,6 @@
 from django.contrib import admin
-from .models import Notification
+from .models import Notification, EmployeeNotification
+
 
 admin.site.register(Notification)
-
-# Register your models here.
+admin.site.register(EmployeeNotification)

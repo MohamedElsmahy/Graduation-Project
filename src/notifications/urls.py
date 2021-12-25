@@ -6,5 +6,6 @@ from rest_framework.routers import DefaultRouter
 urlpatterns = [
 
     path('api/',api.Notificationss.as_view() ),
+    path('api/employee/notifications/',api.GetEmployeeNotifications.as_view(), name="employeeNotifications"),
 
 ]

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { alpha, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -18,6 +18,8 @@ import SideDrawer from "./Drawer";
 import Button from "@material-ui/core/Button";
 import UpdateRoundedIcon from "@material-ui/icons/UpdateRounded";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+
+import loadEmployeeNotifications from "../actions/notifications";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -86,10 +88,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Navbar = ({ isAuthenticated }) => {
+const Navbar = ({
+  isAuthenticated,
+  empNotifications,
+  loadEmployeeNotifications,
+}) => {
   const classes = useStyles();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [anchorEl, setAnchorEl] = React.useState(null);
+
+  useEffect(() => {
+    loadEmployeeNotifications();
+  }, []);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -104,7 +114,6 @@ const Navbar = ({ isAuthenticated }) => {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
-    //to delete
     handleMobileMenuClose();
   };
 
@@ -227,6 +236,58 @@ const Navbar = ({ isAuthenticated }) => {
     </Menu>
   );
 
+  const [anchorNotif, setAnchorNotif] = React.useState(null);
+  const notifOpen = Boolean(anchorNotif);
+
+  const handleNotifClick = (event) => {
+    setAnchorNotif(event.currentTarget);
+  };
+
+  const handleNotifClose = () => {
+    setAnchorNotif(null);
+  };
+
+  const ITEM_HEIGHT = 48;
+
+  const notificationsMenu = (
+    <div>
+      <Menu
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+        id="notification-menu"
+        anchorEl={anchorNotif}
+        keepMounted
+        open={notifOpen}
+        onClose={handleNotifClose}
+        PaperProps={{
+          style: {
+            maxHeight: ITEM_HEIGHT * 4.5,
+          },
+        }}
+      >
+        {empNotifications &&
+          empNotifications.map((notification) => (
+            <>
+              <MenuItem key={notification.id} onClick={handleNotifClose}>
+                <p>
+                  {notification.sender.user.username} accepted your application
+                  for {notification.interview.application.job.title}
+                </p>
+                <p>{notification.created}</p>
+              </MenuItem>
+              <hr />
+            </>
+          ))}
+      </Menu>
+    </div>
+  );
+
   return (
     <div className={classes.grow}>
       <AppBar position="static">
@@ -260,10 +321,16 @@ const Navbar = ({ isAuthenticated }) => {
             {isAuthenticated ? (
               <>
                 <IconButton
-                  aria-label="show 17 new notifications"
+                  aria-label="notifications"
+                  aria-controls="notification-menu"
+                  aria-haspopup="true"
+                  onClick={handleNotifClick}
                   color="inherit"
                 >
-                  <Badge badgeContent={17} color="secondary">
+                  <Badge
+                    badgeContent={empNotifications.length}
+                    color="secondary"
+                  >
                     <NotificationsIcon />
                   </Badge>
                 </IconButton>
@@ -280,6 +347,20 @@ const Navbar = ({ isAuthenticated }) => {
               </>
             ) : (
               <>
+                <Button
+                  variant="contained"
+                  noWrap
+                  to={"#"}
+                  component={RouterLink}
+                  color="primary"
+                  className={classes.margin}
+                  aria-label="more"
+                  aria-controls="notification-menu"
+                  aria-haspopup="true"
+                  onClick={handleNotifClick}
+                >
+                  open
+                </Button>
                 <Button
                   variant="contained"
                   noWrap
@@ -317,6 +398,7 @@ const Navbar = ({ isAuthenticated }) => {
           </div>
         </Toolbar>
       </AppBar>
+      {notificationsMenu}
       {renderMobileMenu}
       {renderMenu}
     </div>
@@ -325,7 +407,8 @@ const Navbar = ({ isAuthenticated }) => {
 const mapStateToProps = (state) => {
   return {
     isAuthenticated: state.auth.isAuthenticated,
+    empNotifications: state.empNotifications.notifications,
   };
 };
 
-export default connect(mapStateToProps)(Navbar);
+export default connect(mapStateToProps, { loadEmployeeNotifications })(Navbar);

@@ -4,6 +4,8 @@ from accounts.models import MyUser
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+
+
 # Create your models here.
 
 JOB_TYPE = (
@@ -83,10 +85,13 @@ class Interview(models.Model):
         return f"Interviewee: {self.application.email} | Position: {self.application.job}"
 
 
-@receiver(post_save, sender=Interview)
-def update_application(sender, instance, created, **kwargs):
-    if created:
-        application = Application.objects.filter(id=instance.application.id)[0]
-        application.status="Accepted"
-        application.save()
-        instance.save()
+
+
+# @receiver(post_save, sender=Interview)
+# def setup_interview_signals(sender, instance, created, **kwargs):
+#     if created:
+#         application = Application.objects.filter(id=instance.application.id)[0]
+#         application.status="Accepted"
+#         application.save()
+#         instance.save()
+        
