@@ -41,6 +41,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class InterviewSerializer(serializers.ModelSerializer):
     application = ApplicationSerializer()
+    time = serializers.DateTimeField(format="%Y-%m-%d %H:%M", read_only=True)
     created = serializers.DateTimeField(format="%Y-%m-%d %H:%M", read_only=True)
     class Meta:
         model = Interview

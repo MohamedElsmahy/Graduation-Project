@@ -9,6 +9,8 @@ import {
   SETUP_INTERVIEW_FAIL,
   LOAD_APPLICATIONS_SUCCESS,
   LOAD_APPLICATIONS_FAIL,
+  LOAD_INTERVIEW_SUCCESS,
+  LOAD_INTERVIEW_FAIL,
 } from "./types";
 
 const loadEmployeeApplications = () => async (dispatch) => {
