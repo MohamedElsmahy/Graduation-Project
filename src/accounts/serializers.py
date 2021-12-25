@@ -11,11 +11,13 @@ class MyUserSerializer(serializers.ModelSerializer):
 
 
 class EmployerProfileSerializer(serializers.ModelSerializer):
+    user = MyUserSerializer()
     class Meta:
         model = EmployerProfile
         fields = '__all__'
 
 class EmployeeProfileSerializer(serializers.ModelSerializer):
+    user = MyUserSerializer()
     saved_jobs = JobSerializer(many=True)
     class Meta:
         model = EmployeeProfile
