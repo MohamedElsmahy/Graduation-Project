@@ -23,7 +23,7 @@ import AddIcon from "@material-ui/icons/Add";
 import Tooltip from "@material-ui/core/Tooltip";
 import Fab from "@material-ui/core/Fab";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 const useStyles = makeStyles((themes) => ({
   table: {
     width: 900,
@@ -57,9 +57,9 @@ const useStyles = makeStyles((themes) => ({
     margin: themes.spacing(2),
   },
   absolute: {
-    position: "absolute",
+    position: "fixed",
     bottom: themes.spacing(2),
-    right: themes.spacing(3),
+    right: themes.spacing(2),
   },
 }));
 
@@ -82,7 +82,7 @@ const Blog = ({ loadPosts, posts }) => {
           }}
         >
           <h1 style={{ margin: "10px", padding: "10px" }}>
-            What Is In Your Mind?
+            What Is On Your Mind?
           </h1>
           <Tooltip title="Add" aria-label="add post">
             <Fab color="primary" className={classes.absolute}>
@@ -115,9 +115,7 @@ const Blog = ({ loadPosts, posts }) => {
                     component="h2"
                     className={classes.Typography1}
                   >
-                    
-                      {post.title}
-                  
+                    {post.title}
                   </Typography>
                   <Typography
                     variant="p"

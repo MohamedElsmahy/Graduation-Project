@@ -512,15 +512,6 @@ const Navbar = ({
                 <Button
                   variant="contained"
                   noWrap
-                  onClick={interviewDialogOpen}
-                  color="primary"
-                  className={classes.margin}
-                >
-                  open dialog
-                </Button>
-                <Button
-                  variant="contained"
-                  noWrap
                   to={"/signup"}
                   component={RouterLink}
                   color="primary"
@@ -574,4 +565,3 @@ export default connect(mapStateToProps, {
   loadEmployeeNotifications,
   updateEmpNotification,
 })(Navbar);
-
