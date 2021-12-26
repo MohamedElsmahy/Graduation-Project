@@ -160,7 +160,7 @@ const EmployerApplications = ({ rejectApplication, createInterview }) => {
           {applications &&
             applications.map((row) => (
               <TableRow key={row.id}>
-                <TableCell to={`/job/${row.id}`} component={RouterLink}>
+                <TableCell to={`/job/${row.job.id}`} component={RouterLink}>
                   {row.job.title}
                 </TableCell>
                 {row.applicant_email ? (
