@@ -1,6 +1,5 @@
 from rest_framework import serializers
 
-from job.serializers import JobSerializer
 from .models import MyUser ,EmployerProfile, EmployeeProfile
 
 class MyUserSerializer(serializers.ModelSerializer):
@@ -16,6 +15,9 @@ class EmployerProfileSerializer(serializers.ModelSerializer):
         model = EmployerProfile
         fields = '__all__'
 
+
+
+from job.serializers import JobSerializer
 class EmployeeProfileSerializer(serializers.ModelSerializer):
     user = MyUserSerializer()
     saved_jobs = JobSerializer(many=True)

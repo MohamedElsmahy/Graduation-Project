@@ -14,19 +14,7 @@ import {
 import Cookies from "js-cookie";
 
 export const AddNewJob =
-  (
-    owner,
-    username,
-    first_name,
-    last_name,
-    title,
-    job_type,
-    description,
-    vacancy,
-    salary,
-    experience,
-    category
-  ) =>
+  (title, job_type, description, vacancy, salary, experience, category) =>
   async (dispatch) => {
     const config = {
       headers: {
@@ -37,10 +25,6 @@ export const AddNewJob =
     };
 
     const body = JSON.stringify({
-      owner,
-      username,
-      first_name,
-      last_name,
       title,
       job_type,
       description,
@@ -48,19 +32,18 @@ export const AddNewJob =
       salary,
       experience,
       category,
-      withCredentials: true,
     });
 
     try {
       const res = await axios.post(
-        "http://127.0.0.1:8000/jobs/api/jobs/",
+        "http://localhost:8000/jobs/api/jobs/add/",
         body,
-        config
+        config,
+        { withCredentials: true }
       );
       dispatch({
         type: ADD_JOB_SUCCESS,
       });
-      return res;
     } catch (err) {
       dispatch({
         type: ADD_JOB_FAIL,
@@ -238,6 +221,3 @@ export const loadCategories = () => async (dispatch) => {
     });
   }
 };
-
-
-

@@ -120,6 +120,7 @@ const useStyles = makeStyles((theme) => ({
     "& > * + *": {
       marginLeft: theme.spacing(2),
     },
+    // width:
   },
   dialog: {
     minWidth: "50%",
@@ -391,7 +392,7 @@ const Navbar = ({
           },
         }}
       >
-        {empNotifications ? (
+        {empNotifications.length !== 0 ? (
           empNotifications.map((notification) => (
             <>
               <MenuItem
@@ -440,7 +441,7 @@ const Navbar = ({
                   />
                 </ListItem>
               </MenuItem>
-              <Divider variant="inset" component="li" />
+              <Divider component="li" />
             </>
           ))
         ) : (
@@ -573,3 +574,4 @@ export default connect(mapStateToProps, {
   loadEmployeeNotifications,
   updateEmpNotification,
 })(Navbar);
+

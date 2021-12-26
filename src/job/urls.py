@@ -16,6 +16,7 @@ urlpatterns = [
     
     ##Job API
     path('api/jobs/', api.JobListApi.as_view() , name = 'JobsList'),
+    path('api/jobs/add/', api.AddJob.as_view() , name = 'AddJob'),
     path('api/jobs/<int:id>/', api.JobDetail.as_view() , name = 'JobDetail'),
     path('api/jobs/filter/', api.JobListFilter.as_view() , name = 'JobsListFilter'),
     path('api/jobs/search/', api.JobSearch.as_view() , name = 'JobsSearch'),
@@ -49,7 +50,8 @@ urlpatterns = [
     #create interview
     path('api/application/<int:application_id>/setup_interview/', api.CreateInterview.as_view() , name = 'CreateInterview'),
     #list all interviews
-    path('api/interviews/', api.GetInterviews.as_view() , name = 'InterviewList'),
+    # path('api/interviews/', api.GetInterviews.as_view() , name = 'InterviewList'),
+
 
 
 ]

@@ -4,6 +4,9 @@ from django.db.models import fields
 from django.db.models.base import Model
 from rest_framework import serializers
 from rest_framework.fields import NullBooleanField
+
+from accounts.models import MyUser
+from accounts.serializers import MyUserSerializer
 from .models import Interview, Job , Application, Category
 
 class StringSerializer(serializers.StringRelatedField):
@@ -12,17 +15,19 @@ class StringSerializer(serializers.StringRelatedField):
 
 
 class JobSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(source='owner.username')
-    first_name = serializers.CharField(source='owner.first_name')
-    last_name = serializers.CharField(source='owner.last_name')
-    image = serializers.ImageField(source='owner.employerprofile.image')
-    applications = serializers.IntegerField(source="application_job.count")
+    # username = serializers.PrimaryKeyRelatedField(source='owner.username', queryset=MyUser.objects.all())
+    # first_name = serializers.PrimaryKeyRelatedField(source='owner.first_name', queryset=MyUser.objects.all())
+    # last_name = serializers.PrimaryKeyRelatedField(source='owner.last_name', queryset=MyUser.objects.all())
+    image = serializers.ImageField(source='owner.employerprofile.image', default="media/default-profile-image.jpg", read_only=True)
+    applications = serializers.IntegerField(source="application_job.count", default=0, read_only=True)
     published_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M", read_only=True)
-    owner = StringSerializer(many=False)
+    owner = MyUserSerializer()
     category = StringSerializer(many=False)
+    
     class Meta:
         model = Job
         fields = '__all__'
+
 
 
 class ApplicationSerializer(serializers.ModelSerializer):
@@ -41,6 +46,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class InterviewSerializer(serializers.ModelSerializer):
     application = ApplicationSerializer()
+    time = serializers.DateTimeField(format="%Y-%m-%d %H:%M", read_only=True)
     created = serializers.DateTimeField(format="%Y-%m-%d %H:%M", read_only=True)
     class Meta:
         model = Interview
