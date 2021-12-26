@@ -15,6 +15,8 @@ import Layout from "./hocs/Layout";
 import PrivateRoute from "./components/PrivateRoute";
 import ProfilePage from "./pages/ProfilePage";
 import EditProfile from "./pages/EditProfile";
+import FilteredJobsList from "./components/FilteredJobs";
+import SearchedJobsList from "./components/SearchedJobs";
 
 function App() {
   return (
@@ -63,6 +65,8 @@ function App() {
               }
             />
             <Route path="/" element={<JobsList />} />
+            <Route path="filter/" element={<FilteredJobsList />} />
+            <Route path="search/" element={<SearchedJobsList />} />
             <Route path="blog/" element={<Blog />} />
             <Route path="job/:id/" element={<JobDetails />} />
             <Route path="job/:id/apply/" element={<ApplyJob />} />

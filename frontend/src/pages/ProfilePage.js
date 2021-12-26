@@ -87,7 +87,6 @@ const ProfilePage = ({ user }) => {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={2}>
-            {/* Chart */}
             <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper} elevation={3}>
                 <Grid
@@ -133,7 +132,7 @@ const ProfilePage = ({ user }) => {
                 </Grid>
               </Paper>
             </Grid>
-            {/* Recent Deposits */}
+
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper} elevation={3}>
                 {user.is_employer ? (
@@ -153,7 +152,6 @@ const ProfilePage = ({ user }) => {
               </Paper>
             </Grid>
 
-            {/* Recent Orders */}
             <Grid item xs={12}>
               <Paper className={classes.paper} elevation={3}>
                 {user.is_employer ? <EmployerTabs /> : <EmployeeTabs />}
