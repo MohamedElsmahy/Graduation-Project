@@ -289,6 +289,17 @@ const Navbar = ({
     </Menu>
   );
 
+  const [anchorNotif, setAnchorNotif] = React.useState(null);
+  const notifOpen = Boolean(anchorNotif);
+
+  const handleNotifIconClick = (event) => {
+    setAnchorNotif(event.currentTarget);
+  };
+
+  const handleNotifClose = () => {
+    setAnchorNotif(null);
+  };
+
   const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
     <Menu
@@ -303,8 +314,8 @@ const Navbar = ({
       {isAuthenticated ? (
         <>
           <MenuItem onClick={handleNotifIconClick}>
-            <IconButton aria-label="show 11 new notifications" color="inherit">
-              <Badge badgeContent={11} color="secondary">
+            <IconButton aria-label="new notifications" color="inherit">
+              <Badge badgeContent={unreadCount} color="secondary">
                 <NotificationsIcon />
               </Badge>
             </IconButton>
@@ -348,17 +359,6 @@ const Navbar = ({
       )}
     </Menu>
   );
-
-  const [anchorNotif, setAnchorNotif] = React.useState(null);
-  const notifOpen = Boolean(anchorNotif);
-
-  const handleNotifIconClick = (event) => {
-    setAnchorNotif(event.currentTarget);
-  };
-
-  const handleNotifClose = () => {
-    setAnchorNotif(null);
-  };
 
   const handleNotificationClick = (notification) => {
     updateEmpNotification(notification.id);
@@ -454,7 +454,7 @@ const Navbar = ({
   );
 
   return (
-    <div className={classes.grow}>
+    <div>
       <AppBar position="static">
         <Toolbar>
           <IconButton
@@ -512,15 +512,6 @@ const Navbar = ({
                 <Button
                   variant="contained"
                   noWrap
-                  onClick={interviewDialogOpen}
-                  color="primary"
-                  className={classes.margin}
-                >
-                  open dialog
-                </Button>
-                <Button
-                  variant="contained"
-                  noWrap
                   to={"/signup"}
                   component={RouterLink}
                   color="primary"
@@ -574,4 +565,3 @@ export default connect(mapStateToProps, {
   loadEmployeeNotifications,
   updateEmpNotification,
 })(Navbar);
-
