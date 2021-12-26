@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
@@ -18,11 +18,10 @@ import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 import InputBase from "@material-ui/core/InputBase";
 import { alpha, makeStyles } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
-import { loadJobs } from "../actions/jobs";
 import { connect } from "react-redux";
 import { FilterJobs, SearchJobs } from "../actions/filters";
 
-const JobsList = ({ loadJobs, jobs, categories, FilterJobs, SearchJobs,filters }) => {
+const FilteredJobsList = ({  filter, categories, FilterJobs, SearchJobs }) => {
   const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
@@ -117,7 +116,6 @@ const JobsList = ({ loadJobs, jobs, categories, FilterJobs, SearchJobs,filters }
     marginLeft: "120px",
   };
   const classes = useStyles();
-  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     job_type: "",
@@ -129,23 +127,27 @@ const JobsList = ({ loadJobs, jobs, categories, FilterJobs, SearchJobs,filters }
     title: "",
   });
 
+  const [isUpdated, setIsUpdated] = useState(false);
+//   const [isSearched, setIsSearched] = useState(true);
+
   const { job_type, experience, category } = formData;
   const { title } = searchData;
 
   useEffect(() => {
-    loadJobs();
-  }, []);
+    FilterJobs();
+  }, [isUpdated]);
 
+  
   const onSubmit = (e) => {
     e.preventDefault();
     FilterJobs(job_type, experience, category);
-    navigate("/filter");
+    setIsUpdated = !isUpdated;
   };
 
   const onSubmitSearch = (e) => {
     e.preventDefault();
     SearchJobs(title);
-    navigate("/search");
+    // setIsSearched = !isSearched;
   };
 
   const onChange = (e) => {
@@ -295,12 +297,11 @@ const JobsList = ({ loadJobs, jobs, categories, FilterJobs, SearchJobs,filters }
           <Grid item xs={12} md={8}>
             <Paper elevation={4} style={paperstyle}>
               <h1 style={header}>Job list</h1>
-              
-              {jobs ? (
-                jobs.map((job) => {
+              {filter ? (
+                filter.map((filterjob) => {
                   return (
                     <Card
-                      key={job.id}
+                      key={filterjob.id}
                       style={{
                         backgroundColor: "whitesmoke",
                         marginTop: 15,
@@ -315,17 +316,17 @@ const JobsList = ({ loadJobs, jobs, categories, FilterJobs, SearchJobs,filters }
                         alignItems="center"
                         fullWidth
                       >
-                        <Link to={`/job/${job.id}`}>
+                        <Link to={`/job/${filterjob.id}`}>
                           <CardHeader
-                            avatar={<Avatar src={job.image} />}
-                            title={job.title}
-                            subheader={job.category} // fix show category name
+                            avatar={<Avatar src={filterjob.image} />}
+                            title={filterjob.title}
+                            subheader={filterjob.category} // fix show category name
                           />
                         </Link>
 
                         <CardHeader
                           style={cardheader}
-                          subheader={job.job_type}
+                          subheader={filterjob.job_type}
                         />
 
                         <CardActions disableSpacing>
@@ -400,9 +401,9 @@ const JobsList = ({ loadJobs, jobs, categories, FilterJobs, SearchJobs,filters }
 };
 
 const mapStateToProps = (state) => {
-  return { jobs: state.jobs.jobs, categories: state.categories.categories , filters : state.filter.filter};
+  return { filter: state.filter.filter, categories: state.categories.categories };
 };
 
-export default connect(mapStateToProps, { loadJobs, FilterJobs, SearchJobs })(
-  JobsList
+export default connect(mapStateToProps, { FilterJobs, SearchJobs })(
+    FilteredJobsList
 );

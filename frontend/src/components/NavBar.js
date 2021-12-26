@@ -574,3 +574,4 @@ export default connect(mapStateToProps, {
   loadEmployeeNotifications,
   updateEmpNotification,
 })(Navbar);
+
