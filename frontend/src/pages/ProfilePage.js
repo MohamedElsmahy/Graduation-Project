@@ -6,8 +6,6 @@ import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-import Link from "@material-ui/core/Link";
-import Box from "@material-ui/core/Box";
 import Avatar from "@material-ui/core/Avatar";
 import EmployeeTabs from "../components/EmployeeTabs";
 import EmployerTabs from "../components/EmployerTabs";
@@ -17,19 +15,6 @@ import EmailIcon from "@material-ui/icons/Email";
 import PhoneIcon from "@material-ui/icons/Phone";
 import { connect } from "react-redux";
 import GetAppIcon from "@material-ui/icons/GetApp";
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"JobBoard © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
 
 const drawerWidth = 240;
 
@@ -158,9 +143,6 @@ const ProfilePage = ({ user }) => {
               </Paper>
             </Grid>
           </Grid>
-          <Box pt={4}>
-            <Copyright />
-          </Box>
         </Container>
       </main>
     </div>

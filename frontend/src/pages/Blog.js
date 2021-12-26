@@ -36,7 +36,6 @@ const useStyles = makeStyles((themes) => ({
     marginLeft: "auto",
     marginRight: "auto",
     marginTop: "30px",
-    marginBottom: "30px",
   },
   Typography1: {
     marginTop: -45,
@@ -76,9 +75,9 @@ const Blog = ({ loadPosts, posts }) => {
         <Typography
           component="div"
           style={{
-            backgroundColor: "#cfe8fc",
             width: "650px",
-            marginLeft: -50,
+            marginLeft: -70,
+            textAlign: "center",
           }}
         >
           <h1 style={{ margin: "10px", padding: "10px" }}>
@@ -91,8 +90,6 @@ const Blog = ({ loadPosts, posts }) => {
               </Button>
             </Fab>
           </Tooltip>
-
-          {/* <AddIcon  style={{ marginLeft:"600px" }}/> */}
         </Typography>
       </Container>
       {posts &&

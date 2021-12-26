@@ -20,7 +20,7 @@ import SearchedJobsList from "./components/SearchedJobs";
 
 function App() {
   return (
-    <div className="app">
+    <div className="app" style={{ backgroundColor: "#DAE9E1" }}>
       <Router>
         <Layout>
           <Routes>
@@ -35,9 +35,9 @@ function App() {
             <Route
               path="posts/:id/"
               element={
-                <PrivateRoute>
-                  <PostDetails />
-                </PrivateRoute>
+                // <PrivateRoute>
+                <PostDetails />
+                // </PrivateRoute>
               }
             />
             <Route

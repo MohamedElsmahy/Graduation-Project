@@ -25,7 +25,6 @@ function Copyright() {
 
 const useStyles = makeStyles((theme) => ({
   footer: {
-    // flexGrow: 1,
     padding: theme.spacing(2, 2),
     marginTop: "auto",
     backgroundColor:

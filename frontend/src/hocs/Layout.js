@@ -28,9 +28,9 @@ const Layout = ({ children, checkAuth, loadProfile, loadCategories }) => {
   }, []);
   return (
     <div className={classes.root}>
+      <CssBaseline />
       <NavBar />
       {children}
-      <CssBaseline />
       <Footer />
     </div>
   );
