@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
-
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
@@ -20,7 +19,6 @@ import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 import InputBase from "@material-ui/core/InputBase";
 import { alpha, makeStyles } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
-
 import { loadJobs, saveJob, removeJob } from "../actions/jobs";
 import { FilterJobs, SearchJobs } from "../actions/filters";
 import { loadProfile } from "../actions/profile";

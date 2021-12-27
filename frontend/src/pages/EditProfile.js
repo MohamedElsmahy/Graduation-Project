@@ -11,11 +11,12 @@ import { Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(2),
+    marginTop: 45,
+    marginBottom: 45,
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    padding: "8px",
+    padding: "10px",
     marginLeft: "150px",
     marginRight: "150px",
   },
@@ -25,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
   form: {
     width: "100%",
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(1),
   },
   submit: {
     margin: theme.spacing(3, 1, 2),
@@ -127,20 +128,18 @@ const EditProfile = ({
 
   return (
     <>
+      <Paper className={classes.paper} elevation={3}>
       <Typography
         variant="h4"
         align="center"
         color="primary"
-        className={classes.root}
         gutterBottom
       >
         Update Your Profile
       </Typography>
-      <Paper className={classes.paper} elevation={3}>
         <form
           onSubmit={(e) => onSubmit(e)}
           className={classes.form}
-          noValidate
           encType="multipart/form-data"
         >
           <Grid

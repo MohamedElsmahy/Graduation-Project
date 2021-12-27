@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import Card from "@material-ui/core/Card";
 import { makeStyles, TextField } from "@material-ui/core";
 import FormControl from "@material-ui/core/FormControl";
@@ -8,7 +7,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Button from "@material-ui/core/Button";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-
+import { Typography } from "@material-ui/core";
 import { connect } from "react-redux";
 import { AddNewJob } from "../actions/jobs";
 import CSRFToken from "../components/CSRFToken";
@@ -18,8 +17,8 @@ const useStyle = makeStyles({
     boxShadow: 10,
   },
   field: {
-    marginTop: 30,
-    marginBottom: 30,
+    marginTop: 12,
+    marginBottom: 12,
     display: "block",
   },
 });
@@ -29,12 +28,12 @@ const AddJob = ({ is_employer, user, AddNewJob, categories }) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: "",
-    job_type: "Full time",
+    job_type: "",
     description: "",
     vacancy: "",
     salary: "",
     experience: "",
-    category: 1,
+    category: "",
   });
 
   let { title, job_type, description, vacancy, salary, experience, category } =
@@ -64,26 +63,25 @@ const AddJob = ({ is_employer, user, AddNewJob, categories }) => {
     <div>
       <Card
         style={{
-          width: 900,
+          width: 800,
           marginRight: "auto",
           marginLeft: "auto",
-          marginTop: 100,
-          marginBottom: 30,
+          marginTop: 40,
+          marginBottom: 40,
+          padding: 10,
         }}
-        className={classes.card}
       >
-        <h1 style={{ marginLeft: 30, textAlign: "center" }}>Add Job</h1>
+        <Typography variant="h4" align="center" color="primary" gutterBottom>
+          Add Job
+        </Typography>
         <form
           onSubmit={(e) => {
             onSubmit(e);
           }}
-          noValidate
-          autoComplete="off"
-          style={{ width: 850, marginRight: "auto", marginLeft: "auto" }}
         >
           <CSRFToken />
           <TextField
-            className={classes.field}
+          className={classes.field}
             label="title"
             name="title"
             value={title}
@@ -95,11 +93,8 @@ const AddJob = ({ is_employer, user, AddNewJob, categories }) => {
             fullWidth
             required
           />
-          <FormControl className={classes.field}>
-            <InputLabel variant="standard" htmlFor="uncontrolled-native">
-              {" "}
-              job_type
-            </InputLabel>
+          <FormControl fullWidth variant="outlined">
+            <InputLabel htmlFor="uncontrolled-native"> job type</InputLabel>
             <Select
               name="job_type"
               value={job_type}
@@ -129,6 +124,7 @@ const AddJob = ({ is_employer, user, AddNewJob, categories }) => {
             required
           />
           <TextField
+          className={classes.field}
             type="number"
             label="vacancy"
             name="vacancy"
@@ -138,11 +134,11 @@ const AddJob = ({ is_employer, user, AddNewJob, categories }) => {
             }}
             variant="outlined"
             fullWidth
+            required
           />
-          <br />
-          <br />
 
           <TextField
+          className={classes.field}
             type="number"
             label="salary"
             name="salary"
@@ -152,11 +148,11 @@ const AddJob = ({ is_employer, user, AddNewJob, categories }) => {
             }}
             variant="outlined"
             fullWidth
+            required
           />
-          <br />
-          <br />
 
           <TextField
+          className={classes.field}
             type="number"
             label="experience"
             name="experience"
@@ -166,14 +162,11 @@ const AddJob = ({ is_employer, user, AddNewJob, categories }) => {
             }}
             variant="outlined"
             fullWidth
+            required
           />
-          <br />
-          <br />
-          <FormControl className={classes.field}>
-            <InputLabel variant="standard" htmlFor="uncontrolled-native">
-              {" "}
-              category
-            </InputLabel>
+
+          <FormControl fullWidth variant="outlined" >
+            <InputLabel htmlFor="uncontrolled-native">category</InputLabel>
             <Select
               name="category"
               value={category}
@@ -196,13 +189,8 @@ const AddJob = ({ is_employer, user, AddNewJob, categories }) => {
             variant="contained"
             disableElevation
             color="primary"
-            style={{
-              color: "primary",
-              padding: 15,
-              fontWeight: "bold",
-              fontSize: 15,
-            }}
             fullWidth
+            className={classes.field}
           >
             Add Job
           </Button>
