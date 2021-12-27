@@ -143,6 +143,7 @@ const Navbar = ({
   unreadEmployerCount,
   is_employer,
   loadEmployerNotifications,
+  user,
 }) => {
   const classes = useStyles();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -297,6 +298,17 @@ const Navbar = ({
     </Menu>
   );
 
+  const [anchorNotif, setAnchorNotif] = React.useState(null);
+  const notifOpen = Boolean(anchorNotif);
+
+  const handleNotifIconClick = (event) => {
+    setAnchorNotif(event.currentTarget);
+  };
+
+  const handleNotifClose = () => {
+    setAnchorNotif(null);
+  };
+
   const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
     <Menu
@@ -356,17 +368,6 @@ const Navbar = ({
       )}
     </Menu>
   );
-
-  const [anchorNotif, setAnchorNotif] = React.useState(null);
-  const notifOpen = Boolean(anchorNotif);
-
-  const handleNotifIconClick = (event) => {
-    setAnchorNotif(event.currentTarget);
-  };
-
-  const handleNotifClose = () => {
-    setAnchorNotif(null);
-  };
 
   const handleNotificationClick = (notification) => {
     updateEmpNotification(notification.id);
@@ -537,7 +538,7 @@ const Navbar = ({
             <SideDrawer />
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
-            Job Board
+            Welcome, {user.first_name} {user.last_name}
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -646,6 +647,7 @@ const mapStateToProps = (state) => {
     employerNotifications: state.employerNotifications.employer_notifications,
     unreadEmployerCount: state.employerNotifications.unread,
     is_employer: state.profile.is_employer,
+    user: state.profile,
   };
 };
 

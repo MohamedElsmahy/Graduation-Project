@@ -168,9 +168,15 @@ const JobDetails = ({
 
   const handleApplyJob = (e) => {
     e.preventDefault();
-    {
-      isAuthenticated ? UserApplyJob(id) : navigate(`/job/${id}/apply`);
+    if (isAuthenticated) {
+      UserApplyJob(id);
+      navigate("/");
+    } else {
+      navigate(`/job/${id}/apply`);
     }
+    // {
+    //   isAuthenticated ? UserApplyJob(id) : navigate(`/job/${id}/apply`);
+    // }
   };
 
   return (
