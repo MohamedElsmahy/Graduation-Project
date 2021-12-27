@@ -166,7 +166,7 @@ export const register =
       });
     }
   };
-export const deleteAccount = () => async (dispatch) => {
+const deleteAccount = () => async (dispatch) => {
   const config = {
     headers: {
       Accept: "application/json",
@@ -200,3 +200,5 @@ export const deleteAccount = () => async (dispatch) => {
     });
   }
 };
+
+export default deleteAccount;

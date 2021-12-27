@@ -1,12 +1,14 @@
-import React from 'react';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import React from "react";
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import deleteAccount from "../actions/auth";
+import { connect } from "react-redux";
 
-export default function AlertDialog() {
+const DeleteDialog = ({ render, deleteAccount }) => {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -18,7 +20,8 @@ export default function AlertDialog() {
   };
 
   return (
-    <div>
+    <>
+      {render(handleClickOpen)}
       <Dialog
         open={open}
         onClose={handleClose}
@@ -35,11 +38,22 @@ export default function AlertDialog() {
           <Button onClick={handleClose} color="primary">
             cansel
           </Button>
-          <Button onClick={handleClose} color="secondary" autoFocus>
+          <Button
+            onClick={() => {
+              deleteAccount();
+              handleClose();
+            }}
+            color="secondary"
+            autoFocus
+          >
             Delete
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </>
   );
-}
+};
+
+export default connect(null, {
+  deleteAccount,
+})(DeleteDialog);

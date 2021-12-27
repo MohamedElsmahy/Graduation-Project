@@ -7,6 +7,8 @@ from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
 from accounts.models import MyUser , EmployerProfile ,EmployeeProfile
 from .serializers import EmployerProfileSerializer, MyUserSerializer,EmployeeProfileSerializer
 from django.utils.decorators import method_decorator
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication 
+
 
 class MyUserAPi(generics.CreateAPIView):
     model = MyUser
@@ -97,12 +99,16 @@ class GetCSRFToken(APIView):
         print()
         return Response ({'success': 'CSRF cookie set'})
 
+class CsrfExemptSessionAuthentication(SessionAuthentication):
+    
+    def enforce_csrf(self, request):
+        return
 
 class DeleteUserView(APIView):
+    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     def delete(self, request, format=None):
         try:
             user = self.request.user
-
             MyUser.objects.filter(id=user.id).delete()
             return Response({'success': "user deleted successfully"})
         except:
