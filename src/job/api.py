@@ -1,5 +1,6 @@
+from django.db import models
 from rest_framework.views import APIView
-from accounts.models import EmployeeProfile, EmployerProfile
+from accounts.models import EmployeeProfile, EmployerProfile, MyUser
 from notifications.models import EmployeeNotification
 from .models import Application, Category, Interview, Job
 from django.db.models import Q
@@ -8,6 +9,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics, permissions
+from notifications.models import Notification
 
 ''' Funcation Viwes '''
 @api_view(['GET'])
@@ -66,7 +68,22 @@ class UserApplyJob(APIView):
                     Application.objects.create(
                         job=job,
                         applicant=user,
-                        full_name=f"{user.first_name} {user.last_name}")
+                        full_name=f"{user.first_name} {user.last_name}"
+                        
+                        )
+                    
+                    employer=EmployerProfile.objects.get(user=job.owner)
+                    employee=EmployeeProfile.objects.get(user=user)
+                    
+                    application=Application.objects.last()
+                    
+                    Notification.objects.create(
+                        to_user=employer,
+                        created_by=employee,
+                        application=application,
+                    )
+                    
+
                     return Response({'success': "application sent successfully"})
             else:
                 return Response({'error': "You have to be looged in for an auto apply"})
@@ -78,19 +95,41 @@ class AnonApplyJob(APIView):
     permission_classes = (permissions.AllowAny,)
     def post(self, request, job_id):
         data = self.request.data
+        user=self.request.user
         job = Job.objects.get(id=job_id)
         try:
             if Application.objects.filter(Q(email=data["email"]) & Q(job=job)).exists():
                 return Response({'error': "An aplication for this job with this email already exists"})
             else:
-                Application.objects.create(
-                    job=job,
-                    full_name=data["full_name"],
-                    email=data["email"],
-                    website=data["website"],
-                    cv=data["cv"],
-                    cover_letter=data["cover_letter"])
-                return Response({'success': "application sent successfully"})
+                if user.is_Authenticated:
+                    Application.objects.create(
+                        job=job,
+                        full_name=data["full_name"],
+                        email=data["email"],
+                        website=data["website"],
+                        cv=data["cv"],
+                        cover_letter=data["cover_letter"],
+                        applicant=user,
+                        )
+                    employer=MyUser.objects.get(id=job.owner.id)
+                    application=Application.objects.last()
+                    Notification.objects.create(
+                        to_user=employer,
+                        created_by=user,
+                        application=application,
+                    )
+
+                    return Response({'success': "application sent successfully"})
+                else:
+                    Application.objects.create(
+                        job=job,
+                        full_name=data["full_name"],
+                        email=data["email"],
+                        website=data["website"],
+                        cv=data["cv"],
+                        cover_letter=data["cover_letter"])
+                
+                    return Response({'success': "application sent successfully"})
         except Exception as e:
             return Response({'error': e.args})
 
@@ -204,9 +243,7 @@ class CreateInterview(APIView):
                 employer = EmployerProfile.objects.get(user=application.job.owner)
                 employee = EmployeeProfile.objects.get(user=application.applicant)
                 interview = Interview.objects.last()
-                print(employer)
-                print(employee)
-                print(interview)
+              
                 EmployeeNotification.objects.create(
                     sender=employer,
                     receiver=employee,

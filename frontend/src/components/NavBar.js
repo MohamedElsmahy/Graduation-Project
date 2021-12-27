@@ -32,8 +32,11 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 
-import loadEmployeeNotifications, {
+import {
   updateEmpNotification,
+  loadEmployeeNotifications,
+  loadEmployerNotifications,
+  updateEmployerNotification,
 } from "../actions/notifications";
 
 const useStyles = makeStyles((theme) => ({
@@ -136,6 +139,10 @@ const Navbar = ({
   unreadCount,
   loadEmployeeNotifications,
   updateEmpNotification,
+  employerNotifications,
+  unreadEmployerCount,
+  is_employer,
+  loadEmployerNotifications,
 }) => {
   const classes = useStyles();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -145,7 +152,9 @@ const Navbar = ({
 
   useEffect(() => {
     const notifUpdater = setInterval(() => {
-      loadEmployeeNotifications();
+      {
+        is_employer ? loadEmployerNotifications() : loadEmployeeNotifications();
+      }
     }, 5000);
     // clearing interval
     return () => clearInterval(notifUpdater);
@@ -391,62 +400,125 @@ const Navbar = ({
           },
         }}
       >
-        {empNotifications ? (
-          empNotifications.map((notification) => (
-            <>
-              <MenuItem
-                className={!notification.is_read && classes.unread}
-                key={notification.id}
-                onClick={() => {
-                  handleNotificationClick(notification);
-                }}
-              >
-                <ListItem alignItems="flex-start">
-                  <ListItemAvatar>
-                    <Avatar
-                      alt={notification.sender.username}
-                      src={notification.sender.image}
-                    />
-                  </ListItemAvatar>
-                  <ListItemText
-                    color="Primary"
-                    primary={
-                      <>
-                        {`${notification.interview.application.job.title} |
-                        ACCEPTED`}
-                        <br />
-                        <Typography
-                          component="span"
-                          variant="body2"
-                          className={classes.inline}
-                          color="textSecondary"
-                        >
-                          {notification.created}
-                        </Typography>
-                      </>
-                    }
-                    secondary={
-                      <>
-                        <Typography
-                          component="span"
-                          variant="body"
-                          className={classes.inline}
-                          color="textPrimary"
-                        >
-                          {`${notification.sender.user.first_name} ${notification.sender.user.last_name} accepted your application`}
-                        </Typography>
-                      </>
-                    }
-                  />
-                </ListItem>
+        {is_employer ? (
+          <>
+            {employerNotifications.length !== 0 ? (
+              employerNotifications.map((notification) => (
+                <>
+                  <MenuItem
+                    className={!notification.is_read && classes.unread}
+                    key={notification.id}
+                    onClick={() => {
+                      handleNotificationClick(notification);
+                    }}
+                  >
+                    <ListItem alignItems="flex-start">
+                      <ListItemAvatar>
+                        <Avatar
+                          alt={notification.created_by.username}
+                          src={notification.created_by.image}
+                        />
+                      </ListItemAvatar>
+                      <ListItemText
+                        color="Primary"
+                        primary={
+                          <>
+                            New Application
+                            <br />
+                            <Typography
+                              component="span"
+                              variant="body2"
+                              className={classes.inline}
+                              color="textSecondary"
+                            >
+                              {notification.created_at}
+                            </Typography>
+                          </>
+                        }
+                        secondary={
+                          <>
+                            <Typography
+                              component="span"
+                              variant="body"
+                              className={classes.inline}
+                              color="textPrimary"
+                            >
+                              {`${notification.created_by.first_name} ${notification.created_by.last_name} applied for ${notification.application.job.title}`}
+                            </Typography>
+                          </>
+                        }
+                      />
+                    </ListItem>
+                  </MenuItem>
+                  <Divider component="li" />
+                </>
+              ))
+            ) : (
+              <MenuItem>
+                <div>no employer notifications</div>
               </MenuItem>
-              <Divider variant="inset" component="li" />
-            </>
-          ))
+            )}
+          </>
         ) : (
-          <MenuItem className={classes.circleProgress}>
-            <CircularProgress />
-          </MenuItem>
+          <>
+            {empNotifications.length !== 0 ? (
+              empNotifications.map((notification) => (
+                <>
+                  <MenuItem
+                    className={!notification.is_read && classes.unread}
+                    key={notification.id}
+                    onClick={() => {
+                      handleNotificationClick(notification);
+                    }}
+                  >
+                    <ListItem alignItems="flex-start">
+                      <ListItemAvatar>
+                        <Avatar
+                          alt={notification.sender.username}
+                          src={notification.sender.image}
+                        />
+                      </ListItemAvatar>
+                      <ListItemText
+                        color="Primary"
+                        primary={
+                          <>
+                            {`${notification.interview.application.job.title} |
+                        ACCEPTED`}
+                            <br />
+                            <Typography
+                              component="span"
+                              variant="body2"
+                              className={classes.inline}
+                              color="textSecondary"
+                            >
+                              {notification.created}
+                            </Typography>
+                          </>
+                        }
+                        secondary={
+                          <>
+                            <Typography
+                              component="span"
+                              variant="body"
+                              className={classes.inline}
+                              color="textPrimary"
+                            >
+                              {`${notification.sender.user.first_name} ${notification.sender.user.last_name} accepted your application`}
+                            </Typography>
+                          </>
+                        }
+                      />
+                    </ListItem>
+                  </MenuItem>
+                  <Divider variant="inset" component="li" />
+                </>
+              ))
+            ) : (
+              <MenuItem>
+                <div>no employee notifications</div>
+              </MenuItem>
+            )}
+          </>
         )}
       </Menu>
     </div>
@@ -491,7 +563,12 @@ const Navbar = ({
                   onClick={handleNotifIconClick}
                   color="inherit"
                 >
-                  <Badge badgeContent={unreadCount} color="secondary">
+                  <Badge
+                    badgeContent={
+                      is_employer ? unreadEmployerCount : unreadCount
+                    }
+                    color="secondary"
+                  >
                     <NotificationsIcon />
                   </Badge>
                 </IconButton>
@@ -566,10 +643,15 @@ const mapStateToProps = (state) => {
     isAuthenticated: state.auth.isAuthenticated,
     empNotifications: state.empNotifications.notifications,
     unreadCount: state.empNotifications.unread,
+    employerNotifications: state.employerNotifications.employer_notifications,
+    unreadEmployerCount: state.employerNotifications.unread,
+    is_employer: state.profile.is_employer,
   };
 };
 
 export default connect(mapStateToProps, {
   loadEmployeeNotifications,
   updateEmpNotification,
+  updateEmployerNotification,
+  loadEmployerNotifications,
 })(Navbar);

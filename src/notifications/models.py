@@ -6,19 +6,15 @@ from django.dispatch import receiver
 
 
 class Notification(models.Model):
-      to_user=models.ForeignKey(MyUser,related_name='notifications',on_delete=models.CASCADE)
+      to_user=models.ForeignKey(EmployerProfile,related_name='notifications',on_delete=models.CASCADE)
       is_read=models.BooleanField(default=False)
-      job=models.ForeignKey(Job, on_delete=models.CASCADE)
+      application=models.ForeignKey(Application, on_delete=models.CASCADE)
       created_at=models.DateTimeField(auto_now_add=True,null=True,blank=True)
-      created_by=models.ForeignKey(MyUser,related_name='creatednotifications',on_delete=models.CASCADE,null=True)
+      created_by=models.ForeignKey(EmployeeProfile,related_name='creatednotifications',on_delete=models.SET_NULL,null=True)
 
       def __str__(self):
-         return f" application  for {self.job.title} job from {self.created_by.username}"
+         return f" application  for {self.application.job.title} job from {self.created_by}"
 
-      @receiver(post_save, sender=Application)
-      def Create_save_job_notification(sender, instance, created, **kwargs):
-          if created:
-              Notification.objects.create(created_by=instance.applicant,is_read=True,job=instance.job,to_user=instance.job.owner)
 
 
 

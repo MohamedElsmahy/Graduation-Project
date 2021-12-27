@@ -5,6 +5,7 @@ import {
   
   const initialState = {
     employer_notifications: [],
+    unread:0,
   };
   
   const employerNotifications = (state = initialState, action) => {
@@ -14,11 +15,16 @@ import {
       case NOTIFICATIONS_SUCCESS:
         return {
           ...state,
-          employer_notifications: payload,
+          
+          employer_notifications: payload.notifications,
+          unread: payload.unread,
+
         };
       case NOTIFICATIONS_FAIL:
         return {
           ...state,
+          employer_notifications: [],
+          unread: 0,
         };
       default:
         return state;
