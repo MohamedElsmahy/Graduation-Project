@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { connect } from "react-redux";
+
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
@@ -18,9 +20,10 @@ import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 import InputBase from "@material-ui/core/InputBase";
 import { alpha, makeStyles } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
-import { loadJobs } from "../actions/jobs";
-import { connect } from "react-redux";
+
+import { loadJobs, saveJob, removeJob } from "../actions/jobs";
 import { FilterJobs, SearchJobs } from "../actions/filters";
+import { loadProfile } from "../actions/profile";
 
 const JobsList = ({
   loadJobs,
@@ -29,6 +32,11 @@ const JobsList = ({
   FilterJobs,
   SearchJobs,
   filters,
+  saveJob,
+  removeJob,
+  saved_jobs,
+  loadProfile,
+  is_employer,
 }) => {
   const useStyles = makeStyles((theme) => ({
     root: {
@@ -126,6 +134,7 @@ const JobsList = ({
   };
   const classes = useStyles();
   const navigate = useNavigate();
+  const [saveRemove, setSaveRemove] = useState(false);
 
   const [formData, setFormData] = useState({
     job_type: "",
@@ -142,7 +151,8 @@ const JobsList = ({
 
   useEffect(() => {
     loadJobs();
-  }, []);
+    loadProfile();
+  }, [saveRemove]);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -162,6 +172,18 @@ const JobsList = ({
 
   const onChangeSearch = (e) => {
     setSearchData({ ...searchData, [e.target.name]: e.target.value });
+  };
+
+  const checkSaved = (job_id) => {
+    let saved = false;
+    if (saved_jobs.length !== 0) {
+      saved_jobs.map((saved_job) => {
+        if (saved_job.id === job_id) {
+          saved = true;
+        }
+      });
+    }
+    return saved;
   };
 
   return (
@@ -330,18 +352,29 @@ const JobsList = ({
 
                       <CardHeader style={cardheader} subheader={job.job_type} />
 
-                      <CardActions disableSpacing>
-                        <FormControlLabel
-                          style={icon}
-                          control={
-                            <Checkbox
-                              color="primary"
-                              icon={<FavoriteBorder />}
-                              checkedIcon={<Favorite />}
-                            />
-                          }
-                        />
-                      </CardActions>
+                      {!is_employer && (
+                        <CardActions disableSpacing>
+                          <FormControlLabel
+                            style={icon}
+                            control={
+                              <Checkbox
+                                checked={checkSaved(job.id)}
+                                onClick={(e) => {
+                                  {
+                                    e.target.checked === true
+                                      ? saveJob(job.id)
+                                      : removeJob(job.id);
+                                  }
+                                  setSaveRemove(!saveRemove);
+                                }}
+                                color="primary"
+                                icon={<FavoriteBorder />}
+                                checkedIcon={<Favorite />}
+                              />
+                            }
+                          />
+                        </CardActions>
+                      )}
                     </Grid>
                   </Card>
                 );
@@ -406,9 +439,16 @@ const mapStateToProps = (state) => {
     jobs: state.jobs.jobs,
     categories: state.categories.categories,
     filters: state.filter.filter,
+    saved_jobs: state.profile.saved_jobs,
+    is_employer: state.profile.is_employer,
   };
 };
 
-export default connect(mapStateToProps, { loadJobs, FilterJobs, SearchJobs })(
-  JobsList
-);
+export default connect(mapStateToProps, {
+  loadJobs,
+  FilterJobs,
+  SearchJobs,
+  saveJob,
+  removeJob,
+  loadProfile,
+})(JobsList);

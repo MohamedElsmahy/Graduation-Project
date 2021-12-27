@@ -3,11 +3,12 @@ from accounts.models import EmployeeProfile, EmployerProfile
 from notifications.models import EmployeeNotification
 from .models import Application, Category, Interview, Job
 from django.db.models import Q
-from .serializers import ApplicationSerializer, CategorySerializer, InterviewSerializer, JobSerializer
+from .serializers import ApplicationSerializer, CategorySerializer, JobSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics, permissions
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication 
 
 ''' Funcation Viwes '''
 @api_view(['GET'])
@@ -173,28 +174,38 @@ class CategoryListApi(generics.ListAPIView):
     serializer_class = CategorySerializer
 
 
+
+
+class CsrfExemptSessionAuthentication(SessionAuthentication):
+
+    def enforce_csrf(self, request):
+        return
+
+
 class SaveJob(APIView):
+    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     def put(self, request, job_id):
         profile = EmployeeProfile.objects.get(user=self.request.user)
         job = Job.objects.get(id=job_id)
-        try:
-            profile.saved_jobs.add(job)
-            profile.save()
-            return Response({"success": "job saved successfully"})
-        except Exception as e:
-            return Response({"error": e.args})
+        # try:
+        profile.saved_jobs.add(job)
+        profile.save()
+        return Response({"success": "job saved successfully"})
+        # except Exception as e:
+        #     return Response({"error": e.args})
 
 
 class RemoveSavedJob(APIView):
+    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     def put(self, request, job_id):
         profile = EmployeeProfile.objects.get(user=self.request.user)
         job = Job.objects.get(id=job_id)
-        try:
-            profile.saved_jobs.remove(job)
-            profile.save()
-            return Response({"success": "job removed successfully"})
-        except Exception as e:
-            return Response({"error": e.args})
+        # try:
+        profile.saved_jobs.remove(job)
+        profile.save()
+        return Response({"success": "job removed successfully"})
+        # except Exception as e:
+        #     return Response({"error": e.args})
 
 
 class UpdateApplicationStatus(APIView):
