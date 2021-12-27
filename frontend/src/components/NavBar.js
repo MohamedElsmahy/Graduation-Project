@@ -32,11 +32,10 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 
-import {
-  updateEmpNotification,
-  loadEmployeeNotifications,
+import loadEmployeeNotifications, {
   loadEmployerNotifications,
   updateEmployerNotification,
+  updateEmpNotification,
 } from "../actions/notifications";
 
 const useStyles = makeStyles((theme) => ({
@@ -134,15 +133,16 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const Navbar = ({
+  loadEmployerNotifications,
+  updateEmployerNotification,
+  updateEmpNotification,
+  loadEmployeeNotifications,
   isAuthenticated,
   empNotifications,
   unreadCount,
-  loadEmployeeNotifications,
-  updateEmpNotification,
   employerNotifications,
   unreadEmployerCount,
   is_employer,
-  loadEmployerNotifications,
   user,
 }) => {
   const classes = useStyles();
@@ -323,8 +323,11 @@ const Navbar = ({
       {isAuthenticated ? (
         <>
           <MenuItem onClick={handleNotifIconClick}>
-            <IconButton aria-label="show 11 new notifications" color="inherit">
-              <Badge badgeContent={11} color="secondary">
+            <IconButton aria-label="show new notifications" color="inherit">
+              <Badge
+                badgeContent={is_employer ? unreadEmployerCount : unreadCount}
+                color="secondary"
+              >
                 <NotificationsIcon />
               </Badge>
             </IconButton>
@@ -444,7 +447,7 @@ const Navbar = ({
                               className={classes.inline}
                               color="textPrimary"
                             >
-                              {`${notification.created_by.first_name} ${notification.created_by.last_name} applied for ${notification.application.job.title}`}
+                              {`${notification.created_by.user.first_name} ${notification.created_by.user.last_name} applied for ${notification.application.job.title}`}
                             </Typography>
                           </>
                         }
@@ -589,15 +592,6 @@ const Navbar = ({
                 <Button
                   variant="contained"
                   noWrap
-                  onClick={interviewDialogOpen}
-                  color="primary"
-                  className={classes.margin}
-                >
-                  open dialog
-                </Button>
-                <Button
-                  variant="contained"
-                  noWrap
                   to={"/signup"}
                   component={RouterLink}
                   color="primary"
@@ -652,8 +646,8 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps, {
-  loadEmployeeNotifications,
-  updateEmpNotification,
-  updateEmployerNotification,
   loadEmployerNotifications,
+  updateEmployerNotification,
+  updateEmpNotification,
+  loadEmployeeNotifications,
 })(Navbar);

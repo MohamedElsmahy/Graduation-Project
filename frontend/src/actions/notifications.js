@@ -8,8 +8,7 @@ import {
   UPDATE_EMP_NOTIF_SUCCESS,
   UPDATE_EMP_NOTIF_FAIL,
   UPDATE_NOTIFICATION_SUCCESS,
-  UPDATE_NOTIFICATION_FAIL
-
+  UPDATE_NOTIFICATION_FAIL,
 } from "./types";
 
 export const loadEmployerNotifications = () => async (dispatch) => {
@@ -71,7 +70,6 @@ export const updateEmployerNotification = (id) => async (dispatch) => {
   }
 };
 
-
 export const updateEmpNotification = (id) => async (dispatch) => {
   const config = {
     headers: {
@@ -131,7 +129,4 @@ const loadEmployeeNotifications = () => async (dispatch) => {
   }
 };
 
-
 export default loadEmployeeNotifications;
-
-
