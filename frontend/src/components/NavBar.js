@@ -25,12 +25,11 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
 import Divider from "@material-ui/core/Divider";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
+import DeleteDialog from "./DeleteDialog";
 
 import loadEmployeeNotifications, {
   loadEmployerNotifications,
@@ -144,6 +143,7 @@ const Navbar = ({
   unreadEmployerCount,
   is_employer,
   user,
+  deleteAccount,
 }) => {
   const classes = useStyles();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -284,17 +284,27 @@ const Navbar = ({
         </IconButton>
         <p>Update Profile</p>
       </MenuItem>
-      <MenuItem onClick={handleMenuClose}>
-        <IconButton
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <DeleteForeverIcon />
-        </IconButton>
-        <p>Delete My Account</p>
-      </MenuItem>
+
+      <DeleteDialog
+        render={(open) => (
+          <MenuItem
+            onClick={() => {
+              open();
+              handleMenuClose();
+            }}
+          >
+            <IconButton
+              aria-label="account of current user"
+              aria-controls="primary-search-account-menu"
+              aria-haspopup="true"
+              color="inherit"
+            >
+              <DeleteForeverIcon />
+            </IconButton>
+            <p>Delete My Account</p>
+          </MenuItem>
+        )}
+      />
     </Menu>
   );
 
@@ -540,9 +550,9 @@ const Navbar = ({
           >
             <SideDrawer />
           </IconButton>
-          <Typography className={classes.title} variant="h6" noWrap>
+          {/* <Typography className={classes.title} variant="h6" noWrap>
             Welcome, {user.first_name} {user.last_name}
-          </Typography>
+          </Typography> */}
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
@@ -633,6 +643,7 @@ const Navbar = ({
     </div>
   );
 };
+
 const mapStateToProps = (state) => {
   return {
     isAuthenticated: state.auth.isAuthenticated,

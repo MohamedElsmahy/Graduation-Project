@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
@@ -20,8 +20,20 @@ import { alpha, makeStyles } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
 import { connect } from "react-redux";
 import { FilterJobs, SearchJobs } from "../actions/filters";
+import { loadProfile } from "../actions/profile";
+import { saveJob, removeJob } from "../actions/jobs";
 
-const SearchedJobsList = ({ search, categories, SearchJobs, FilterJobs }) => {
+const SearchedJobsList = ({
+  search,
+  categories,
+  SearchJobs,
+  FilterJobs,
+  saveJob,
+  removeJob,
+  saved_jobs,
+  loadProfile,
+  is_employer,
+}) => {
   const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
@@ -117,6 +129,8 @@ const SearchedJobsList = ({ search, categories, SearchJobs, FilterJobs }) => {
   };
   const classes = useStyles();
 
+  const [saveRemove, setSaveRemove] = useState(false);
+
   const [formData, setFormData] = useState({
     job_type: "",
     experience: "",
@@ -127,21 +141,28 @@ const SearchedJobsList = ({ search, categories, SearchJobs, FilterJobs }) => {
     title: "",
   });
 
-//   const [isUpdated, setIsUpdated] = useState(true);
-  const [isSearched, setIsSearched] = useState(false);
+  const [isUpdated, setIsUpdated] = useState(true);
+  const [isSearched, setIsSearched] = useState(true);
 
   const { job_type, experience, category } = formData;
   const { title } = searchData;
 
   useEffect(() => {
     SearchJobs();
-    // FilterJobs();
   }, [isSearched]);
+
+  useEffect(() => {
+    FilterJobs();
+  }, [isUpdated]);
+
+  useEffect(() => {
+    loadProfile();
+  }, [saveRemove]);
 
   const onSubmit = (e) => {
     e.preventDefault();
     FilterJobs(job_type, experience, category);
-    // setIsUpdated = !isUpdated;
+    setIsUpdated = !isUpdated;
   };
 
   const onSubmitSearch = (e) => {
@@ -158,13 +179,23 @@ const SearchedJobsList = ({ search, categories, SearchJobs, FilterJobs }) => {
     setSearchData({ ...searchData, [e.target.name]: e.target.value });
   };
 
+  const checkSaved = (job_id) => {
+    let saved = false;
+    if (saved_jobs.length !== 0) {
+      saved_jobs.map((saved_job) => {
+        if (saved_job.id === job_id) {
+          saved = true;
+        }
+      });
+    }
+    return saved;
+  };
+
   return (
     <div>
       <Grid
         container
-        direction="row"
         justifyContent="center"
-        alignItems="center"
         style={{
           marginRight: "auto",
           marginLeft: "auto",
@@ -176,7 +207,7 @@ const SearchedJobsList = ({ search, categories, SearchJobs, FilterJobs }) => {
           container
           direction="row"
           justifyContent="center"
-          alignItems="center"
+          alignItems="top"
           style={{ gap: 50 }}
         >
           <Grid item xs={10} md={3}>
@@ -250,7 +281,7 @@ const SearchedJobsList = ({ search, categories, SearchJobs, FilterJobs }) => {
                     width: 240,
                   }}
                 >
-                  Search
+                  Filter Jobs
                 </Button>
               </form>
               <form
@@ -267,7 +298,7 @@ const SearchedJobsList = ({ search, categories, SearchJobs, FilterJobs }) => {
                     name="title"
                     value={title}
                     onChange={(e) => onChangeSearch(e)}
-                    placeholder="Title Contains"
+                    placeholder="Search by title"
                     classes={{
                       root: classes.inputRoot,
                       input: classes.inputInput,
@@ -316,31 +347,46 @@ const SearchedJobsList = ({ search, categories, SearchJobs, FilterJobs }) => {
                         alignItems="center"
                         fullWidth
                       >
-                        <Link to={`/job/${searchjob.id}`}>
-                          <CardHeader
-                            avatar={<Avatar src={searchjob.image} />}
-                            title={searchjob.title}
-                            subheader={searchjob.category} // fix show category name
-                          />
-                        </Link>
+                        <CardHeader
+                          avatar={
+                            <Avatar
+                              to={`/job/${searchjob.id}`}
+                              component={RouterLink}
+                              src={searchjob.image}
+                            />
+                          }
+                          title={searchjob.title}
+                          subheader={searchjob.category} // fix show category name
+                        />
 
                         <CardHeader
                           style={cardheader}
                           subheader={searchjob.job_type}
                         />
 
-                        <CardActions disableSpacing>
-                          <FormControlLabel
-                            style={icon}
-                            control={
-                              <Checkbox
-                                color="primary"
-                                icon={<FavoriteBorder />}
-                                checkedIcon={<Favorite />}
-                              />
-                            }
-                          />
-                        </CardActions>
+                        {!is_employer && (
+                          <CardActions disableSpacing>
+                            <FormControlLabel
+                              style={icon}
+                              control={
+                                <Checkbox
+                                  checked={checkSaved(searchjob.id)}
+                                  onClick={(e) => {
+                                    {
+                                      e.target.checked === true
+                                        ? saveJob(searchjob.id)
+                                        : removeJob(searchjob.id);
+                                    }
+                                    setSaveRemove(!saveRemove);
+                                  }}
+                                  color="primary"
+                                  icon={<FavoriteBorder />}
+                                  checkedIcon={<Favorite />}
+                                />
+                              }
+                            />
+                          </CardActions>
+                        )}
                       </Grid>
                     </Card>
                   );
@@ -402,11 +448,17 @@ const SearchedJobsList = ({ search, categories, SearchJobs, FilterJobs }) => {
 
 const mapStateToProps = (state) => {
   return {
-    search: state.search.search,
+    search: state.search.search.job,
     categories: state.categories.categories,
+    saved_jobs: state.profile.saved_jobs,
+    is_employer: state.profile.is_employer,
   };
 };
 
-export default connect(mapStateToProps, { FilterJobs, SearchJobs })(
-    SearchedJobsList
-);
+export default connect(mapStateToProps, {
+  FilterJobs,
+  SearchJobs,
+  saveJob,
+  removeJob,
+  loadProfile,
+})(SearchedJobsList);
