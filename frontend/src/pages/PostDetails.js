@@ -22,6 +22,7 @@ import CommentIcon from "@material-ui/icons/Comment";
 import DeleteIcon from "@material-ui/icons/Delete";
 import TitleIcon from "@material-ui/icons/Title";
 import ScheduleIcon from "@material-ui/icons/Schedule";
+import setCurrentPage from "./../actions/setCurrentPage";
 const useStyles = makeStyles({
   root: {
     width: "60%",
@@ -82,7 +83,8 @@ const useStyles = makeStyles({
   },
 });
 
-const PostDetails = ({ loadPost, post, comments, user }) => {
+const PostDetails = ({ loadPost, post, comments, user, setCurrentPage }) => {
+  setCurrentPage(false);
   const classes = useStyles();
   const [postDeleted, setPostDeleted] = useState(false);
   const [commentBody, setCommentBody] = useState("");
@@ -244,7 +246,7 @@ const PostDetails = ({ loadPost, post, comments, user }) => {
                         <Button
                           size="large"
                           color="primary"
-                          onClick={(e) => DeleteComment(comment.id)}
+                          onClick={() => DeleteComment(comment.id)}
                         >
                           <DeleteIcon />
                         </Button>
@@ -322,4 +324,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { loadPost })(PostDetails);
+export default connect(mapStateToProps, { loadPost, setCurrentPage })(
+  PostDetails
+);

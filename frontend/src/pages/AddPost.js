@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
+import setCurrentPage from "./../actions/setCurrentPage";
 
 const useStyle = makeStyles({
   card: {
@@ -19,7 +20,8 @@ const useStyle = makeStyles({
   },
 });
 
-const AddPost = ({ user }) => {
+const AddPost = ({ user, setCurrentPage }) => {
+  setCurrentPage(false);
   const classes = useStyle();
 
   // const [postBody, setPostBody] = useState("");
@@ -86,11 +88,9 @@ const AddPost = ({ user }) => {
         className={classes.card}
       >
         <Typography variant="h4" align="center" color="primary" gutterBottom>
-        Add Post
+          Add Post
         </Typography>
-        <form
-          onSubmit={(e) => onSubmit(e)}
-        >
+        <form onSubmit={(e) => onSubmit(e)}>
           <TextField
             className={classes.field}
             label="title"
@@ -133,4 +133,4 @@ const mapStateToProps = (state) => {
   return { user: state.profile };
 };
 
-export default connect(mapStateToProps)(AddPost);
+export default connect(mapStateToProps, { setCurrentPage })(AddPost);

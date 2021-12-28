@@ -17,6 +17,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import DoneAllIcon from "@material-ui/icons/DoneAll";
 import { loadJobApplications } from "../actions/applications";
 import { loadJob, DeleteJob, UserApplyJob } from "../actions/jobs";
+import setCurrentPage from "./../actions/setCurrentPage";
 
 const useStyles = makeStyles({
   root: {
@@ -68,7 +69,9 @@ const JobDetails = ({
   job,
   is_employer,
   userId,
+  setCurrentPage,
 }) => {
+  setCurrentPage(false);
   const classes = useStyles();
   const [applicationCount, setApplicationCount] = useState({
     pending: 0,
@@ -281,4 +284,5 @@ export default connect(mapStateToProps, {
   DeleteJob,
   UserApplyJob,
   loadJobApplications,
+  setCurrentPage,
 })(JobDetails);

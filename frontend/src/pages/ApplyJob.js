@@ -5,6 +5,7 @@ import Card from "@material-ui/core/Card";
 import { makeStyles, TextField } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import { AnonApplyJob } from "../actions/jobs";
+import setCurrentPage from './../actions/setCurrentPage';
 
 const useStyle = makeStyles({
   card: {
@@ -17,7 +18,8 @@ const useStyle = makeStyles({
   },
 });
 
-const ApplyJob = ({ AnonApplyJob }) => {
+const ApplyJob = ({ AnonApplyJob, setCurrentPage }) => {
+  setCurrentPage(false);
   const classes = useStyle();
   const { id } = useParams();
   const navigate = useNavigate();
@@ -163,5 +165,5 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps, {
-  AnonApplyJob,
+  AnonApplyJob, setCurrentPage
 })(ApplyJob);

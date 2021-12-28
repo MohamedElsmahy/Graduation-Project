@@ -16,6 +16,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import setCurrentPage from "./../actions/setCurrentPage";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -37,7 +38,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SignIn = ({ isAuthenticated, login }) => {
+const SignIn = ({ isAuthenticated, login, setCurrentPage }) => {
+  setCurrentPage(false);
   const classes = useStyles();
 
   const [formData, setFormData] = useState({
@@ -127,4 +129,4 @@ const mapStateToProps = (state) => {
   return { isAuthenticated: state.auth.isAuthenticated };
 };
 
-export default connect(mapStateToProps, { login })(SignIn);
+export default connect(mapStateToProps, { login, setCurrentPage })(SignIn);

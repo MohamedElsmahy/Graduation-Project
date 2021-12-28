@@ -8,6 +8,7 @@ import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import { Typography } from "@material-ui/core";
+import setCurrentPage from './../actions/setCurrentPage';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -50,7 +51,9 @@ const EditProfile = ({
   location_global,
   emp_global,
   saved_jobs_global,
+  setCurrentPage
 }) => {
+  setCurrentPage(false);
   const [profileUpdated, setProfileUpdated] = useState(false);
   const classes = useStyles();
   const navigate = useNavigate();
@@ -355,4 +358,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { updateProfile })(EditProfile);
+export default connect(mapStateToProps, { updateProfile, setCurrentPage })(EditProfile);

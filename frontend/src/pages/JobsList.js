@@ -19,9 +19,12 @@ import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 import InputBase from "@material-ui/core/InputBase";
 import { alpha, makeStyles } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
+import CircularProgress from "@material-ui/core/CircularProgress";
+
 import { loadJobs, saveJob, removeJob } from "../actions/jobs";
 import { FilterJobs, SearchJobs } from "../actions/filters";
 import { loadProfile } from "../actions/profile";
+import setCurrentPage from "./../actions/setCurrentPage";
 
 const JobsList = ({
   filter,
@@ -35,7 +38,9 @@ const JobsList = ({
   saved_jobs,
   loadProfile,
   is_employer,
+  setCurrentPage,
 }) => {
+  setCurrentPage(true);
   const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
@@ -133,7 +138,7 @@ const JobsList = ({
   const classes = useStyles();
   const navigate = useNavigate();
   const [saveRemove, setSaveRemove] = useState(false);
-  // const [isUpdated, setIsUpdated] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const [formData, setFormData] = useState({
     job_type: "",
@@ -151,11 +156,8 @@ const JobsList = ({
   useEffect(() => {
     loadJobs();
     loadProfile();
+    setIsLoaded(true);
   }, [saveRemove]);
-
-  // useEffect(() => {
-  //   FilterJobs();
-  // }, [isUpdated]);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -189,260 +191,279 @@ const JobsList = ({
     return saved;
   };
 
-  return (
-    <div>
-      <Grid
-        container
-        justifyContent="center"
-        style={{
-          marginRight: "auto",
-          marginLeft: "auto",
-          marginTop: 50,
-          marginBottom: 30,
-        }}
-      >
+  if (!isLoaded) {
+    return (
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <CircularProgress />
+      </div>
+    );
+  } else {
+    return (
+      <div>
         <Grid
           container
-          direction="row"
           justifyContent="center"
-          alignItems="top"
-          style={{ gap: 50 }}
+          style={{
+            marginRight: "auto",
+            marginLeft: "auto",
+            marginTop: 50,
+            marginBottom: 30,
+          }}
         >
-          <Grid item xs={10} md={3}>
-            <Paper elevation={4} style={paperstyle}>
-              <h1 style={header}> Filter </h1>
-              <form
-                style={formstyle}
-                onSubmit={(e) => {
-                  onSubmit(e);
-                }}
-              >
-                <FormControl fullWidth variant="outlined" style={texfielsstyle}>
-                  <InputLabel htmlFor="uncontrolled-native">
-                    Job Type
-                  </InputLabel>
-                  <Select
-                    name="job_type"
-                    value={job_type}
-                    onChange={(e) => onChange(e)}
-                    inputProps={{
-                      id: "uncontrolled-native",
-                    }}
-                  >
-                    <MenuItem value="Full time">Full time</MenuItem>
-                    <MenuItem value="Part time">Part time</MenuItem>
-                  </Select>
-                </FormControl>
-                <TextField
-                  style={texfielsstyle}
-                  name="experience"
-                  value={experience}
-                  onChange={(e) => onChange(e)}
-                  type="number"
-                  label="Experience"
-                  variant="outlined"
-                  fullWidth
-                />
-
-                <FormControl fullWidth variant="outlined" style={texfielsstyle}>
-                  <InputLabel htmlFor="uncontrolled-native">
-                    Category
-                  </InputLabel>
-                  <Select
-                    name="category"
-                    value={category}
-                    onChange={(e) => onChange(e)}
-                    inputProps={{
-                      id: "uncontrolled-native",
-                    }}
-                  >
-                    {categories.map((category) => {
-                      return (
-                        <MenuItem key={category.id} value={category.id}>
-                          {category.name}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>
-                </FormControl>
-
-                <Button
-                  type="submit"
-                  color="primary"
-                  variant="contained"
-                  disableElevation
-                  style={{
-                    padding: 15,
-                    fontWeight: "bold",
-                    fontSize: 15,
-                    margin: 5,
-                    width: 240,
+          <Grid
+            container
+            direction="row"
+            justifyContent="center"
+            alignItems="top"
+            style={{ gap: 50 }}
+          >
+            <Grid item xs={10} md={3}>
+              <Paper elevation={4} style={paperstyle}>
+                <h1 style={header}> Filter </h1>
+                <form
+                  style={formstyle}
+                  onSubmit={(e) => {
+                    onSubmit(e);
                   }}
                 >
-                  Filter Jobs
-                </Button>
-              </form>
-              <form
-                style={formstyle}
-                onSubmit={(e) => {
-                  onSubmitSearch(e);
-                }}
-              >
-                <div className={classes.search}>
-                  <div className={classes.searchIcon}>
-                    <SearchIcon />
-                  </div>
-                  <InputBase
-                    name="title"
-                    value={title}
-                    onChange={(e) => onChangeSearch(e)}
-                    placeholder="Search by title"
-                    classes={{
-                      root: classes.inputRoot,
-                      input: classes.inputInput,
-                    }}
-                    inputProps={{ "aria-label": "search" }}
-                  />
-                </div>
-                <Button
-                  type="submit"
-                  color="primary"
-                  variant="contained"
-                  disableElevation
-                  style={{
-                    padding: 15,
-                    fontWeight: "bold",
-                    fontSize: 15,
-                    margin: 5,
-                    width: 240,
-                  }}
-                >
-                  Search
-                </Button>
-              </form>
-            </Paper>
-          </Grid>
-
-          <Grid item xs={12} md={8}>
-            <Paper elevation={4} style={paperstyle}>
-              <h1 style={header}>Job list</h1>
-
-              {jobs ? (
-                jobs.map((job) => {
-                  return (
-                    <Card
-                      key={job.id}
-                      style={{
-                        backgroundColor: "whitesmoke",
-                        marginTop: 15,
-                        marginBottom: 25,
+                  <FormControl
+                    fullWidth
+                    variant="outlined"
+                    style={texfielsstyle}
+                  >
+                    <InputLabel htmlFor="uncontrolled-native">
+                      Job Type
+                    </InputLabel>
+                    <Select
+                      name="job_type"
+                      value={job_type}
+                      onChange={(e) => onChange(e)}
+                      inputProps={{
+                        id: "uncontrolled-native",
                       }}
-                      fullWidth
                     >
-                      <Grid
-                        container
-                        direction="row"
-                        justifyContent="space-around"
-                        alignItems="center"
+                      <MenuItem value="Full time">Full time</MenuItem>
+                      <MenuItem value="Part time">Part time</MenuItem>
+                    </Select>
+                  </FormControl>
+                  <TextField
+                    style={texfielsstyle}
+                    name="experience"
+                    value={experience}
+                    onChange={(e) => onChange(e)}
+                    type="number"
+                    label="Experience"
+                    variant="outlined"
+                    fullWidth
+                  />
+
+                  <FormControl
+                    fullWidth
+                    variant="outlined"
+                    style={texfielsstyle}
+                  >
+                    <InputLabel htmlFor="uncontrolled-native">
+                      Category
+                    </InputLabel>
+                    <Select
+                      name="category"
+                      value={category}
+                      onChange={(e) => onChange(e)}
+                      inputProps={{
+                        id: "uncontrolled-native",
+                      }}
+                    >
+                      {categories.map((category) => {
+                        return (
+                          <MenuItem key={category.id} value={category.id}>
+                            {category.name}
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
+                  </FormControl>
+
+                  <Button
+                    type="submit"
+                    color="primary"
+                    variant="contained"
+                    disableElevation
+                    style={{
+                      padding: 15,
+                      fontWeight: "bold",
+                      fontSize: 15,
+                      margin: 5,
+                      width: 240,
+                    }}
+                  >
+                    Filter Jobs
+                  </Button>
+                </form>
+                <form
+                  style={formstyle}
+                  onSubmit={(e) => {
+                    onSubmitSearch(e);
+                  }}
+                >
+                  <div className={classes.search}>
+                    <div className={classes.searchIcon}>
+                      <SearchIcon />
+                    </div>
+                    <InputBase
+                      name="title"
+                      value={title}
+                      onChange={(e) => onChangeSearch(e)}
+                      placeholder="Search by title"
+                      classes={{
+                        root: classes.inputRoot,
+                        input: classes.inputInput,
+                      }}
+                      inputProps={{ "aria-label": "search" }}
+                    />
+                  </div>
+                  <Button
+                    type="submit"
+                    color="primary"
+                    variant="contained"
+                    disableElevation
+                    style={{
+                      padding: 15,
+                      fontWeight: "bold",
+                      fontSize: 15,
+                      margin: 5,
+                      width: 240,
+                    }}
+                  >
+                    Search
+                  </Button>
+                </form>
+              </Paper>
+            </Grid>
+
+            <Grid item xs={12} md={8}>
+              <Paper elevation={4} style={paperstyle}>
+                <h1 style={header}>Job list</h1>
+
+                {jobs ? (
+                  jobs.map((job) => {
+                    return (
+                      <Card
+                        key={job.id}
+                        style={{
+                          backgroundColor: "whitesmoke",
+                          marginTop: 15,
+                          marginBottom: 25,
+                        }}
                         fullWidth
                       >
-                        <CardHeader
-                          avatar={
-                            <Avatar
-                              to={`/job/${job.id}`}
-                              component={RouterLink}
-                              src={job.image}
-                            />
-                          }
-                          title={job.title}
-                          subheader={job.category} // fix show category name
-                        />
-                        
-                        <CardHeader
-                          style={cardheader}
-                          subheader={job.job_type}
-                        />
+                        <Grid
+                          container
+                          direction="row"
+                          justifyContent="space-around"
+                          alignItems="center"
+                          fullWidth
+                        >
+                          <CardHeader
+                            avatar={
+                              <Avatar
+                                to={`/job/${job.id}`}
+                                component={RouterLink}
+                                src={job.image}
+                              />
+                            }
+                            title={job.title}
+                            subheader={job.category} // fix show category name
+                          />
 
-                        {!is_employer && (
+                          <CardHeader
+                            style={cardheader}
+                            subheader={job.job_type}
+                          />
+
+                          {!is_employer && (
+                            <CardActions disableSpacing>
+                              <FormControlLabel
+                                style={icon}
+                                control={
+                                  <Checkbox
+                                    checked={checkSaved(job.id)}
+                                    onClick={(e) => {
+                                      {
+                                        e.target.checked === true
+                                          ? saveJob(job.id)
+                                          : removeJob(job.id);
+                                      }
+                                      setSaveRemove(!saveRemove);
+                                    }}
+                                    color="primary"
+                                    icon={<FavoriteBorder />}
+                                    checkedIcon={<Favorite />}
+                                  />
+                                }
+                              />
+                            </CardActions>
+                          )}
+                        </Grid>
+                      </Card>
+                    );
+                  })
+                ) : (
+                  <Card
+                    style={{
+                      backgroundColor: "whitesmoke",
+                      marginTop: 15,
+                      marginBottom: 25,
+                    }}
+                    fullWidth
+                  >
+                    <Grid container fullWidth>
+                      <Grid container item xs={12} spacing={3}>
+                        <CardHeader
+                          avatar={<Avatar aria-label="recipe">R</Avatar>}
+                          title="web developer"
+                          subheader="calfornia"
+                        />
+                        <Grid item xs={12} md={3} spacing={3}>
+                          <CardHeader
+                            style={cardheader}
+                            subheader="full time"
+                          />
+                        </Grid>
+                        <Grid item xs={12} md={6} spacing={12}>
                           <CardActions disableSpacing>
                             <FormControlLabel
                               style={icon}
                               control={
                                 <Checkbox
-                                  checked={checkSaved(job.id)}
-                                  onClick={(e) => {
-                                    {
-                                      e.target.checked === true
-                                        ? saveJob(job.id)
-                                        : removeJob(job.id);
-                                    }
-                                    setSaveRemove(!saveRemove);
-                                  }}
                                   color="primary"
                                   icon={<FavoriteBorder />}
                                   checkedIcon={<Favorite />}
                                 />
                               }
                             />
-                          </CardActions>
-                        )}
-                      </Grid>
-                    </Card>
-                  );
-                })
-              ) : (
-                <Card
-                  style={{
-                    backgroundColor: "whitesmoke",
-                    marginTop: 15,
-                    marginBottom: 25,
-                  }}
-                  fullWidth
-                >
-                  <Grid container fullWidth>
-                    <Grid container item xs={12} spacing={3}>
-                      <CardHeader
-                        avatar={<Avatar aria-label="recipe">R</Avatar>}
-                        title="web developer"
-                        subheader="calfornia"
-                      />
-                      <Grid item xs={12} md={3} spacing={3}>
-                        <CardHeader style={cardheader} subheader="full time" />
-                      </Grid>
-                      <Grid item xs={12} md={6} spacing={12}>
-                        <CardActions disableSpacing>
-                          <FormControlLabel
-                            style={icon}
-                            control={
-                              <Checkbox
-                                color="primary"
-                                icon={<FavoriteBorder />}
-                                checkedIcon={<Favorite />}
-                              />
-                            }
-                          />
 
-                          <Button
-                            href="/applyjob"
-                            type="submit"
-                            variant="contained"
-                            disableElevation
-                            style={button}
-                          >
-                            Apply Now
-                          </Button>
-                        </CardActions>
+                            <Button
+                              href="/applyjob"
+                              type="submit"
+                              variant="contained"
+                              disableElevation
+                              style={button}
+                            >
+                              Apply Now
+                            </Button>
+                          </CardActions>
+                        </Grid>
                       </Grid>
                     </Grid>
-                  </Grid>
-                </Card>
-              )}
-            </Paper>
+                  </Card>
+                )}
+              </Paper>
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
-    </div>
-  );
+      </div>
+    );
+  }
 };
 
 const mapStateToProps = (state) => {
@@ -462,4 +483,5 @@ export default connect(mapStateToProps, {
   saveJob,
   removeJob,
   loadProfile,
+  setCurrentPage,
 })(JobsList);

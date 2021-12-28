@@ -24,6 +24,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Fab from "@material-ui/core/Fab";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
+import setCurrentPage from "./../actions/setCurrentPage";
 const useStyles = makeStyles((themes) => ({
   table: {
     width: 900,
@@ -62,7 +63,8 @@ const useStyles = makeStyles((themes) => ({
   },
 }));
 
-const Blog = ({ loadPosts, posts }) => {
+const Blog = ({ loadPosts, posts, setCurrentPage }) => {
+  setCurrentPage(false);
   const classes = useStyles();
   useEffect(() => {
     loadPosts();
@@ -135,4 +137,4 @@ const mapStateToProps = (state) => {
   return { posts: state.posts.posts };
 };
 
-export default connect(mapStateToProps, { loadPosts })(Blog);
+export default connect(mapStateToProps, { loadPosts, setCurrentPage })(Blog);

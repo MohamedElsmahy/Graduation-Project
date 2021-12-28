@@ -11,6 +11,7 @@ import { Typography } from "@material-ui/core";
 import { connect } from "react-redux";
 import { AddNewJob } from "../actions/jobs";
 import CSRFToken from "../components/CSRFToken";
+import setCurrentPage from "./../actions/setCurrentPage";
 
 const useStyle = makeStyles({
   card: {
@@ -23,7 +24,14 @@ const useStyle = makeStyles({
   },
 });
 
-const AddJob = ({ is_employer, user, AddNewJob, categories }) => {
+const AddJob = ({
+  is_employer,
+  user,
+  AddNewJob,
+  categories,
+  setCurrentPage,
+}) => {
+  setCurrentPage(false);
   const classes = useStyle();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -81,7 +89,7 @@ const AddJob = ({ is_employer, user, AddNewJob, categories }) => {
         >
           <CSRFToken />
           <TextField
-          className={classes.field}
+            className={classes.field}
             label="title"
             name="title"
             value={title}
@@ -124,7 +132,7 @@ const AddJob = ({ is_employer, user, AddNewJob, categories }) => {
             required
           />
           <TextField
-          className={classes.field}
+            className={classes.field}
             type="number"
             label="vacancy"
             name="vacancy"
@@ -138,7 +146,7 @@ const AddJob = ({ is_employer, user, AddNewJob, categories }) => {
           />
 
           <TextField
-          className={classes.field}
+            className={classes.field}
             type="number"
             label="salary"
             name="salary"
@@ -152,7 +160,7 @@ const AddJob = ({ is_employer, user, AddNewJob, categories }) => {
           />
 
           <TextField
-          className={classes.field}
+            className={classes.field}
             type="number"
             label="experience"
             name="experience"
@@ -165,7 +173,7 @@ const AddJob = ({ is_employer, user, AddNewJob, categories }) => {
             required
           />
 
-          <FormControl fullWidth variant="outlined" >
+          <FormControl fullWidth variant="outlined">
             <InputLabel htmlFor="uncontrolled-native">category</InputLabel>
             <Select
               name="category"
@@ -208,4 +216,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { AddNewJob })(AddJob);
+export default connect(mapStateToProps, { AddNewJob, setCurrentPage })(AddJob);

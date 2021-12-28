@@ -22,6 +22,7 @@ import { connect } from "react-redux";
 import { FilterJobs, SearchJobs } from "../actions/filters";
 import { loadProfile } from "../actions/profile";
 import { saveJob, removeJob } from "../actions/jobs";
+import setCurrentPage from "./../actions/setCurrentPage";
 
 const FilteredJobsList = ({
   filter,
@@ -33,7 +34,9 @@ const FilteredJobsList = ({
   saved_jobs,
   loadProfile,
   is_employer,
+  setCurrentPage,
 }) => {
+  setCurrentPage(true);
   const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
@@ -461,4 +464,5 @@ export default connect(mapStateToProps, {
   saveJob,
   removeJob,
   loadProfile,
+  setCurrentPage,
 })(FilteredJobsList);
