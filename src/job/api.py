@@ -151,7 +151,12 @@ class AnonApplyJob(APIView):
                         website=data["website"],
                         cv=data["cv"],
                         cover_letter=data["cover_letter"])
-                
+                    employer=MyUser.objects.get(id=job.owner.id)
+                    application=Application.objects.last()
+                    Notification.objects.create(
+                        to_user=employer,
+                        application=application,
+                    )
                     return Response({'success': "application sent successfully"})
         except Exception as e:
             return Response({'error': e.args})
@@ -229,12 +234,12 @@ class SaveJob(APIView):
     def put(self, request, job_id):
         profile = EmployeeProfile.objects.get(user=self.request.user)
         job = Job.objects.get(id=job_id)
-        # try:
-        profile.saved_jobs.add(job)
-        profile.save()
-        return Response({"success": "job saved successfully"})
-        # except Exception as e:
-        #     return Response({"error": e.args})
+        try:
+            profile.saved_jobs.add(job)
+            profile.save()
+            return Response({"success": "job saved successfully"})
+        except Exception as e:
+            return Response({"error": e.args})
 
 
 class RemoveSavedJob(APIView):
@@ -242,22 +247,31 @@ class RemoveSavedJob(APIView):
     def put(self, request, job_id):
         profile = EmployeeProfile.objects.get(user=self.request.user)
         job = Job.objects.get(id=job_id)
-        # try:
-        profile.saved_jobs.remove(job)
-        profile.save()
-        return Response({"success": "job removed successfully"})
-        # except Exception as e:
-        #     return Response({"error": e.args})
+        try:
+            profile.saved_jobs.remove(job)
+            profile.save()
+            return Response({"success": "job removed successfully"})
+        except Exception as e:
+            return Response({"error": e.args})
 
 
 class UpdateApplicationStatus(APIView):
     def patch(self, request, id):
+        data = self.request.data
 
         application = Application.objects.get(id=id)
-        serializer = ApplicationSerializer(application, data=self.request.data, partial=True)
+        serializer = ApplicationSerializer(application, data=data, partial=True)
+        
 
         if serializer.is_valid():
             serializer.save()
+            if data.status == "Rejected":
+                if application.applicant:
+                    employer = EmployerProfile.objects.get(user=self.request.user)
+                    employee = EmployeeProfile.objects.get(user=application.applicant)
+                    EmployeeNotification.objects.create(
+                        sender=employer,
+                        receiver=employee)
             return Response(serializer.data, status=200)
         else:
             return Response(serializer.errors, status=400)
