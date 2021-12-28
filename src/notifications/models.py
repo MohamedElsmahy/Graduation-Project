@@ -21,7 +21,7 @@ class Notification(models.Model):
 class EmployeeNotification(models.Model):
     sender = models.ForeignKey(EmployerProfile, null=True, on_delete=models.SET_NULL)
     receiver = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
-    interview = models.OneToOneField(Interview, on_delete=models.CASCADE)
+    interview = models.OneToOneField(Interview, on_delete=models.SET_NULL, null=True)
     created = models.DateTimeField(auto_now_add=True)
     is_read = models.BooleanField(default=False)
 

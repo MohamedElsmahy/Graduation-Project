@@ -28,6 +28,7 @@ class EmployeeProfileAPI(generics.RetrieveUpdateDestroyAPIView):
 
 
 class CkeckAuthenticatedView(APIView):
+    permission_classes = (permissions.AllowAny,)
     def get(self, request,format=None):
         user = self.request.user
         try:

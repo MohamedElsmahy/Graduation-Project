@@ -104,7 +104,6 @@ export const logout = () => async (dispatch) => {
       dispatch({
         type: LOGOUT_SUCCESS,
       });
-      
     } else {
       dispatch({
         type: LOGOUT_FAIL,
@@ -176,7 +175,7 @@ const deleteAccount = () => async (dispatch) => {
   };
 
   const body = JSON.stringify({
-    'withCredentials': true,
+    withCredentials: true,
   });
 
   try {
