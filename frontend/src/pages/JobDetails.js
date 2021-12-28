@@ -183,7 +183,7 @@ const JobDetails = ({
   };
 
   return (
-    <>
+    <div>
       <Card className={classes.root}>
         <CardHeader
           avatar={<Avatar src={job.image} />}
@@ -266,7 +266,7 @@ const JobDetails = ({
         </CardContent>
       </Card>
       {renderMenu}
-    </>
+    </div>
   );
 };
 
