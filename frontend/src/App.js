@@ -17,6 +17,7 @@ import ProfilePage from "./pages/ProfilePage";
 import EditProfile from "./pages/EditProfile";
 import FilteredJobsList from "./components/FilteredJobs";
 import SearchedJobsList from "./components/SearchedJobs";
+import VisitedProfilePage from "./pages/VisitedProfile";
 
 function App() {
   return (
@@ -64,6 +65,7 @@ function App() {
                 </PrivateRoute>
               }
             />
+            <Route path="profile/:id/" element={<VisitedProfilePage />} />
             <Route path="/" element={<JobsList />} />
             <Route path="filter/" element={<FilteredJobsList />} />
             <Route path="search/" element={<SearchedJobsList />} />

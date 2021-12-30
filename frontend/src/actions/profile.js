@@ -5,6 +5,8 @@ import {
   LOAD_PROFILE_FAIL,
   UPDATE_PROFILE_SUCCESS,
   UPDATE_PROFILE_FAIL,
+  VISIT_PROFILE_SUCCESS,
+  VISIT_PROFILE_FAIL,
 } from "./types";
 
 export const loadProfile = () => async (dispatch) => {
@@ -36,6 +38,38 @@ export const loadProfile = () => async (dispatch) => {
     });
   }
 };
+
+
+export const VisitProfile = (id) => async (dispatch) => {
+  const config = {
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  };
+
+  try {
+    const res = await axios.get(
+      `http://localhost:8000/accounts/profile/${id}/`,
+      config
+    );
+    if (res.data.error) {
+      dispatch({
+        type: VISIT_PROFILE_FAIL,
+      });
+    } else {
+      dispatch({
+        type: VISIT_PROFILE_SUCCESS,
+        payload: res.data,
+      });
+    }
+  } catch (err) {
+    dispatch({
+      type: VISIT_PROFILE_FAIL,
+    });
+  }
+};
+
 
 export const updateProfile =
   (
