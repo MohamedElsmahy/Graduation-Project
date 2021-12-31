@@ -15,6 +15,7 @@ import EmailIcon from "@material-ui/icons/Email";
 import PhoneIcon from "@material-ui/icons/Phone";
 import { connect } from "react-redux";
 import GetAppIcon from "@material-ui/icons/GetApp";
+import setCurrentPage from "./../actions/setCurrentPage";
 
 const drawerWidth = 240;
 
@@ -61,7 +62,8 @@ export function SummaryCard({ title, value }) {
   );
 }
 
-const ProfilePage = ({ user }) => {
+const ProfilePage = ({ user, setCurrentPage }) => {
+  setCurrentPage(false);
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
@@ -155,4 +157,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(ProfilePage);
+export default connect(mapStateToProps, { setCurrentPage })(ProfilePage);

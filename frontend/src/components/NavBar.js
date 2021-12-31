@@ -149,6 +149,7 @@ const Navbar = ({
   is_employer,
   // VisitProfile,
   user,
+  currentPage,
   deleteAccount,
 }) => {
   const classes = useStyles();
@@ -685,22 +686,29 @@ const Navbar = ({
           >
             <SideDrawer />
           </IconButton>
-          {/* <Typography className={classes.title} variant="h6" noWrap>
-            Welcome, {user.first_name} {user.last_name}
-          </Typography> */}
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
+          <Typography className={classes.title} variant="h6" noWrap>
+            Welcome
+            {isAuthenticated && (
+              <>
+                , {user.first_name} {user.last_name}
+              </>
+            )}
+          </Typography>
+          {currentPage && (
+            <div className={classes.search}>
+              <div className={classes.searchIcon}>
+                <SearchIcon />
+              </div>
+              <InputBase
+                placeholder="Search jobs.."
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                inputProps={{ "aria-label": "search" }}
+              />
             </div>
-            <InputBase
-              placeholder="Search jobs ..."
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ "aria-label": "search" }}
-            />
-          </div>
+          )}
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             {isAuthenticated ? (
@@ -789,6 +797,7 @@ const mapStateToProps = (state) => {
     is_employer: state.profile.is_employer,
     user: state.profile,
     visitedProfile: state.visitedProfile,
+    currentPage: state.currentPage.currentPage,
   };
 };
 

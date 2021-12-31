@@ -9,8 +9,10 @@ import categories from "./categories";
 import filter from "./filter";
 import search from "./search";
 import empNotifications from "./empNotifications";
-import employerNotifications from "./employerNotifications"
 import visitedProfile from "./visitedProfile";
+import employerNotifications from "./employerNotifications";
+import currentPage from "./currentPage";
+
 
 const rootReducer = combineReducers({
   auth: auth,
@@ -25,6 +27,7 @@ const rootReducer = combineReducers({
   empNotifications: empNotifications,
   employerNotifications: employerNotifications,
   visitedProfile: visitedProfile,
+  currentPage: currentPage,
 });
 
 export default rootReducer;
