@@ -20,9 +20,13 @@ import InputBase from "@material-ui/core/InputBase";
 import { alpha, makeStyles } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import ChatIcon from "@material-ui/icons/Chat";
+import Tooltip from "@material-ui/core/Tooltip";
+import Fab from "@material-ui/core/Fab";
 
 import { loadJobs, saveJob, removeJob } from "../actions/jobs";
 import { FilterJobs, SearchJobs } from "../actions/filters";
+import ChatbotDialog from "../components/ChatbotDialoge";
 import { loadProfile } from "../actions/profile";
 import setCurrentPage from "./../actions/setCurrentPage";
 
@@ -33,6 +37,7 @@ const JobsList = ({
   categories,
   FilterJobs,
   SearchJobs,
+  filters,
   saveJob,
   removeJob,
   saved_jobs,
@@ -44,6 +49,11 @@ const JobsList = ({
   const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
+    },
+    absolute: {
+      position: "absolute",
+      bottom: theme.spacing(2),
+      right: theme.spacing(3),
     },
     menuButton: {
       marginRight: theme.spacing(2),
@@ -458,15 +468,32 @@ const JobsList = ({
             </Grid>
           </Grid>
         </Grid>
-      </div>
-    );
-  }
+      </Grid>
+
+      <ChatbotDialog
+        render={(open) => (
+          <Tooltip
+            onClick={() => {
+              open();
+            }}
+            title="Chatbot"
+            aria-label="opne dialoge"
+          >
+            <Fab color="primary" className={classes.absolute}>
+              <ChatIcon />
+            </Fab>
+          </Tooltip>
+        )}
+      />
+    </div>
+  );
 };
 
 const mapStateToProps = (state) => {
   return {
     jobs: state.jobs.jobs,
     categories: state.categories.categories,
+    filters: state.filter.filter,
     saved_jobs: state.profile.saved_jobs,
     is_employer: state.profile.is_employer,
     // filter: state.filter.filter,

@@ -19,6 +19,8 @@ import FilteredJobsList from "./components/FilteredJobs";
 import SearchedJobsList from "./components/SearchedJobs";
 import VisitedProfilePage from "./pages/VisitedProfile";
 
+
+
 function App() {
   return (
     <div className="app" style={{ backgroundColor: "#DAE9E1" }}>
@@ -75,9 +77,11 @@ function App() {
             <Route path="signup/" element={<SignUp />} />
             <Route path="signin/" element={<SignIn />} />
             <Route path="contactus/" element={<ContactUs />} />
+        
           </Routes>
         </Layout>
       </Router>
+    
     </div>
   );
 }
