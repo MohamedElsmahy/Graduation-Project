@@ -9,8 +9,10 @@ import categories from "./categories";
 import filter from "./filter";
 import search from "./search";
 import empNotifications from "./empNotifications";
+import visitedProfile from "./visitedProfile";
 import employerNotifications from "./employerNotifications";
 import currentPage from "./currentPage";
+
 
 const rootReducer = combineReducers({
   auth: auth,
@@ -24,6 +26,7 @@ const rootReducer = combineReducers({
   search: search,
   empNotifications: empNotifications,
   employerNotifications: employerNotifications,
+  visitedProfile: visitedProfile,
   currentPage: currentPage,
 });
 

@@ -13,7 +13,7 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import { connect } from "react-redux";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import SideDrawer from "./Drawer";
 import Button from "@material-ui/core/Button";
 import UpdateRoundedIcon from "@material-ui/icons/UpdateRounded";
@@ -32,6 +32,7 @@ import Avatar from "@material-ui/core/Avatar";
 import DeleteDialog from "./DeleteDialog";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
+// import { VisitProfile } from "../actions/profile";
 
 import loadEmployeeNotifications, {
   loadEmployerNotifications,
@@ -146,11 +147,13 @@ const Navbar = ({
   employerNotifications,
   unreadEmployerCount,
   is_employer,
+  // VisitProfile,
   user,
   currentPage,
   deleteAccount,
 }) => {
   const classes = useStyles();
+  const navigate = useNavigate();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [interviewOpen, setInterviewOpen] = React.useState(false);
@@ -177,6 +180,10 @@ const Navbar = ({
   const interviewDialogClose = () => {
     setInterviewOpen(false);
     setCurrentNotification(null);
+  };
+
+  const handleVisitedProfileCLick = (id) => {
+    navigate(`/profile/${id}`);
   };
 
   const interviewDialog = (notification) => {
@@ -260,10 +267,19 @@ const Navbar = ({
             </DialogContent>
             <DialogActions>
               {notification.created_by ? (
-                <Button onClick={interviewDialogClose} color="primary">
+                <Button
+                  onClick={() => {
+                    handleVisitedProfileCLick(notification.created_by.id);
+                    interviewDialogClose();
+                  }}
+                  color="primary"
+                >
                   Go to profile
                 </Button>
               ) : (
+                // <Button onClick={() => {handleVisitedProfileCLick(visitedProfile.id)}} color="primary">
+                //   Go to profile
+                // </Button>
                 <Button
                   component={RouterLink}
                   to={notification.application.cv}
@@ -780,6 +796,7 @@ const mapStateToProps = (state) => {
     unreadEmployerCount: state.employerNotifications.unread,
     is_employer: state.profile.is_employer,
     user: state.profile,
+    visitedProfile: state.visitedProfile,
     currentPage: state.currentPage.currentPage,
   };
 };
@@ -789,4 +806,5 @@ export default connect(mapStateToProps, {
   updateEmployerNotification,
   updateEmpNotification,
   loadEmployeeNotifications,
+  // VisitProfile,
 })(Navbar);
