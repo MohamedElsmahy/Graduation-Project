@@ -104,7 +104,6 @@ export const logout = () => async (dispatch) => {
       dispatch({
         type: LOGOUT_SUCCESS,
       });
-      
     } else {
       dispatch({
         type: LOGOUT_FAIL,
@@ -166,7 +165,7 @@ export const register =
       });
     }
   };
-export const deleteAccount = () => async (dispatch) => {
+const deleteAccount = () => async (dispatch) => {
   const config = {
     headers: {
       Accept: "application/json",
@@ -176,7 +175,7 @@ export const deleteAccount = () => async (dispatch) => {
   };
 
   const body = JSON.stringify({
-    'withCredentials': true,
+    withCredentials: true,
   });
 
   try {
@@ -200,3 +199,5 @@ export const deleteAccount = () => async (dispatch) => {
     });
   }
 };
+
+export default deleteAccount;

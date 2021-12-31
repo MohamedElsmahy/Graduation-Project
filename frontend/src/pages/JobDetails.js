@@ -17,6 +17,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import DoneAllIcon from "@material-ui/icons/DoneAll";
 import { loadJobApplications } from "../actions/applications";
 import { loadJob, DeleteJob, UserApplyJob } from "../actions/jobs";
+import setCurrentPage from "./../actions/setCurrentPage";
 
 const useStyles = makeStyles({
   root: {
@@ -68,7 +69,9 @@ const JobDetails = ({
   job,
   is_employer,
   userId,
+  setCurrentPage,
 }) => {
+  setCurrentPage(false);
   const classes = useStyles();
   const [applicationCount, setApplicationCount] = useState({
     pending: 0,
@@ -168,18 +171,27 @@ const JobDetails = ({
 
   const handleApplyJob = (e) => {
     e.preventDefault();
-    {
-      isAuthenticated ? UserApplyJob(id) : navigate(`/job/${id}/apply`);
+    if (isAuthenticated) {
+      UserApplyJob(id);
+      navigate("/");
+    } else {
+      navigate(`/job/${id}/apply`);
     }
+    // {
+    //   isAuthenticated ? UserApplyJob(id) : navigate(`/job/${id}/apply`);
+    // }
   };
 
   return (
-    <>
+    <div>
       <Card className={classes.root}>
         <CardHeader
+          to={`/profile/${job.owner.id}`}
+          component={RouterLink}
           avatar={<Avatar src={job.image} />}
-          title={`${job.first_name} ${job.last_name}`}
+          title={`${job.owner.first_name} ${job.owner.last_name}`}
           subheader={job.published_at}
+          style={{ textDecoration: "none" }}
         />
         <CardContent>
           <Typography gutterBottom variant="h5" className={classes.Typography1}>
@@ -257,7 +269,7 @@ const JobDetails = ({
         </CardContent>
       </Card>
       {renderMenu}
-    </>
+    </div>
   );
 };
 
@@ -275,4 +287,5 @@ export default connect(mapStateToProps, {
   DeleteJob,
   UserApplyJob,
   loadJobApplications,
+  setCurrentPage,
 })(JobDetails);

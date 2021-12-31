@@ -1,69 +1,59 @@
 import React, { useState } from "react";
-import { Navigate } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 import Card from "@material-ui/core/Card";
-import { makeStyles, Paper, TextField } from "@material-ui/core";
+import { makeStyles, TextField } from "@material-ui/core";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
-import NativeSelect from "@material-ui/core/NativeSelect";
 import Button from "@material-ui/core/Button";
-
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import { Typography } from "@material-ui/core";
 import { connect } from "react-redux";
 import { AddNewJob } from "../actions/jobs";
-
+import CSRFToken from "../components/CSRFToken";
+import setCurrentPage from "./../actions/setCurrentPage";
 
 const useStyle = makeStyles({
   card: {
     boxShadow: 10,
   },
   field: {
-    marginTop: 30,
-    marginBottom: 30,
+    marginTop: 12,
+    marginBottom: 12,
     display: "block",
   },
 });
 
-const AddJob = ({ is_employer, user, AddNewJob }) => {
+const AddJob = ({
+  is_employer,
+  user,
+  AddNewJob,
+  categories,
+  setCurrentPage,
+}) => {
+  setCurrentPage(false);
   const classes = useStyle();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    owner: user.id,
-    username: user.username,
-    first_name: user.first_name,
-    last_name: user.last_name,
     title: "",
-    job_type: "Full time",
+    job_type: "",
     description: "",
     vacancy: "",
     salary: "",
     experience: "",
-    category: 1,
+    category: "",
   });
 
-  let {
-    owner,
-    username,
-    first_name,
-    last_name,
-    title,
-    job_type,
-    description,
-    vacancy,
-    salary,
-    experience,
-    category,
-  } = formData;
+  let { title, job_type, description, vacancy, salary, experience, category } =
+    formData;
 
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = async (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
-    const res = await AddNewJob(
-      owner,
-      username,
-      first_name,
-      last_name,
+    AddNewJob(
       title,
       job_type,
       description,
@@ -72,33 +62,32 @@ const AddJob = ({ is_employer, user, AddNewJob }) => {
       Number(experience),
       category
     );
-    if (res.status === 201) return <Navigate replace to="/" />;
+    navigate("/", { replace: true });
   };
 
-  if (!is_employer) return <Navigate replace to="/" />;
-  
+  if (!is_employer) return navigate("/", { replace: true });
 
   return (
     <div>
       <Card
         style={{
-          width: 900,
+          width: 800,
           marginRight: "auto",
           marginLeft: "auto",
-          marginTop: 100,
-          marginBottom: 30,
+          marginTop: 40,
+          marginBottom: 40,
+          padding: 10,
         }}
-        className={classes.card}
       >
-        <h1 style={{ marginLeft: 30, textAlign: "center" }}>Add Job</h1>
+        <Typography variant="h4" align="center" color="primary" gutterBottom>
+          Add Job
+        </Typography>
         <form
           onSubmit={(e) => {
             onSubmit(e);
           }}
-          noValidate
-          autoComplete="off"
-          style={{ width: 850, marginRight: "auto", marginLeft: "auto" }}
         >
+          <CSRFToken />
           <TextField
             className={classes.field}
             label="title"
@@ -112,27 +101,19 @@ const AddJob = ({ is_employer, user, AddNewJob }) => {
             fullWidth
             required
           />
-          <FormControl className={classes.field}>
-            <InputLabel variant="standard" htmlFor="uncontrolled-native">
-              {" "}
-              job_type
-            </InputLabel>
-            <NativeSelect
-              defaultValue={30}
+          <FormControl fullWidth variant="outlined">
+            <InputLabel htmlFor="uncontrolled-native"> job type</InputLabel>
+            <Select
               name="job_type"
-              // value={job_type}
-              // onChange={(e) => {
-              //   onChange(e);
-              // }}
+              value={job_type}
+              onChange={(e) => onChange(e)}
               inputProps={{
-                name: "job_type",
                 id: "uncontrolled-native",
               }}
             >
-              <option value={null}>__ _ _ _</option>
-              <option>Full time</option>
-              <option>Part time</option>
-            </NativeSelect>
+              <MenuItem value="Full time">Full time</MenuItem>
+              <MenuItem value="Part time">Part time</MenuItem>
+            </Select>
           </FormControl>
 
           <TextField
@@ -151,6 +132,7 @@ const AddJob = ({ is_employer, user, AddNewJob }) => {
             required
           />
           <TextField
+            className={classes.field}
             type="number"
             label="vacancy"
             name="vacancy"
@@ -160,11 +142,11 @@ const AddJob = ({ is_employer, user, AddNewJob }) => {
             }}
             variant="outlined"
             fullWidth
+            required
           />
-          <br />
-          <br />
 
           <TextField
+            className={classes.field}
             type="number"
             label="salary"
             name="salary"
@@ -174,11 +156,11 @@ const AddJob = ({ is_employer, user, AddNewJob }) => {
             }}
             variant="outlined"
             fullWidth
+            required
           />
-          <br />
-          <br />
 
           <TextField
+            className={classes.field}
             type="number"
             label="experience"
             name="experience"
@@ -188,45 +170,35 @@ const AddJob = ({ is_employer, user, AddNewJob }) => {
             }}
             variant="outlined"
             fullWidth
+            required
           />
-          <br />
-          <br />
-          <FormControl className={classes.field}>
-            <InputLabel variant="standard" htmlFor="uncontrolled-native">
-              {" "}
-              category
-            </InputLabel>
-            <NativeSelect
+
+          <FormControl fullWidth variant="outlined">
+            <InputLabel htmlFor="uncontrolled-native">category</InputLabel>
+            <Select
               name="category"
-              // value={category}
-              // onChange={(e) => {
-              //   onChange(e);
-              // }}
-              defaultValue={30}
+              value={category}
+              onChange={(e) => onChange(e)}
               inputProps={{
-                name: "category",
                 id: "uncontrolled-native",
               }}
             >
-              <option value={null}>__ _ _ _</option>
-              <option>web developmen</option>
-              <option>mobile application</option>
-              <option>other</option>
-            </NativeSelect>
+              {categories.map((category) => {
+                return (
+                  <MenuItem key={category.id} value={category.id}>
+                    {category.name}
+                  </MenuItem>
+                );
+              })}
+            </Select>
           </FormControl>
           <Button
-            
             type="submit"
             variant="contained"
             disableElevation
             color="primary"
-            style={{
-              color: "primary",
-              padding: 15,
-              fontWeight: "bold",
-              fontSize: 15,
-            }}
             fullWidth
+            className={classes.field}
           >
             Add Job
           </Button>
@@ -237,7 +209,11 @@ const AddJob = ({ is_employer, user, AddNewJob }) => {
 };
 
 const mapStateToProps = (state) => {
-  return { is_employer: state.profile.is_employer, user: state.profile };
+  return {
+    is_employer: state.profile.is_employer,
+    categories: state.categories.categories,
+    user: state.profile,
+  };
 };
 
-export default connect(mapStateToProps, { AddNewJob })(AddJob);
+export default connect(mapStateToProps, { AddNewJob, setCurrentPage })(AddJob);

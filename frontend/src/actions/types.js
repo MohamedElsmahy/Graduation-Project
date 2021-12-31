@@ -74,6 +74,14 @@ export const JOBS_SEARCH_FAIL = "JOBS_SEARCH_FAIL";
 export const APPLY_JOB_SUCCESS = "APPLY_JOB_SUCCESS";
 export const APPLY_JOB_FAIL = "APPLY_JOB_FAIL";
 
+// save job states
+export const SAVE_JOB_SUCCESS = "SAVE_JOB_SUCCESS";
+export const SAVE_JOB_FAIL = "SAVE_JOB_FAIL";
+
+// remove job states
+export const REMOVE_JOB_SUCCESS = "REMOVE_JOB_SUCCESS";
+export const REMOVE_JOB_FAIL = "REMOVE_JOB_FAIL";
+
 // setup interview states
 export const SETUP_INTERVIEW_SUCCESS = "SETUP_INTERVIEW_SUCCESS";
 export const SETUP_INTERVIEW_FAIL = "SETUP_INTERVIEW_FAIL";
@@ -81,6 +89,10 @@ export const SETUP_INTERVIEW_FAIL = "SETUP_INTERVIEW_FAIL";
 // load interview states
 export const LOAD_INTERVIEW_SUCCESS = "LOAD_INTERVIEW_SUCCESS";
 export const LOAD_INTERVIEW_FAIL = "LOAD_INTERVIEW_FAIL";
+
 // update employer notification states
 export const UPDATE_NOTIFICATION_SUCCESS = "UPDATE_NOTIFICATION_SUCCESS";
 export const UPDATE_NOTIFICATION_FAIL = "UPDATE_NOTIFICATION_FAIL";
+
+export const SWITCH_SUCCESS = "SWITCH_SUCCESS";
+export const SWITCH_FAIL = "SWITCH_FAIL";

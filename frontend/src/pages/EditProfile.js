@@ -8,14 +8,16 @@ import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import { Typography } from "@material-ui/core";
+import setCurrentPage from './../actions/setCurrentPage';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(2),
+    marginTop: 45,
+    marginBottom: 45,
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    padding: "8px",
+    padding: "10px",
     marginLeft: "150px",
     marginRight: "150px",
   },
@@ -25,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
   form: {
     width: "100%",
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(1),
   },
   submit: {
     margin: theme.spacing(3, 1, 2),
@@ -49,7 +51,9 @@ const EditProfile = ({
   location_global,
   emp_global,
   saved_jobs_global,
+  setCurrentPage
 }) => {
+  setCurrentPage(false);
   const [profileUpdated, setProfileUpdated] = useState(false);
   const classes = useStyles();
   const navigate = useNavigate();
@@ -127,20 +131,18 @@ const EditProfile = ({
 
   return (
     <>
+      <Paper className={classes.paper} elevation={3}>
       <Typography
         variant="h4"
         align="center"
         color="primary"
-        className={classes.root}
         gutterBottom
       >
         Update Your Profile
       </Typography>
-      <Paper className={classes.paper} elevation={3}>
         <form
           onSubmit={(e) => onSubmit(e)}
           className={classes.form}
-          noValidate
           encType="multipart/form-data"
         >
           <Grid
@@ -356,4 +358,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { updateProfile })(EditProfile);
+export default connect(mapStateToProps, { updateProfile, setCurrentPage })(EditProfile);

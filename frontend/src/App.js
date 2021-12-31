@@ -15,13 +15,15 @@ import Layout from "./hocs/Layout";
 import PrivateRoute from "./components/PrivateRoute";
 import ProfilePage from "./pages/ProfilePage";
 import EditProfile from "./pages/EditProfile";
+import FilteredJobsList from "./components/FilteredJobs";
+import SearchedJobsList from "./components/SearchedJobs";
+import VisitedProfilePage from "./pages/VisitedProfile";
 
 
 
 function App() {
   return (
-    
-    <div className="app">
+    <div className="app" style={{ backgroundColor: "#DAE9E1" }}>
       <Router>
         <Layout>
           <Routes>
@@ -36,9 +38,9 @@ function App() {
             <Route
               path="posts/:id/"
               element={
-                <PrivateRoute>
-                  <PostDetails />
-                </PrivateRoute>
+                // <PrivateRoute>
+                <PostDetails />
+                // </PrivateRoute>
               }
             />
             <Route
@@ -65,7 +67,10 @@ function App() {
                 </PrivateRoute>
               }
             />
+            <Route path="profile/:id/" element={<VisitedProfilePage />} />
             <Route path="/" element={<JobsList />} />
+            <Route path="filter/" element={<FilteredJobsList />} />
+            <Route path="search/" element={<SearchedJobsList />} />
             <Route path="blog/" element={<Blog />} />
             <Route path="job/:id/" element={<JobDetails />} />
             <Route path="job/:id/apply/" element={<ApplyJob />} />

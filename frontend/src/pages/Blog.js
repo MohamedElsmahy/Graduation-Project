@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { loadPosts } from "../actions/posts";
 import CardHeader from "@material-ui/core/CardHeader";
@@ -23,7 +23,8 @@ import AddIcon from "@material-ui/icons/Add";
 import Tooltip from "@material-ui/core/Tooltip";
 import Fab from "@material-ui/core/Fab";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
+import setCurrentPage from "./../actions/setCurrentPage";
 const useStyles = makeStyles((themes) => ({
   table: {
     width: 900,
@@ -36,7 +37,6 @@ const useStyles = makeStyles((themes) => ({
     marginLeft: "auto",
     marginRight: "auto",
     marginTop: "30px",
-    marginBottom: "30px",
   },
   Typography1: {
     marginTop: -45,
@@ -57,14 +57,15 @@ const useStyles = makeStyles((themes) => ({
     margin: themes.spacing(2),
   },
   absolute: {
-    position: "absolute",
+    position: "fixed",
     bottom: themes.spacing(2),
-    right: themes.spacing(3),
+    right: themes.spacing(2),
   },
 }));
 
-const Blog = ({ loadPosts, posts }) => {
+const Blog = ({ loadPosts, posts, setCurrentPage }) => {
   const classes = useStyles();
+  setCurrentPage(false);
   useEffect(() => {
     loadPosts();
   }, []);
@@ -76,13 +77,13 @@ const Blog = ({ loadPosts, posts }) => {
         <Typography
           component="div"
           style={{
-            backgroundColor: "#cfe8fc",
             width: "650px",
-            marginLeft: -50,
+            marginLeft: -70,
+            textAlign: "center",
           }}
         >
           <h1 style={{ margin: "10px", padding: "10px" }}>
-            What Is In Your Mind?
+            What Is On Your Mind?
           </h1>
           <Tooltip title="Add" aria-label="add post">
             <Fab color="primary" className={classes.absolute}>
@@ -91,8 +92,6 @@ const Blog = ({ loadPosts, posts }) => {
               </Button>
             </Fab>
           </Tooltip>
-
-          {/* <AddIcon  style={{ marginLeft:"600px" }}/> */}
         </Typography>
       </Container>
       {posts &&
@@ -105,7 +104,7 @@ const Blog = ({ loadPosts, posts }) => {
                     <ArrowForwardIcon />
                   </Button>
                 }
-                subheader={post.username}
+                subheader={`${post.first_name} ${post.last_name}`}
               />
               <CardActions>
                 <CardContent>
@@ -115,9 +114,7 @@ const Blog = ({ loadPosts, posts }) => {
                     component="h2"
                     className={classes.Typography1}
                   >
-                    
-                      {post.title}
-                  
+                    {post.title}
                   </Typography>
                   <Typography
                     variant="p"
@@ -140,4 +137,4 @@ const mapStateToProps = (state) => {
   return { posts: state.posts.posts };
 };
 
-export default connect(mapStateToProps, { loadPosts })(Blog);
+export default connect(mapStateToProps, { loadPosts, setCurrentPage })(Blog);

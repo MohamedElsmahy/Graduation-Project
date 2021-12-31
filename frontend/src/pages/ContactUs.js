@@ -1,20 +1,17 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Navigate } from "react-router-dom";
-
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-import MapContainer from "../components/map";
-import Content from "../hocs/Content";
-import { Message } from "@material-ui/icons";
-
 import { sendInfo } from "../actions/contact";
-import CSRFToken from "../components/CSRFToken";
+import setCurrentPage from "./../actions/setCurrentPage";
 
-const ContactUs = ({ sendInfo }) => {
+const ContactUs = ({ sendInfo, setCurrentPage }) => {
+  setCurrentPage(false);
+
   const [infoSent, setInfoSent] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -45,6 +42,7 @@ const ContactUs = ({ sendInfo }) => {
       <Card
         style={{
           width: 700,
+          padding: "10px",
           marginLeft: "100px",
           marginTop: 70,
           marginBottom: 30,
@@ -119,13 +117,9 @@ const ContactUs = ({ sendInfo }) => {
           marginTop: 70,
           marginBottom: 30,
         }}
-      >
-        <Grid>
-          <MapContainer />
-        </Grid>
-      </Card>
+      ></Card>
     </Grid>
   );
 };
 
-export default connect(null, { sendInfo })(ContactUs);
+export default connect(null, { sendInfo, setCurrentPage })(ContactUs);

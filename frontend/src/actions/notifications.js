@@ -8,8 +8,7 @@ import {
   UPDATE_EMP_NOTIF_SUCCESS,
   UPDATE_EMP_NOTIF_FAIL,
   UPDATE_NOTIFICATION_SUCCESS,
-  UPDATE_NOTIFICATION_FAIL
-
+  UPDATE_NOTIFICATION_FAIL,
 } from "./types";
 
 export const loadEmployerNotifications = () => async (dispatch) => {
@@ -71,30 +70,6 @@ export const updateEmployerNotification = (id) => async (dispatch) => {
   }
 };
 
-export const loadEmployeeNotifications = () => async (dispatch) => {
-  const config = {
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-  };
-
-  try {
-    const res = await axios.get(
-      "http://localhost:8000/notifications/api/employee/notifications/",
-      config
-    );
-    dispatch({
-      type: EMP_NOTIFICATIONS_SUCCESS,
-      payload: res.data,
-    });
-  } catch (err) {
-    dispatch({
-      type: EMP_NOTIFICATIONS_FAIL,
-    });
-  }
-};
-
 export const updateEmpNotification = (id) => async (dispatch) => {
   const config = {
     headers: {
@@ -130,3 +105,28 @@ export const updateEmpNotification = (id) => async (dispatch) => {
   }
 };
 
+const loadEmployeeNotifications = () => async (dispatch) => {
+  const config = {
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  };
+
+  try {
+    const res = await axios.get(
+      "http://localhost:8000/notifications/api/employee/notifications/",
+      config
+    );
+    dispatch({
+      type: EMP_NOTIFICATIONS_SUCCESS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: EMP_NOTIFICATIONS_FAIL,
+    });
+  }
+};
+
+export default loadEmployeeNotifications;

@@ -13,7 +13,7 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import { connect } from "react-redux";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import SideDrawer from "./Drawer";
 import Button from "@material-ui/core/Button";
 import UpdateRoundedIcon from "@material-ui/icons/UpdateRounded";
@@ -25,18 +25,18 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
 import Divider from "@material-ui/core/Divider";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
+import DeleteDialog from "./DeleteDialog";
+import Paper from "@material-ui/core/Paper";
+import Grid from "@material-ui/core/Grid";
 
-import {
-  updateEmpNotification,
-  loadEmployeeNotifications,
+import loadEmployeeNotifications, {
   loadEmployerNotifications,
   updateEmployerNotification,
+  updateEmpNotification,
 } from "../actions/notifications";
 
 const useStyles = makeStyles((theme) => ({
@@ -124,8 +124,10 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: theme.spacing(2),
     },
   },
-  dialog: {
-    minWidth: "50%",
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
   },
 }));
 
@@ -134,17 +136,22 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const Navbar = ({
+  loadEmployerNotifications,
+  updateEmployerNotification,
+  updateEmpNotification,
+  loadEmployeeNotifications,
   isAuthenticated,
   empNotifications,
   unreadCount,
-  loadEmployeeNotifications,
-  updateEmpNotification,
   employerNotifications,
   unreadEmployerCount,
   is_employer,
-  loadEmployerNotifications,
+  user,
+  currentPage,
+  deleteAccount,
 }) => {
   const classes = useStyles();
+  const navigate = useNavigate();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [interviewOpen, setInterviewOpen] = React.useState(false);
@@ -152,13 +159,17 @@ const Navbar = ({
 
   useEffect(() => {
     const notifUpdater = setInterval(() => {
-      {
-        is_employer ? loadEmployerNotifications() : loadEmployeeNotifications();
+      if (isAuthenticated) {
+        if (is_employer) {
+          loadEmployerNotifications();
+        } else {
+          loadEmployeeNotifications();
+        }
       }
     }, 5000);
     // clearing interval
     return () => clearInterval(notifUpdater);
-  }, [isAuthenticated]);
+  }, [isAuthenticated, is_employer]);
 
   const interviewDialogOpen = () => {
     setInterviewOpen(true);
@@ -166,6 +177,11 @@ const Navbar = ({
 
   const interviewDialogClose = () => {
     setInterviewOpen(false);
+    setCurrentNotification(null);
+  };
+
+  const handleVisitedProfileCLick = (id) => {
+    navigate(`/profile/${id}`);
   };
 
   const interviewDialog = (notification) => {
@@ -177,47 +193,154 @@ const Navbar = ({
         onClose={interviewDialogClose}
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
-        className={classes.dialog}
       >
-        <DialogTitle id="alert-dialog-slide-title">
-          {"Interview Details"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-slide-description">
-            {notification ? (
-              <>
-                <Typography variant="h5" component="h2">
-                  Location:
-                </Typography>{" "}
-                <Typography
-                  className={classes.pos}
-                  variant="body2"
-                  component="p"
+        {is_employer ? (
+          <>
+            <DialogTitle id="alert-dialog-slide-title">
+              {"Application Details"}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-slide-description">
+                {notification ? (
+                  <>
+                    <Grid container spacing={3}>
+                      <Grid item xs={12}>
+                        <Paper className={classes.paper}>
+                          <Typography
+                            color="textPrimary"
+                            variant="h5"
+                            component="h2"
+                          >
+                            New Application for{" "}
+                            {notification.application.job.title} position{" "}
+                          </Typography>
+                        </Paper>
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <Paper className={classes.paper}>
+                          <Typography
+                            color="textPrimary"
+                            variant="h5"
+                            component="h2"
+                          >
+                            Applicant's Name:
+                          </Typography>
+                          {notification.application.full_name}
+                        </Paper>
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <Paper className={classes.paper}>
+                          <Typography
+                            color="textPrimary"
+                            variant="h5"
+                            component="h2"
+                          >
+                            Email:
+                          </Typography>
+                          {notification.application.applicant.email
+                            ? notification.application.applicant.email
+                            : notification.created_by.user.email}
+                        </Paper>
+                      </Grid>
+                      {notification.application.cover_letter && (
+                        <Grid item xs={12}>
+                          <Paper className={classes.paper}>
+                            <Typography
+                              color="textPrimary"
+                              variant="h5"
+                              component="h2"
+                            >
+                              Cover Letter:
+                            </Typography>
+                            {notification.application.cover_letter}
+                          </Paper>
+                        </Grid>
+                      )}
+                    </Grid>
+                  </>
+                ) : (
+                  <p>Application details will be here</p>
+                )}
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              {notification.created_by ? (
+                <Button
+                  onClick={() => {
+                    handleVisitedProfileCLick(notification.created_by.id);
+                    interviewDialogClose();
+                  }}
+                  color="primary"
                 >
-                  {notification.interview.address}
-                </Typography>
-                <Divider />
-                <Typography variant="h5" component="h2">
-                  Date&Time:
-                </Typography>{" "}
-                <Typography
-                  className={classes.pos}
-                  variant="body2"
-                  component="p"
+                  Go to profile
+                </Button>
+              ) : (
+                <Button
+                  component={RouterLink}
+                  to={notification.application.cv}
+                  color="primary"
                 >
-                  {notification.interview.time}
-                </Typography>
-              </>
-            ) : (
-              <p>interview date and location will be here</p>
-            )}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={interviewDialogClose} color="primary">
-            ok
-          </Button>
-        </DialogActions>
+                  download cv
+                </Button>
+              )}
+              <Button onClick={interviewDialogClose} color="primary">
+                close
+              </Button>
+            </DialogActions>
+          </>
+        ) : (
+          <>
+            <DialogTitle id="alert-dialog-slide-title">
+              {"Interview Details"}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-slide-description">
+                {notification ? (
+                  notification.interview.application.status === "Accepted" ? (
+                    <Grid container spacing={3}>
+                      <Grid item xs={12}>
+                        <Paper className={classes.paper}>
+                          <Typography
+                            color="textPrimary"
+                            variant="h5"
+                            component="h2"
+                          >
+                            Interview Address:
+                          </Typography>
+                          {notification.interview.address}
+                        </Paper>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Paper className={classes.paper}>
+                          <Typography
+                            color="textPrimary"
+                            variant="h5"
+                            component="h2"
+                          >
+                            Interview Date&Time:
+                          </Typography>
+                          {notification.interview.time}
+                        </Paper>
+                      </Grid>
+                    </Grid>
+                  ) : (
+                    <p>
+                      We're sorry to tell you that your application for this
+                      position has been rejected by the recruiter
+                    </p>
+                  )
+                ) : (
+                  <p>interview details will be here</p>
+                )}
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={interviewDialogClose} color="primary">
+                close
+              </Button>
+            </DialogActions>
+          </>
+        )}
       </Dialog>
     );
   };
@@ -283,19 +406,40 @@ const Navbar = ({
         </IconButton>
         <p>Update Profile</p>
       </MenuItem>
-      <MenuItem onClick={handleMenuClose}>
-        <IconButton
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <DeleteForeverIcon />
-        </IconButton>
-        <p>Delete My Account</p>
-      </MenuItem>
+
+      <DeleteDialog
+        render={(open) => (
+          <MenuItem
+            onClick={() => {
+              open();
+              handleMenuClose();
+            }}
+          >
+            <IconButton
+              aria-label="account of current user"
+              aria-controls="primary-search-account-menu"
+              aria-haspopup="true"
+              color="inherit"
+            >
+              <DeleteForeverIcon />
+            </IconButton>
+            <p>Delete My Account</p>
+          </MenuItem>
+        )}
+      />
     </Menu>
   );
+
+  const [anchorNotif, setAnchorNotif] = React.useState(null);
+  const notifOpen = Boolean(anchorNotif);
+
+  const handleNotifIconClick = (event) => {
+    setAnchorNotif(event.currentTarget);
+  };
+
+  const handleNotifClose = () => {
+    setAnchorNotif(null);
+  };
 
   const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
@@ -311,8 +455,11 @@ const Navbar = ({
       {isAuthenticated ? (
         <>
           <MenuItem onClick={handleNotifIconClick}>
-            <IconButton aria-label="show 11 new notifications" color="inherit">
-              <Badge badgeContent={11} color="secondary">
+            <IconButton aria-label="show new notifications" color="inherit">
+              <Badge
+                badgeContent={is_employer ? unreadEmployerCount : unreadCount}
+                color="secondary"
+              >
                 <NotificationsIcon />
               </Badge>
             </IconButton>
@@ -357,22 +504,14 @@ const Navbar = ({
     </Menu>
   );
 
-  const [anchorNotif, setAnchorNotif] = React.useState(null);
-  const notifOpen = Boolean(anchorNotif);
-
-  const handleNotifIconClick = (event) => {
-    setAnchorNotif(event.currentTarget);
-  };
-
-  const handleNotifClose = () => {
-    setAnchorNotif(null);
-  };
-
   const handleNotificationClick = (notification) => {
-    updateEmpNotification(notification.id);
-    // loadEmployeeNotifications();
-    handleNotifClose();
+    if (is_employer) {
+      updateEmployerNotification(notification.id);
+    } else {
+      updateEmpNotification(notification.id);
+    }
     setCurrentNotification(notification);
+    handleNotifClose();
     interviewDialogOpen();
   };
 
@@ -415,8 +554,14 @@ const Navbar = ({
                     <ListItem alignItems="flex-start">
                       <ListItemAvatar>
                         <Avatar
-                          alt={notification.created_by.username}
-                          src={notification.created_by.image}
+                          alt={
+                            notification.created_by &&
+                            notification.created_by.username
+                          }
+                          src={
+                            notification.created_by &&
+                            notification.created_by.image
+                          }
                         />
                       </ListItemAvatar>
                       <ListItemText
@@ -443,7 +588,7 @@ const Navbar = ({
                               className={classes.inline}
                               color="textPrimary"
                             >
-                              {`${notification.created_by.first_name} ${notification.created_by.last_name} applied for ${notification.application.job.title}`}
+                              {`${notification.application.full_name} applied for ${notification.application.job.title}`}
                             </Typography>
                           </>
                         }
@@ -455,7 +600,7 @@ const Navbar = ({
               ))
             ) : (
               <MenuItem>
-                <div>no employer notifications</div>
+                <div> ... </div>
               </MenuItem>
             )}
           </>
@@ -483,7 +628,7 @@ const Navbar = ({
                         primary={
                           <>
                             {`${notification.interview.application.job.title} |
-                        ACCEPTED`}
+                        ${notification.interview.application.status}`}
                             <br />
                             <Typography
                               component="span"
@@ -503,7 +648,7 @@ const Navbar = ({
                               className={classes.inline}
                               color="textPrimary"
                             >
-                              {`${notification.sender.user.first_name} ${notification.sender.user.last_name} accepted your application`}
+                              {`${notification.sender.user.first_name} ${notification.sender.user.last_name} ${notification.interview.application.status} your application`}
                             </Typography>
                           </>
                         }
@@ -515,7 +660,7 @@ const Navbar = ({
               ))
             ) : (
               <MenuItem>
-                <div>no employee notifications</div>
+                <div> ... </div>
               </MenuItem>
             )}
           </>
@@ -537,21 +682,28 @@ const Navbar = ({
             <SideDrawer />
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
-            Job Board
+            Welcome
+            {isAuthenticated && (
+              <>
+                , {user.first_name} {user.last_name}
+              </>
+            )}
           </Typography>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
+          {currentPage && (
+            <div className={classes.search}>
+              <div className={classes.searchIcon}>
+                <SearchIcon />
+              </div>
+              <InputBase
+                placeholder="Search jobs.."
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                inputProps={{ "aria-label": "search" }}
+              />
             </div>
-            <InputBase
-              placeholder="Search jobs ..."
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ "aria-label": "search" }}
-            />
-          </div>
+          )}
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             {isAuthenticated ? (
@@ -585,15 +737,6 @@ const Navbar = ({
               </>
             ) : (
               <>
-                <Button
-                  variant="contained"
-                  noWrap
-                  onClick={interviewDialogOpen}
-                  color="primary"
-                  className={classes.margin}
-                >
-                  open dialog
-                </Button>
                 <Button
                   variant="contained"
                   noWrap
@@ -638,6 +781,7 @@ const Navbar = ({
     </div>
   );
 };
+
 const mapStateToProps = (state) => {
   return {
     isAuthenticated: state.auth.isAuthenticated,
@@ -646,12 +790,14 @@ const mapStateToProps = (state) => {
     employerNotifications: state.employerNotifications.employer_notifications,
     unreadEmployerCount: state.employerNotifications.unread,
     is_employer: state.profile.is_employer,
+    user: state.profile,
+    currentPage: state.currentPage.currentPage,
   };
 };
 
 export default connect(mapStateToProps, {
-  loadEmployeeNotifications,
-  updateEmpNotification,
-  updateEmployerNotification,
   loadEmployerNotifications,
+  updateEmployerNotification,
+  updateEmpNotification,
+  loadEmployeeNotifications,
 })(Navbar);

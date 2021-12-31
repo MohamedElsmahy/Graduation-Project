@@ -1,48 +1,36 @@
-import React, { useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { Navigate } from "react-router-dom";
 
-import { connect } from 'react-redux';
-import { login } from '../actions/auth';
-import CSRFToken from '../components/CSRFToken';
+import { connect } from "react-redux";
+import { login } from "../actions/auth";
+import CSRFToken from "../components/CSRFToken";
 
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Job Board
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import TextField from "@material-ui/core/TextField";
+import Link from "@material-ui/core/Link";
+import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import setCurrentPage from "./../actions/setCurrentPage";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.primary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(1),
   },
   submit: {
@@ -50,12 +38,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SignIn = ({ isAuthenticated, login }) => {
+const SignIn = ({ isAuthenticated, login, setCurrentPage }) => {
+  setCurrentPage(false);
   const classes = useStyles();
 
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
 
   if (isAuthenticated) return <Navigate replace to="/" />;
@@ -132,9 +121,6 @@ const SignIn = ({ isAuthenticated, login }) => {
           </Grid>
         </form>
       </div>
-      <Box mt={8}>
-        <Copyright />
-      </Box>
     </Container>
   );
 };
@@ -143,4 +129,4 @@ const mapStateToProps = (state) => {
   return { isAuthenticated: state.auth.isAuthenticated };
 };
 
-export default connect(mapStateToProps, { login })(SignIn);
+export default connect(mapStateToProps, { login, setCurrentPage })(SignIn);

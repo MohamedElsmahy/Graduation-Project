@@ -10,23 +10,15 @@ import {
   JOB_APPLICATION_FAIL,
   LOAD_CATEGORIES_SUCCESS,
   LOAD_CATEGORIES_FAIL,
+  SAVE_JOB_SUCCESS,
+  SAVE_JOB_FAIL,
+  REMOVE_JOB_SUCCESS,
+  REMOVE_JOB_FAIL,
 } from "./types";
 import Cookies from "js-cookie";
 
 export const AddNewJob =
-  (
-    owner,
-    username,
-    first_name,
-    last_name,
-    title,
-    job_type,
-    description,
-    vacancy,
-    salary,
-    experience,
-    category
-  ) =>
+  (title, job_type, description, vacancy, salary, experience, category) =>
   async (dispatch) => {
     const config = {
       headers: {
@@ -37,10 +29,6 @@ export const AddNewJob =
     };
 
     const body = JSON.stringify({
-      owner,
-      username,
-      first_name,
-      last_name,
       title,
       job_type,
       description,
@@ -48,19 +36,18 @@ export const AddNewJob =
       salary,
       experience,
       category,
-      withCredentials: true,
     });
 
     try {
       const res = await axios.post(
-        "http://127.0.0.1:8000/jobs/api/jobs/",
+        "http://localhost:8000/jobs/api/jobs/add/",
         body,
-        config
+        config,
+        { withCredentials: true }
       );
       dispatch({
         type: ADD_JOB_SUCCESS,
       });
-      return res;
     } catch (err) {
       dispatch({
         type: ADD_JOB_FAIL,
@@ -239,5 +226,62 @@ export const loadCategories = () => async (dispatch) => {
   }
 };
 
+export const saveJob = (id) => async (dispatch) => {
+  const config = {
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      "X-CSRFToken": Cookies.get("csrftoken"),
+    },
+  };
 
+  try {
+    const res = await axios.put(
+      `http://localhost:8000/jobs/api/jobs/${id}/save/`,
+      config
+    );
+    if (res.data.error) {
+      dispatch({
+        type: SAVE_JOB_FAIL,
+      });
+    } else {
+      dispatch({
+        type: SAVE_JOB_SUCCESS,
+      });
+    }
+  } catch (err) {
+    dispatch({
+      type: SAVE_JOB_FAIL,
+    });
+  }
+};
 
+export const removeJob = (id) => async (dispatch) => {
+  const config = {
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      "X-CSRFToken": Cookies.get("csrftoken"),
+    },
+  };
+
+  try {
+    const res = await axios.put(
+      `http://localhost:8000/jobs/api/jobs/${id}/remove/`,
+      config
+    );
+    if (res.data.error) {
+      dispatch({
+        type: REMOVE_JOB_FAIL,
+      });
+    } else {
+      dispatch({
+        type: REMOVE_JOB_SUCCESS,
+      });
+    }
+  } catch (err) {
+    dispatch({
+      type: REMOVE_JOB_FAIL,
+    });
+  }
+};

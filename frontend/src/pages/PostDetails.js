@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Navigate } from "react-router-dom";
+import { useParams, Navigate, Link as RouterLink } from "react-router-dom";
 import { connect } from "react-redux";
 import { loadPost } from "../actions/posts";
 import axios from "axios";
@@ -22,38 +22,45 @@ import CommentIcon from "@material-ui/icons/Comment";
 import DeleteIcon from "@material-ui/icons/Delete";
 import TitleIcon from "@material-ui/icons/Title";
 import ScheduleIcon from "@material-ui/icons/Schedule";
+import setCurrentPage from "./../actions/setCurrentPage";
 const useStyles = makeStyles({
   root: {
-    maxWidth: 700,
+    width: "60%",
     marginLeft: "auto",
     marginRight: "auto",
-    marginTop: "30px",
+    top: 0,
   },
   cardcomment: {
-    maxWidth: 700,
+    width: "100%",
     marginLeft: "auto",
     marginRight: "auto",
-    marginTop: "25px",
+    marginTop: "20px",
   },
   comment: {
-    maxWidth: 750,
+    width: "60%",
     marginLeft: "auto",
     marginRight: "auto",
-    marginTop: "30px",
+    marginTop: "1px",
     textAlign: "center",
   },
   btn: {
     width: 130,
     marginLeft: "auto",
     marginRight: "auto",
-    marginTop: 7,
+    marginTop: 45,
   },
   comm: {
     marginLeft: 75,
     marginTop: 5,
     color: "#34495E",
   },
+  cardHeader: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
   Typography1: {
+    display: "flex",
+    justifyContent: "space-between",
     marginTop: -30,
     marginLeft: 55,
     color: "#34495E",
@@ -61,7 +68,6 @@ const useStyles = makeStyles({
   Typography2: {
     marginTop: 10,
     marginLeft: 53,
-    fontSize: 25,
   },
   Typography3: {
     marginTop: 20,
@@ -72,9 +78,13 @@ const useStyles = makeStyles({
     marginTop: 20,
     marginLeft: 60,
   },
+  field: {
+    height: "150px",
+  },
 });
 
-const PostDetails = ({ loadPost, post, comments, user }) => {
+const PostDetails = ({ loadPost, post, comments, user, setCurrentPage }) => {
+  setCurrentPage(false);
   const classes = useStyles();
   const [postDeleted, setPostDeleted] = useState(false);
   const [commentBody, setCommentBody] = useState("");
@@ -171,31 +181,21 @@ const PostDetails = ({ loadPost, post, comments, user }) => {
   return (
     <>
       <Card className={classes.root}>
-        <CardHeader
-          avatar={
-            <Avatar aria-label="recipe" src={user.image}>
-              R
-            </Avatar>
-          }
-          title={`${post.first_name} ${post.last_name} `}
-          subheader={post.created}
-        />
-
-        {user.id === post.user && (
-          <Button
-            size="large"
-            style={{
-              position: "absolute",
-              left: "70%",
-              transform: "translate(-50%, -50%)",
-            }}
-            color="primary"
-            onClick={(e) => DeletePost()}
-          >
-            <DeleteIcon />
-          </Button>
-        )}
-
+        <div className={classes.cardHeader}>
+          <CardHeader
+            avatar={<Avatar aria-label="recipe" />}
+            title={`${post.first_name} ${post.last_name} `}
+            subheader={post.created}
+            to={`/profile/${post.user}`}
+            component={RouterLink}
+            style={{ textDecoration: "none" }}
+          />
+          {user.id === post.user && (
+            <Button size="large" color="primary" onClick={(e) => DeletePost()}>
+              <DeleteIcon />
+            </Button>
+          )}
+        </div>
         <CardContent>
           <Typography
             gutterBottom
@@ -206,29 +206,74 @@ const PostDetails = ({ loadPost, post, comments, user }) => {
             {post.title}
           </Typography>
           <Typography
-            variant="body2"
-            color="textSecondary"
+            variant="body1"
+            color="textPrimary"
             component="p"
             className={classes.Typography2}
           >
             {post.body}
+            <CardActions>
+              <Button
+                size="large"
+                style={{
+                  position: "absolute",
+                  left: "77%",
+                  transform: "translate(-50%, -50%)",
+                }}
+                color="primary"
+                onClick={(e) => setshow(!show)}
+              >
+                <CommentIcon />
+              </Button>
+            </CardActions>
           </Typography>
+          {post ? (
+            <>
+              {comments.map((comment) => {
+                return (
+                  <Card
+                    key={comment.id}
+                    className={classes.cardcomment}
+                    style={{
+                      backgroundColor: "#cfe8fc",
+                      left: "50%",
+                    }}
+                  >
+                    <div className={classes.cardHeader}>
+                      <CardHeader
+                        avatar={<Avatar aria-label="recipe" />}
+                        title={`${comment.first_name} ${comment.last_name} `}
+                        subheader={comment.created}
+                        to={`/profile/${comment.user}`}
+                        component={RouterLink}
+                        style={{ textDecoration: "none" }}
+                      />
+                      {(user.id === comment.user || user.id === post.user) && (
+                        <Button
+                          size="large"
+                          color="primary"
+                          onClick={() => DeleteComment(comment.id)}
+                        >
+                          <DeleteIcon />
+                        </Button>
+                      )}
+                    </div>
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                      component="p"
+                      className={classes.comm}
+                    >
+                      {comment.body}
+                    </Typography>
+                  </Card>
+                );
+              })}
+            </>
+          ) : (
+            <h5>Post Not Found</h5>
+          )}
         </CardContent>
-
-        <CardActions>
-          <Button
-            size="large"
-            style={{
-              position: "absolute",
-              left: "70%",
-              transform: "translate(-50%, -50%)",
-            }}
-            color="primary"
-            onClick={(e) => setshow(!show)}
-          >
-            <CommentIcon />
-          </Button>
-        </CardActions>
       </Card>
 
       <div className="comments">
@@ -242,7 +287,7 @@ const PostDetails = ({ loadPost, post, comments, user }) => {
             >
               <TextField
                 className={classes.field}
-                label="post comment"
+                label="Comment"
                 variant="outlined"
                 color="primary"
                 name="commentBody"
@@ -273,54 +318,6 @@ const PostDetails = ({ loadPost, post, comments, user }) => {
           </Container>
         ) : null}
       </div>
-
-      {post ? (
-        <>
-          {comments.map((comment) => {
-            return (
-              <Card
-                key={comment.id}
-                className={classes.cardcomment}
-                style={{
-                  backgroundColor: "#cfe8fc",
-                  left: "50%",
-                }}
-              >
-                <CardHeader
-                  avatar={<Avatar aria-label="recipe">R</Avatar>}
-                  title={`${comment.first_name} ${comment.last_name} `}
-                  subheader={comment.created}
-                />
-                {(user.id === comment.user || user.id === post.user)&&(
-                  <Button
-                    size="large"
-                    style={{
-                      position: "absolute",
-                      left: "70%",
-                      transform: "translate(-50%, -50%)",
-                    }}
-                    color="primary"
-                    onClick={(e) => DeleteComment(comment.id)}
-                  >
-                    <DeleteIcon />
-                  </Button>
-                )}
-
-                <Typography
-                  variant="body2"
-                  color="textSecondary"
-                  component="p"
-                  className={classes.comm}
-                >
-                  {comment.body}
-                </Typography>
-              </Card>
-            );
-          })}
-        </>
-      ) : (
-        <h5>Post Not Found</h5>
-      )}
     </>
   );
 };
@@ -333,4 +330,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { loadPost })(PostDetails);
+export default connect(mapStateToProps, { loadPost, setCurrentPage })(
+  PostDetails
+);

@@ -22,6 +22,7 @@ class PostListApi(generics.ListCreateAPIView):
 
 
 class GetPosts(APIView):
+    permission_classes = (permissions.AllowAny,)
     def get(self, request, format=None):
         try:
             posts = Post.objects.all()
@@ -38,6 +39,7 @@ class GetPosts(APIView):
 
 #API view for Retrieve , Delete & Update Post
 class PostDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = (permissions.AllowAny,)
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     lookup_field = "id"
@@ -47,6 +49,7 @@ class PostDetail(generics.RetrieveUpdateDestroyAPIView):
 
 #API View for list and create Comment
 class CommentListApi(generics.ListCreateAPIView):
+    permission_classes = (permissions.AllowAny,)
     model = Comment
     serializer_class = CommentSerializer
     permission_classes = (permissions.AllowAny,)
@@ -59,6 +62,7 @@ class CommentListApi(generics.ListCreateAPIView):
 
 #API view for Retrieve , Delete & Update Comment
 class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = (permissions.AllowAny,)
     permission_classes = (permissions.AllowAny,)
     serializer_class = CommentSerializer
     lookup_field = "id"

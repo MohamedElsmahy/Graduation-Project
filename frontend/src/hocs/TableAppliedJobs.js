@@ -46,7 +46,12 @@ const TableAppliedJobs = () => {
       <TableBody>
         {applications &&
           applications.map((row) => (
-            <TableRow key={row.id} to={`/job/${row.id}`} component={RouterLink}>
+            <TableRow
+              key={row.id}
+              to={`/job/${row.job.id}`}
+              component={RouterLink}
+              style={{ textDecoration: "none" }}
+            >
               <TableCell component="th" scope="row">
                 {row.job.title}
               </TableCell>

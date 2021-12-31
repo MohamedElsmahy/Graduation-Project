@@ -4,12 +4,16 @@ from accounts.models import EmployeeProfile, EmployerProfile, MyUser
 from notifications.models import EmployeeNotification
 from .models import Application, Category, Interview, Job
 from django.db.models import Q
-from .serializers import ApplicationSerializer, CategorySerializer, InterviewSerializer, JobSerializer
+from .serializers import ApplicationSerializer, CategorySerializer, JobSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics, permissions
+
 from notifications.models import Notification
+
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication 
+
 
 ''' Funcation Viwes '''
 @api_view(['GET'])
@@ -27,12 +31,31 @@ def job_detail_api(request , id):
 
 ''' Generic Views '''
 
-class JobListApi(generics.ListCreateAPIView):
+class JobListApi(generics.ListAPIView):
     permission_classes = (permissions.AllowAny,)
     model = Job
     queryset  = Job.objects.all()
     serializer_class = JobSerializer
-    permission_classes = (permissions.AllowAny,)
+
+
+class AddJob(APIView):
+    def post(self, request):
+        user = self.request.user
+        data = self.request.data
+        try:
+            Job.objects.create(
+                owner = user,
+                title = data["title"],
+                job_type = data["job_type"],
+                description = data["description"],
+                vacancy = data["vacancy"],
+                salary = data["salary"],
+                experience = data["experience"],
+                category = Category.objects.get(id=data["category"]),
+                )
+            return Response({'success': "Job added successfully"})
+        except Exception as e:
+            return Response({'error': e.args})
 
 
 class GetJobs(APIView):
@@ -128,7 +151,12 @@ class AnonApplyJob(APIView):
                         website=data["website"],
                         cv=data["cv"],
                         cover_letter=data["cover_letter"])
-                
+                    employer=MyUser.objects.get(id=job.owner.id)
+                    application=Application.objects.last()
+                    Notification.objects.create(
+                        to_user=employer,
+                        application=application,
+                    )
                     return Response({'success': "application sent successfully"})
         except Exception as e:
             return Response({'error': e.args})
@@ -193,7 +221,16 @@ class CategoryListApi(generics.ListAPIView):
     serializer_class = CategorySerializer
 
 
+
+
+class CsrfExemptSessionAuthentication(SessionAuthentication):
+
+    def enforce_csrf(self, request):
+        return
+
+
 class SaveJob(APIView):
+    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     def put(self, request, job_id):
         profile = EmployeeProfile.objects.get(user=self.request.user)
         job = Job.objects.get(id=job_id)
@@ -206,6 +243,7 @@ class SaveJob(APIView):
 
 
 class RemoveSavedJob(APIView):
+    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     def put(self, request, job_id):
         profile = EmployeeProfile.objects.get(user=self.request.user)
         job = Job.objects.get(id=job_id)
@@ -219,12 +257,21 @@ class RemoveSavedJob(APIView):
 
 class UpdateApplicationStatus(APIView):
     def patch(self, request, id):
+        data = self.request.data
 
         application = Application.objects.get(id=id)
-        serializer = ApplicationSerializer(application, data=self.request.data, partial=True)
+        serializer = ApplicationSerializer(application, data=data, partial=True)
+        
 
         if serializer.is_valid():
             serializer.save()
+            if data.status == "Rejected":
+                if application.applicant:
+                    employer = EmployerProfile.objects.get(user=self.request.user)
+                    employee = EmployeeProfile.objects.get(user=application.applicant)
+                    EmployeeNotification.objects.create(
+                        sender=employer,
+                        receiver=employee)
             return Response(serializer.data, status=200)
         else:
             return Response(serializer.errors, status=400)
@@ -243,7 +290,7 @@ class CreateInterview(APIView):
                 employer = EmployerProfile.objects.get(user=application.job.owner)
                 employee = EmployeeProfile.objects.get(user=application.applicant)
                 interview = Interview.objects.last()
-              
+
                 EmployeeNotification.objects.create(
                     sender=employer,
                     receiver=employee,

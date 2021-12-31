@@ -48,7 +48,12 @@ const EmployerJobsTable = () => {
       <TableBody>
         {jobs &&
           jobs.map((row) => (
-            <TableRow to={`/job/${row.id}`} component={RouterLink} key={row.id}>
+            <TableRow
+              to={`/job/${row.id}`}
+              component={RouterLink}
+              style={{ textDecoration: "none" }}
+              key={row.id}
+            >
               <TableCell scope="row">{row.title}</TableCell>
               <TableCell align="right">{row.job_type}</TableCell>
               <TableCell align="right">{row.salary}</TableCell>
