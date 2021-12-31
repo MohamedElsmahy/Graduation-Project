@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { loadPosts } from "../actions/posts";
 import CardHeader from "@material-ui/core/CardHeader";
@@ -64,8 +64,8 @@ const useStyles = makeStyles((themes) => ({
 }));
 
 const Blog = ({ loadPosts, posts, setCurrentPage }) => {
-  setCurrentPage(false);
   const classes = useStyles();
+  setCurrentPage(false);
   useEffect(() => {
     loadPosts();
   }, []);
@@ -104,7 +104,7 @@ const Blog = ({ loadPosts, posts, setCurrentPage }) => {
                     <ArrowForwardIcon />
                   </Button>
                 }
-                subheader={post.username}
+                subheader={`${post.first_name} ${post.last_name}`}
               />
               <CardActions>
                 <CardContent>

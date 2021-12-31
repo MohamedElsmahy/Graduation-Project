@@ -186,9 +186,12 @@ const JobDetails = ({
     <div>
       <Card className={classes.root}>
         <CardHeader
+          to={`/profile/${job.owner.id}`}
+          component={RouterLink}
           avatar={<Avatar src={job.image} />}
-          title={`${job.first_name} ${job.last_name}`}
+          title={`${job.owner.first_name} ${job.owner.last_name}`}
           subheader={job.published_at}
+          style={{ textDecoration: "none" }}
         />
         <CardContent>
           <Typography gutterBottom variant="h5" className={classes.Typography1}>

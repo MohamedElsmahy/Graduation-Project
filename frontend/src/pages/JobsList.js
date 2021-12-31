@@ -364,15 +364,12 @@ const JobsList = ({
                           fullWidth
                         >
                           <CardHeader
-                            avatar={
-                              <Avatar
-                                to={`/job/${job.id}`}
-                                component={RouterLink}
-                                src={job.image}
-                              />
-                            }
+                            to={`/job/${job.id}`}
+                            component={RouterLink}
+                            avatar={<Avatar src={job.image} />}
                             title={job.title}
-                            subheader={job.category} // fix show category name
+                            subheader={job.category}
+                            style={{ textDecoration: "none" }}
                           />
 
                           <CardHeader

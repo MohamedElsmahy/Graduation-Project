@@ -32,7 +32,6 @@ import Avatar from "@material-ui/core/Avatar";
 import DeleteDialog from "./DeleteDialog";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-// import { VisitProfile } from "../actions/profile";
 
 import loadEmployeeNotifications, {
   loadEmployerNotifications,
@@ -147,7 +146,6 @@ const Navbar = ({
   employerNotifications,
   unreadEmployerCount,
   is_employer,
-  // VisitProfile,
   user,
   currentPage,
   deleteAccount,
@@ -277,9 +275,6 @@ const Navbar = ({
                   Go to profile
                 </Button>
               ) : (
-                // <Button onClick={() => {handleVisitedProfileCLick(visitedProfile.id)}} color="primary">
-                //   Go to profile
-                // </Button>
                 <Button
                   component={RouterLink}
                   to={notification.application.cv}
@@ -796,7 +791,6 @@ const mapStateToProps = (state) => {
     unreadEmployerCount: state.employerNotifications.unread,
     is_employer: state.profile.is_employer,
     user: state.profile,
-    visitedProfile: state.visitedProfile,
     currentPage: state.currentPage.currentPage,
   };
 };
@@ -806,5 +800,4 @@ export default connect(mapStateToProps, {
   updateEmployerNotification,
   updateEmpNotification,
   loadEmployeeNotifications,
-  // VisitProfile,
 })(Navbar);

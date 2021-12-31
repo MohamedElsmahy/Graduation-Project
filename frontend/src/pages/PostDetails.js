@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Navigate } from "react-router-dom";
+import { useParams, Navigate, Link as RouterLink } from "react-router-dom";
 import { connect } from "react-redux";
 import { loadPost } from "../actions/posts";
 import axios from "axios";
@@ -186,6 +186,9 @@ const PostDetails = ({ loadPost, post, comments, user, setCurrentPage }) => {
             avatar={<Avatar aria-label="recipe" />}
             title={`${post.first_name} ${post.last_name} `}
             subheader={post.created}
+            to={`/profile/${post.user}`}
+            component={RouterLink}
+            style={{ textDecoration: "none" }}
           />
           {user.id === post.user && (
             <Button size="large" color="primary" onClick={(e) => DeletePost()}>
@@ -241,6 +244,9 @@ const PostDetails = ({ loadPost, post, comments, user, setCurrentPage }) => {
                         avatar={<Avatar aria-label="recipe" />}
                         title={`${comment.first_name} ${comment.last_name} `}
                         subheader={comment.created}
+                        to={`/profile/${comment.user}`}
+                        component={RouterLink}
+                        style={{ textDecoration: "none" }}
                       />
                       {(user.id === comment.user || user.id === post.user) && (
                         <Button

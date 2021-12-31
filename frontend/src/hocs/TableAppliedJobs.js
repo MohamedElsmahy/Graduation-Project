@@ -50,6 +50,7 @@ const TableAppliedJobs = () => {
               key={row.id}
               to={`/job/${row.job.id}`}
               component={RouterLink}
+              style={{ textDecoration: "none" }}
             >
               <TableCell component="th" scope="row">
                 {row.job.title}
