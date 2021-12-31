@@ -35,7 +35,7 @@ const   ChatbotDialog= ({ render }) => {
         <DialogTitle id="alert-dialog-title">{"Chat bot "}</DialogTitle>
         <DialogContent>
             <div className="App"> 
-            <div style={{ maxWidth: "400px" }}>        
+            <div style={{height:"500px" }}>        
         <Chatbot config={config}
        actionProvider={ActionProvider}
         messageParser={MessageParser} />
