@@ -16,8 +16,11 @@ import PrivateRoute from "./components/PrivateRoute";
 import ProfilePage from "./pages/ProfilePage";
 import EditProfile from "./pages/EditProfile";
 
+
+
 function App() {
   return (
+    
     <div className="app">
       <Router>
         <Layout>
@@ -69,9 +72,11 @@ function App() {
             <Route path="signup/" element={<SignUp />} />
             <Route path="signin/" element={<SignIn />} />
             <Route path="contactus/" element={<ContactUs />} />
+        
           </Routes>
         </Layout>
       </Router>
+    
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link as RouterLink } from "react-router-dom";
 import { Link } from "react-router-dom";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -15,17 +16,34 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Favorite from "@material-ui/icons/Favorite";
 import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
+
 import InputBase from "@material-ui/core/InputBase";
 import { alpha, makeStyles } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
 import { loadJobs } from "../actions/jobs";
 import { connect } from "react-redux";
 import { FilterJobs, SearchJobs } from "../actions/filters";
+import ChatIcon from "@material-ui/icons/Chat";
+import Tooltip from "@material-ui/core/Tooltip";
+import Fab from "@material-ui/core/Fab";
+import ChatbotDialog from "../components/ChatbotDialoge";
 
-const JobsList = ({ loadJobs, jobs, categories, FilterJobs, SearchJobs,filters }) => {
+const JobsList = ({
+  loadJobs,
+  jobs,
+  categories,
+  FilterJobs,
+  SearchJobs,
+  filters,
+}) => {
   const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
+    },
+    absolute: {
+      position: "absolute",
+      bottom: theme.spacing(2),
+      right: theme.spacing(3),
     },
     menuButton: {
       marginRight: theme.spacing(2),
@@ -137,8 +155,6 @@ const JobsList = ({ loadJobs, jobs, categories, FilterJobs, SearchJobs,filters }
   const onSubmit = (e) => {
     e.preventDefault();
     FilterJobs(job_type, experience, category);
-    
-    
   };
 
   const onSubmitSearch = (e) => {
@@ -284,7 +300,7 @@ const JobsList = ({ loadJobs, jobs, categories, FilterJobs, SearchJobs,filters }
           <Grid item xs={12} md={8}>
             <Paper elevation={4} style={paperstyle}>
               <h1 style={header}>Job list</h1>
-              
+
               {jobs ? (
                 jobs.map((job) => {
                   return (
@@ -382,12 +398,32 @@ const JobsList = ({ loadJobs, jobs, categories, FilterJobs, SearchJobs,filters }
           </Grid>
         </Grid>
       </Grid>
+
+      <ChatbotDialog
+        render={(open) => (
+          <Tooltip
+            onClick={() => {
+              open();
+            }}
+            title="Chatbot"
+            aria-label="opne dialoge"
+          >
+            <Fab color="primary" className={classes.absolute}>
+              <ChatIcon />
+            </Fab>
+          </Tooltip>
+        )}
+      />
     </div>
   );
 };
 
 const mapStateToProps = (state) => {
-  return { jobs: state.jobs.jobs, categories: state.categories.categories , filters : state.filter.filter};
+  return {
+    jobs: state.jobs.jobs,
+    categories: state.categories.categories,
+    filters: state.filter.filter,
+  };
 };
 
 export default connect(mapStateToProps, { loadJobs, FilterJobs, SearchJobs })(
