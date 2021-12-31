@@ -6,13 +6,13 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Chatbot from "react-chatbot-kit";
 import config from "../chatbot/Config";
-import ActionProvider from "../chatbot/ActionProvider"
+import ActionProvider from "../chatbot/ActionProvider";
 import MessageParser from "../chatbot/MessageParser";
-import 'react-chatbot-kit/build/main.css';
+import "react-chatbot-kit/build/main.css";
 
 import "../App.css";
 
-const   ChatbotDialog= ({ render }) => {
+const ChatbotDialog = ({ render }) => {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -34,24 +34,24 @@ const   ChatbotDialog= ({ render }) => {
       >
         <DialogTitle id="alert-dialog-title">{"Chat bot "}</DialogTitle>
         <DialogContent>
-            <div className="App"> 
-            <div style={{height:"500px" }}>        
-        <Chatbot config={config}
-       actionProvider={ActionProvider}
-        messageParser={MessageParser} />
-        
-        </div>
-        </div>
+          <div className="App">
+            <div style={{ height: "500px" }}>
+              <Chatbot
+                config={config}
+                actionProvider={ActionProvider}
+                messageParser={MessageParser}
+              />
+            </div>
+          </div>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             cancel
           </Button>
-       
         </DialogActions>
       </Dialog>
     </>
   );
 };
 
-export default ChatbotDialog; 
+export default ChatbotDialog;

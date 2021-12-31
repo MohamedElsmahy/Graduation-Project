@@ -33,17 +33,12 @@ const ContactUs = ({ sendInfo, setCurrentPage }) => {
   };
 
   return (
-    <Grid
-      container
-      direction="row"
-      justifyContent="space-between"
-      alignItems="center"
-    >
+    <Grid container direction="row" justifyContent="center" alignItems="center">
       <Card
         style={{
           width: 700,
           padding: "10px",
-          marginLeft: "100px",
+          marginLeft: "4%",
           marginTop: 70,
           marginBottom: 30,
         }}

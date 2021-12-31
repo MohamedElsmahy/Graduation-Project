@@ -51,7 +51,7 @@ const JobsList = ({
       flexGrow: 1,
     },
     absolute: {
-      position: "absolute",
+      position: "fixed",
       bottom: theme.spacing(2),
       right: theme.spacing(3),
     },
@@ -468,25 +468,24 @@ const JobsList = ({
             </Grid>
           </Grid>
         </Grid>
-      </Grid>
-
-      <ChatbotDialog
-        render={(open) => (
-          <Tooltip
-            onClick={() => {
-              open();
-            }}
-            title="Chatbot"
-            aria-label="opne dialoge"
-          >
-            <Fab color="primary" className={classes.absolute}>
-              <ChatIcon />
-            </Fab>
-          </Tooltip>
-        )}
-      />
-    </div>
-  );
+        <ChatbotDialog
+          render={(open) => (
+            <Tooltip
+              onClick={() => {
+                open();
+              }}
+              title="Chatbot"
+              aria-label="opne dialoge"
+            >
+              <Fab color="primary" className={classes.absolute}>
+                <ChatIcon />
+              </Fab>
+            </Tooltip>
+          )}
+        />
+      </div>
+    );
+  }
 };
 
 const mapStateToProps = (state) => {
