@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink , useNavigate } from "react-router-dom";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
@@ -15,11 +15,9 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Favorite from "@material-ui/icons/Favorite";
 import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
-import InputBase from "@material-ui/core/InputBase";
 import { alpha, makeStyles } from "@material-ui/core/styles";
-import SearchIcon from "@material-ui/icons/Search";
 import { connect } from "react-redux";
-import { FilterJobs, SearchJobs } from "../actions/filters";
+import { FilterJobs } from "../actions/filters";
 import { loadProfile } from "../actions/profile";
 import { saveJob, removeJob } from "../actions/jobs";
 import setCurrentPage from "./../actions/setCurrentPage";
@@ -28,7 +26,6 @@ const FilteredJobsList = ({
   filter,
   categories,
   FilterJobs,
-  SearchJobs,
   saveJob,
   removeJob,
   saved_jobs,
@@ -131,6 +128,7 @@ const FilteredJobsList = ({
     marginLeft: "120px",
   };
   const classes = useStyles();
+  // const navigate = useNavigate();
 
   const [saveRemove, setSaveRemove] = useState(false);
 
@@ -140,27 +138,13 @@ const FilteredJobsList = ({
     category: "",
   });
 
-  const [searchData, setSearchData] = useState({
-    title: "",
-  });
-
   const [isUpdated, setIsUpdated] = useState(false);
-  const [isSearched, setIsSearched] = useState(true);
 
   const { job_type, experience, category } = formData;
-  const { title } = searchData;
-
-  useEffect(() => {
-    FilterJobs();
-  }, [isUpdated]);
-
-  useEffect(() => {
-    SearchJobs();
-  }, [isSearched]);
 
   useEffect(() => {
     loadProfile();
-  }, [saveRemove]);
+  }, [isUpdated , saveRemove]);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -168,18 +152,8 @@ const FilteredJobsList = ({
     setIsUpdated = !isUpdated;
   };
 
-  const onSubmitSearch = (e) => {
-    e.preventDefault();
-    SearchJobs(title);
-    setIsSearched = !isSearched;
-  };
-
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const onChangeSearch = (e) => {
-    setSearchData({ ...searchData, [e.target.name]: e.target.value });
   };
 
   const checkSaved = (job_id) => {
@@ -287,44 +261,7 @@ const FilteredJobsList = ({
                   Filter Jobs
                 </Button>
               </form>
-              <form
-                style={formstyle}
-                onSubmit={(e) => {
-                  onSubmitSearch(e);
-                }}
-              >
-                <div className={classes.search}>
-                  <div className={classes.searchIcon}>
-                    <SearchIcon />
-                  </div>
-                  <InputBase
-                    name="title"
-                    value={title}
-                    onChange={(e) => onChangeSearch(e)}
-                    placeholder="Search by title"
-                    classes={{
-                      root: classes.inputRoot,
-                      input: classes.inputInput,
-                    }}
-                    inputProps={{ "aria-label": "search" }}
-                  />
-                </div>
-                <Button
-                  type="submit"
-                  color="primary"
-                  variant="contained"
-                  disableElevation
-                  style={{
-                    padding: 15,
-                    fontWeight: "bold",
-                    fontSize: 15,
-                    margin: 5,
-                    width: 240,
-                  }}
-                >
-                  Search
-                </Button>
-              </form>
+              
             </Paper>
           </Grid>
 
@@ -460,7 +397,6 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {
   FilterJobs,
-  SearchJobs,
   saveJob,
   removeJob,
   loadProfile,

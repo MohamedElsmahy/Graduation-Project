@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { alpha, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -32,6 +32,7 @@ import Avatar from "@material-ui/core/Avatar";
 import DeleteDialog from "./DeleteDialog";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
+import { SearchJobs } from "../actions/filters";
 
 import loadEmployeeNotifications, {
   loadEmployerNotifications,
@@ -148,6 +149,7 @@ const Navbar = ({
   is_employer,
   user,
   currentPage,
+  SearchJobs,
   deleteAccount,
 }) => {
   const classes = useStyles();
@@ -156,6 +158,12 @@ const Navbar = ({
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [interviewOpen, setInterviewOpen] = React.useState(false);
   const [currentNotification, setCurrentNotification] = React.useState(null);
+
+  const [searchData, setSearchData] = useState({
+    title: "",
+  });
+
+  const { title } = searchData;
 
   useEffect(() => {
     const notifUpdater = setInterval(() => {
@@ -182,6 +190,16 @@ const Navbar = ({
 
   const handleVisitedProfileCLick = (id) => {
     navigate(`/profile/${id}`);
+  };
+
+  const onSubmitSearch = (e) => {
+    e.preventDefault();
+    SearchJobs(title);
+    navigate("/search");
+  };
+
+  const onChangeSearch = (e) => {
+    setSearchData({ ...searchData, [e.target.name]: e.target.value });
   };
 
   const interviewDialog = (notification) => {
@@ -690,19 +708,31 @@ const Navbar = ({
             )}
           </Typography>
           {currentPage && (
-            <div className={classes.search}>
-              <div className={classes.searchIcon}>
-                <SearchIcon />
+            <form
+              onSubmit={(e) => {
+                onSubmitSearch(e);
+              }}
+            >
+              <div className={classes.search}>
+                <div className={classes.searchIcon}>
+                  <SearchIcon />
+                </div>
+                <InputBase
+                  name="title"
+                  value={title}
+                  onChange={(e) => onChangeSearch(e)}
+                  placeholder="Search jobs.."
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput,
+                  }}
+                  inputProps={{ "aria-label": "search" }}
+                />
+                <Button type="submit" disableElevation>
+                  Search
+                </Button>
               </div>
-              <InputBase
-                placeholder="Search jobs.."
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-                inputProps={{ "aria-label": "search" }}
-              />
-            </div>
+            </form>
           )}
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
@@ -800,4 +830,5 @@ export default connect(mapStateToProps, {
   updateEmployerNotification,
   updateEmpNotification,
   loadEmployeeNotifications,
+  SearchJobs,
 })(Navbar);

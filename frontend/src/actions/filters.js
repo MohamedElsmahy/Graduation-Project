@@ -18,7 +18,7 @@ export const FilterJobs = (job_type, experience, category) => async (dispatch) =
   
     try {
       const res = await axios.get(
-        `http://localhost:8000/jobs/api/jobs/filter/?job_type=${job_type&&job_type}&experince=${experience&&experience}&category=${category&&category}`,
+        `http://localhost:8000/jobs/api/jobs/filter/?job_type=${job_type&&job_type}&experience=${experience&&experience}&category=${category&&category}`,
         config
       );
         dispatch({

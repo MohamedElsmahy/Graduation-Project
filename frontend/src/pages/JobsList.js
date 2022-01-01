@@ -16,14 +16,11 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Favorite from "@material-ui/icons/Favorite";
 import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
-import InputBase from "@material-ui/core/InputBase";
-import { alpha, makeStyles } from "@material-ui/core/styles";
-import SearchIcon from "@material-ui/icons/Search";
+import { makeStyles } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ChatIcon from "@material-ui/icons/Chat";
 import Tooltip from "@material-ui/core/Tooltip";
 import Fab from "@material-ui/core/Fab";
-
 import { loadJobs, saveJob, removeJob } from "../actions/jobs";
 import { FilterJobs, SearchJobs } from "../actions/filters";
 import ChatbotDialog from "../components/ChatbotDialoge";
@@ -36,7 +33,6 @@ const JobsList = ({
   jobs,
   categories,
   FilterJobs,
-  SearchJobs,
   filters,
   saveJob,
   removeJob,
@@ -64,30 +60,6 @@ const JobsList = ({
       [theme.breakpoints.up("sm")]: {
         display: "block",
       },
-    },
-    search: {
-      position: "relative",
-      borderRadius: theme.shape.borderRadius,
-      backgroundColor: alpha(theme.palette.common.white, 0.15),
-      "&:hover": {
-        backgroundColor: alpha(theme.palette.common.white, 0.25),
-      },
-      marginRight: theme.spacing(2),
-      marginLeft: 0,
-      width: "100%",
-      [theme.breakpoints.up("sm")]: {
-        marginLeft: theme.spacing(3),
-        width: "auto",
-      },
-    },
-    searchIcon: {
-      padding: theme.spacing(0, 2),
-      height: "100%",
-      position: "absolute",
-      pointerEvents: "none",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
     },
     inputRoot: {
       color: "inherit",
@@ -156,12 +128,7 @@ const JobsList = ({
     category: "",
   });
 
-  const [searchData, setSearchData] = useState({
-    title: "",
-  });
-
   const { job_type, experience, category } = formData;
-  const { title } = searchData;
 
   useEffect(() => {
     loadJobs();
@@ -175,18 +142,8 @@ const JobsList = ({
     navigate("/filter");
   };
 
-  const onSubmitSearch = (e) => {
-    e.preventDefault();
-    SearchJobs(title);
-    navigate("/search");
-  };
-
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const onChangeSearch = (e) => {
-    setSearchData({ ...searchData, [e.target.name]: e.target.value });
   };
 
   const checkSaved = (job_id) => {
@@ -307,44 +264,6 @@ const JobsList = ({
                     }}
                   >
                     Filter Jobs
-                  </Button>
-                </form>
-                <form
-                  style={formstyle}
-                  onSubmit={(e) => {
-                    onSubmitSearch(e);
-                  }}
-                >
-                  <div className={classes.search}>
-                    <div className={classes.searchIcon}>
-                      <SearchIcon />
-                    </div>
-                    <InputBase
-                      name="title"
-                      value={title}
-                      onChange={(e) => onChangeSearch(e)}
-                      placeholder="Search by title"
-                      classes={{
-                        root: classes.inputRoot,
-                        input: classes.inputInput,
-                      }}
-                      inputProps={{ "aria-label": "search" }}
-                    />
-                  </div>
-                  <Button
-                    type="submit"
-                    color="primary"
-                    variant="contained"
-                    disableElevation
-                    style={{
-                      padding: 15,
-                      fontWeight: "bold",
-                      fontSize: 15,
-                      margin: 5,
-                      width: 240,
-                    }}
-                  >
-                    Search
                   </Button>
                 </form>
               </Paper>
@@ -495,14 +414,12 @@ const mapStateToProps = (state) => {
     filters: state.filter.filter,
     saved_jobs: state.profile.saved_jobs,
     is_employer: state.profile.is_employer,
-    // filter: state.filter.filter,
   };
 };
 
 export default connect(mapStateToProps, {
   loadJobs,
   FilterJobs,
-  SearchJobs,
   saveJob,
   removeJob,
   loadProfile,

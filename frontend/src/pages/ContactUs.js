@@ -33,14 +33,13 @@ const ContactUs = ({ sendInfo, setCurrentPage }) => {
   };
 
   return (
-    <Grid container direction="row" justifyContent="center" alignItems="center">
+    <Grid container justifyContent="center" alignItems="center">
       <Card
         style={{
           width: 700,
           padding: "10px",
-          marginLeft: "4%",
-          marginTop: 70,
-          marginBottom: 30,
+          marginTop: 50,
+          marginBottom: 50,
         }}
       >
         <Grid
@@ -105,14 +104,6 @@ const ContactUs = ({ sendInfo, setCurrentPage }) => {
           </Button>
         </Grid>
       </Card>
-      <Card
-        style={{
-          width: 500,
-          marginRight: "100px",
-          marginTop: 70,
-          marginBottom: 30,
-        }}
-      ></Card>
     </Grid>
   );
 };
