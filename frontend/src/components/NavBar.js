@@ -150,7 +150,6 @@ const Navbar = ({
   user,
   currentPage,
   SearchJobs,
-  deleteAccount,
 }) => {
   const classes = useStyles();
   const navigate = useNavigate();
@@ -535,6 +534,7 @@ const Navbar = ({
 
   const ITEM_HEIGHT = 48;
 
+  // Notification
   const notificationsMenu = (
     <div>
       <Menu
@@ -687,6 +687,7 @@ const Navbar = ({
     </div>
   );
 
+  // Search bar
   return (
     <div className={classes.grow}>
       <AppBar position="static">
@@ -728,7 +729,7 @@ const Navbar = ({
                   }}
                   inputProps={{ "aria-label": "search" }}
                 />
-                <Button type="submit" disableElevation>
+                <Button type="submit" color="inherit" size="small" className={classes.margin} disableElevation>
                   Search
                 </Button>
               </div>
